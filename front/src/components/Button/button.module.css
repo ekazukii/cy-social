@@ -10,9 +10,14 @@ button:hover {
   cursor: pointer;
   background-color: black;
   color: white;
-  transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out;
 }
 
 .primary {
   background-color: #00dfd5;
+}
+
+.primary:hover {
+  background-color: #00dfd5;
+  color: black;
+  transition: none;
 }

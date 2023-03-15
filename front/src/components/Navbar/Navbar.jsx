@@ -1,4 +1,4 @@
-import "./navbar.css";
+import classes from "./navbar.module.css";
 import Button from "../Button/Button";
 import { useEffect, useState } from "react";
 
@@ -12,13 +12,13 @@ export default function Navbar({ isConnected }) {
         onClick={() => setCount(count + 1)}
       />
       {isConnected ? (
-        <div className="button-group">
+        <div className={classes["button-group"]}>
           <Button text={"Profile"} type={"primary"} />
           <Button text={"Message"} />
           <Button text={"Déconnexion"} />
         </div>
       ) : (
-        <Button text={"Connexion"} />
+        <Button text={"Connexion"} type={"primary"} />
       )}
     </nav>
   );
