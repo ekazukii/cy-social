@@ -16,7 +16,7 @@ export default function Profil(props) {
                 <div>Likes</div>
             </nav>
             {props.info === "with-post" && 
-        <div classN ame="list-post">
+        <div className="list-post">
             <Poste />
             <Poste />
         </div>
