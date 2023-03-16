@@ -1,4 +1,3 @@
-import React from 'react';
 import classes from "./input.module.css";
 
 export default function Input(props) {
@@ -8,5 +7,5 @@ export default function Input(props) {
         <input id={props.id} type={props.type} placeholder={props.placeholder} />
       </div>
     );
-  }
+}
   

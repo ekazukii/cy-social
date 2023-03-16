@@ -1,0 +1,40 @@
+.percent-bar {
+    display: flex;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .percent-bar-inner {
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: width 0.5s ease;
+  }
+  
+  .percent-bar-yes {
+    background-color: green;
+  }
+  
+  .percent-bar-no {
+    background-color: red;
+  }
+  
+  .percent-bar-other {
+    background-color: orange;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .percent-bar {
+      height: 16px;
+    }
+    
+    .percent-bar-inner {
+      font-size: 10px;
+    }
+  }

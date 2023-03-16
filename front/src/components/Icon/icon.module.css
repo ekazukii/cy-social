@@ -1,0 +1,32 @@
+.icon {
+    transition: color 0.2s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+  }
+  
+.clicked {
+  color: red;
+}
+
+.icon:hover {
+    transition: color 0.2s ease-in-out;
+  }
+
+.icon-will-be-red:hover{
+    color: red;
+}
+
+.icon-will-be-blue:hover{
+    color: blue;
+}
+
+.icon-will-be-green:hover{
+    color: green;
+}
+
+.text-number{
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+}

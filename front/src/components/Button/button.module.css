@@ -21,3 +21,7 @@ button:hover {
   color: black;
   transition: none;
 }
+
+.secondary{
+  color: black;
+}
