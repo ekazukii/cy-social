@@ -1,7 +1,7 @@
-import classes from "../../../public/css/uicons-regular-rounded.css";
+import classes from "./icon.module.css";
 
 export default function Icon({ type, handleClick }) {
     return (
-      <i onClick={handleClick} className={classes[type]}/>
+      <i onClick={handleClick} className={type}/>
     );
   }
