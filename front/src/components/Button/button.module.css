@@ -1,27 +1,27 @@
 button {
-    height: 2rem;
-    background-color: white;
-    border: 1px solid black;
-    border-radius: 6px;
-  }
-  
-  button:hover {
-    text-decoration: underline;
-    cursor: pointer;
-    background-color: black;
-    color: white;
-  }
-  
-  .primary {
-    background-color: #00dfd5;
-  }
-  
-  .primary:hover {
-    background-color: #00dfd5;
-    color: black;
-    transition: none;
-  }
+  height: 2rem;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 6px;
+}
 
-  .secondary{
-    color: black;
-  }
+button:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  background-color: black;
+  color: white;
+}
+
+.primary {
+  background-color: #00dfd5;
+}
+
+.primary:hover {
+  background-color: #00dfd5;
+  color: black;
+  transition: none;
+}
+
+.secondary{
+  color: black;
+}

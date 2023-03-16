@@ -7,4 +7,5 @@ export default function Input(props) {
         <input id={props.id} type={props.type} placeholder={props.placeholder} />
       </div>
     );
-  }
+}
+  
