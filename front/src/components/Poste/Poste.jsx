@@ -44,8 +44,8 @@ export default function Poste(props) {
             </div>
             <div className={classes["post-react"]}>
                 <Icon icon="fi fi-rr-heart" iconClicked="fi fi-sr-heart" hoverColor="icon-will-be-red" number="10"/>
-                <Icon icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue"/>
-                <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green"/>
+                <Icon icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue" number="300"/>
+                <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green" number="1 205"/>
             </div>
         </div>
     </div>

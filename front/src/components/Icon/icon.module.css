@@ -1,5 +1,9 @@
 .icon {
     transition: color 0.2s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
   }
   
 .clicked {
@@ -20,4 +24,9 @@
 
 .icon-will-be-green:hover{
     color: green;
+}
+
+.text-number{
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
 }

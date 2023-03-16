@@ -13,7 +13,7 @@ export default function Icon(props) {
     return (
       <div className={iconClass + ' ' + classes[props.hoverColor]} onClick={handleClick}>
         <i className={isClicked ? props.iconClicked : props.icon}></i>
-        {props.number}
+        <span className={classes["text-number"]}>{props.number}</span>
       </div>
     );
   }
