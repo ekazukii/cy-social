@@ -1,0 +1,23 @@
+.icon {
+    transition: color 0.2s ease-in-out;
+  }
+  
+.clicked {
+  color: red;
+}
+
+.icon:hover {
+    transition: color 0.2s ease-in-out;
+  }
+
+.icon-will-be-red:hover{
+    color: red;
+}
+
+.icon-will-be-blue:hover{
+    color: blue;
+}
+
+.icon-will-be-green:hover{
+    color: green;
+}
