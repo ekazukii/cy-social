@@ -1,9 +1,7 @@
-import classes from "./icon.module.css";
+import classes from "../../../public/css/uicons-regular-rounded.css";
 
-export default function Button({ svg, type, handleClick }) {
+export default function Icon({ type, handleClick }) {
     return (
-      <button onClick={handleClick} className={classes[type]}>
-        {text}
-      </button>
+      <i onClick={handleClick} className={classes[type]}/>
     );
   }
