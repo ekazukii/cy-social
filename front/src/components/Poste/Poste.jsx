@@ -1,16 +1,32 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Icon from "../Icon/Icon";
 import PercentBar from "../Percent-bar/Percent-bar";
 import classes from "./poste.module.css";
+import HeaderProfil from "../Header-profil/Header-profil"
 
 export default function Poste(props) {
+ const avatarRef = useRef(null);
+ const [isHovering, setIsHovering] = useState(false);
+
+ const handleHover = () => {
+    setIsHovering(true);
+  };
+
+ const handleLeave = () => {
+    setIsHovering(false);
+  };
+
  return (
     <div className={classes["post-container"]}>
         <div className={classes["post-user"]}>
             <img
             src="/img/avatar.png"
             alt="user"
+            ref={avatarRef}
+            onMouseEnter={handleHover} 
+            onMouseLeave={handleLeave}
             />
+            <div className={classes["hoverCard"]}>{isHovering && <HeaderProfil username="@Youbuze" nbPoste="12" nbFollow="1212" nbFollower="1"/>}</div>
         </div>
         <div className={classes["post-content"]}>
             <div className={classes["post-header"]}>
