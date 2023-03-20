@@ -4,6 +4,7 @@ import App from "./pages/App";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Test from "./pages/Test";
+import RegisterPage from "./pages/Register";
 import Profil from "./pages/Profil";
 
 const router = createBrowserRouter([
@@ -16,6 +17,9 @@ const router = createBrowserRouter([
     element: <Test />,
   },
   {
+    path: "/register",
+    element: <RegisterPage />,
+  },
     path: "/profil",
     element: <Profil info="with-post"/>,
   },
