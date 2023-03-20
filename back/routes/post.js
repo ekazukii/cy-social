@@ -80,12 +80,3 @@ router.delete('/', function (req, res) {
 });
 
 module.exports = router;
-
-// {
-//   target: String,
-//   source: String,
-//   content: String,
-//   link: String,
-//   type: String,
-//   time: Date
-// }
