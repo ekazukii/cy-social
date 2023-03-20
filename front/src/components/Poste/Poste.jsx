@@ -26,26 +26,26 @@ export default function Poste(props) {
             onMouseEnter={handleHover} 
             onMouseLeave={handleLeave}
             />
-            <div className={classes["hoverCard"]}>{isHovering && <HeaderProfil username="@Youbuze" nbPoste="12" nbFollow="1212" nbFollower="1"/>}</div>
+            <div className={classes["hoverCard"]}>{isHovering && <HeaderProfil username={props.username} nbPoste={props.nbPoste} nbFollow={props.nbFollow} nbFollower={props.nbFollower}/>}</div>
         </div>
         <div className={classes["post-content"]}>
             <div className={classes["post-header"]}>
                 <div className={classes["post-name-user"]}>
-                    <span>Baillet Tom</span>
+                    <span>{props.name}</span>
                 </div>
                 <div className={classes["post-detail-user"]}>
-                    <span>@Youbuze</span>
+                    <span>{props.username}</span>
                 </div>
                 <div className={classes["post-head-separator"]}>
                     <span>·</span>
                 </div>
                 <div className={classes["post-time"]}>
-                    <span>13h</span>
+                    <span>{props.time}</span>
                 </div>
             </div>
             <div className={classes["post-body"]}>
                 <div className={classes["post-body-text"]}>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis rem, veritatis ut cum iste dignissimos eveniet eos quod fugiat laborum, facilis libero similique? Molestiae eligendi repudiandae ad at distinctio numquam.</p>
+                    <p>{props.contentText}</p>
                 </div>
                 <div className={classes["post-body-img"]}>
                 <img
@@ -55,13 +55,13 @@ export default function Poste(props) {
                 />
                 </div>
                 <div className={classes["post-body-survey"]}>
-                    <PercentBar yesPercent={60} otherPercent={10} noPercent={30} />
+                    <PercentBar yesPercent={props.yesPercent} otherPercent={props.otherPercent} noPercent={props.noPercent} />
                 </div>
             </div>
             <div className={classes["post-react"]}>
-                <Icon icon="fi fi-rr-heart" iconClicked="fi fi-sr-heart" hoverColor="icon-will-be-red" number="10"/>
-                <Icon icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue" number="300"/>
-                <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green" number="1 205"/>
+                <Icon icon="fi fi-rr-heart" iconClicked="fi fi-sr-heart" hoverColor="icon-will-be-red" number={props.nbLike}/>
+                <Icon icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue" number={props.nbComment}/>
+                <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green" number={props.nbStats}/>
             </div>
         </div>
     </div>

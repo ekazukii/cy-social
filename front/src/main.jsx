@@ -20,6 +20,7 @@ const router = createBrowserRouter([
     path: "/register",
     element: <RegisterPage />,
   },
+  {
     path: "/profil",
     element: <Profil info="with-post"/>,
   },
