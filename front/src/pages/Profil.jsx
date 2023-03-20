@@ -8,7 +8,7 @@ export default function Profil(props) {
     <>
       <Navbar />
       <div className="container">
-        <HeaderProfil username="@Youbuze" nbPoste="12" nbFollow="1212" nbFollower="1"/>
+        <HeaderProfil username="@Youbuze" nbPoste="12" nbFollow="1212" nbFollower="1" isUser={true}/>
         <div className="switcher">
             <nav>
                 <div>Postes</div>
