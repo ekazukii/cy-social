@@ -7,10 +7,11 @@ export default function Icon(props) {
   
     const handleClick = () => {
       setIsClicked(!isClicked);
+      typeof props.handleClick === "function" && props.handleClick()
     };
   
     const iconClass = isClicked ? classes['icon'] +' '+ classes['clicked'] : classes['icon'];
-  
+
     return (
       <div className={classes.container + " " + classes[props.className]}>
       <div className={iconClass + ' ' + classes[props.hoverColor]} onClick={handleClick}>
