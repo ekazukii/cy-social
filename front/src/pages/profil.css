@@ -1,0 +1,39 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(16, 16, 16);
+    color: white;
+}
+
+.switcher{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.switcher nav{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding:0;
+    border-bottom: 1px solid rgb(47, 51, 54);;  
+}
+
+.switcher nav > div:hover{
+    background-color: grey;
+    cursor: pointer;
+}
+
+.switcher nav > div{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: rgb(16, 16, 16);
+}
+
+.list-post{
+    border-left: 1px solid rgb(47, 51, 54);;
+    border-right: 1px solid rgb(47, 51, 54);;
+    width: 40rem;
+}

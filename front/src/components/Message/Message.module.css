@@ -1,0 +1,48 @@
+p.message {
+  background-color: #228aff;
+  margin: 15px;
+  max-width: 40%;
+  text-align: left;
+  margin-left: auto;
+  margin-right: 0;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 10px;
+  position: relative;
+}
+
+p.message::after {
+  border-right: solid 2px transparent;
+  border-left: solid 10px transparent;
+  border-top: solid 10px #228aff;
+  border-radius: 1px;
+  transform: translateX(-50%);
+  position: absolute;
+  z-index: 1;
+  content: "";
+  top: 100%;
+  right: 4px;
+  left: auto;
+  height: 0;
+  width: 0;
+}
+
+p.message:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+p.left.message::after {
+  border-top: solid 10px #d8d8d8;
+  border-right: solid 10px transparent;
+  border-left: solid 2px transparent;
+  right: auto;
+  left: 15px;
+}
+
+p.left.message {
+  background-color: #d8d8d8;
+  text-align: left;
+  margin-left: 0;
+  margin-right: auto;
+}
