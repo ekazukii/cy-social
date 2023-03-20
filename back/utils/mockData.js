@@ -45,6 +45,29 @@ const createMockPost = id => {
   };
 };
 
+// {
+//   target: String,
+//   source: String,
+//   content: String,
+//   link: String,
+//   type: String,
+//   time: Date
+// }
+
+const createMockNotif = id => {
+  return {
+    id: id,
+    target: 1,
+    source: rand(2, 3),
+    content: "Bonjour c'est une notification de test",
+    link: 'https://google.fr',
+    type: 'TEST',
+    time: DateTime.now().minus({ day: 1 }).toISO(),
+    read: true
+  };
+};
+
 module.exports = {
-  createMockPost
+  createMockPost,
+  createMockNotif
 };
