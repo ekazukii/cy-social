@@ -67,7 +67,34 @@ const createMockNotif = id => {
   };
 };
 
+const createMockMessage = id => {
+  return {
+    id: id,
+    target: 1,
+    source: rand(2, 3)
+  };
+};
+
+const createMockVote = (id, idPost) => {
+  return {
+    id,
+    idPost,
+    userVote: rand(1, 2),
+    vote: rand(1, 3) - 2
+  };
+};
+
+const createMockLike = id => {
+  return {
+    id: id,
+    idPost: rand(1, 3),
+    emojis: 'like'
+  };
+};
+
 module.exports = {
   createMockPost,
-  createMockNotif
+  createMockNotif,
+  createMockMessage,
+  createMockVote
 };
