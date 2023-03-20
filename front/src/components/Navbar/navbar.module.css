@@ -14,3 +14,9 @@ nav {
   justify-content: space-between;
   width: 14rem;
 }
+
+.notifSum{
+  position: absolute;
+  right: 0.5rem;
+  top: 3.25rem;
+}

@@ -1,0 +1,8 @@
+.containerNotif-container{
+    border: 2px solid black;
+    width: 30rem;
+}
+
+.containerNotif-container > div:last-child{
+    border: none;
+}

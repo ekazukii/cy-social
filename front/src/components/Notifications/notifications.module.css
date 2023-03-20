@@ -1,0 +1,39 @@
+.notif-container{
+    display: flex;
+    flex-direction: row;
+    background-color: white;
+    padding: 0.5rem;
+    border-bottom: 1px solid rgb(113, 118, 123);
+}
+
+.notif-body{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.notif-detail{
+    display: flex;
+    flex-direction: row;
+}
+
+.notif-detail-author{
+    flex-grow: 1;
+}
+
+.notif-detail-time{
+    color: rgb(113, 118, 123);
+}
+
+.notif-pic-author > img{
+    border-radius: 50%;
+    width: 3rem;
+}
+
+.notif-pic-author{
+    margin-right: 0.5rem;
+}
+
+.notif-content > p{
+    margin-block: 0;
+}
