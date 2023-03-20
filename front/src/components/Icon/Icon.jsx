@@ -12,12 +12,12 @@ export default function Icon(props) {
     const iconClass = isClicked ? classes['icon'] +' '+ classes['clicked'] : classes['icon'];
   
     return (
-      <div className={classes.container}>
+      <div className={classes.container + " " + classes[props.className]}>
       <div className={iconClass + ' ' + classes[props.hoverColor]} onClick={handleClick}>
         <i className={isClicked ? props.iconClicked : props.icon}></i>
         {/*<span className={classes["text-number"]}>{props.number}</span>*/}
       </div>
-      <Bubble number="3"/>
+      {props.isNotified && <Bubble number={props.number}/>}
       </div>
     );
   }
