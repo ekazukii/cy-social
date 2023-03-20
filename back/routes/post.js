@@ -1,21 +1,14 @@
 var express = require('express');
 var router = express.Router();
-const { createMockPost } = require('../utils/mockData');
 
-const _posts = [createMockPost(1), createMockPost(2), createMockPost(3), createMockPost(4), createMockPost(5)];
+const { createPost, updatePost, getPost, deletePost, addView } = require('../models/post');
 
 //TODO: Check date format
 //TODO: Check if post exist
 
 router.get('/', function (req, res) {
   const { user, group } = req.query;
-  let posts = _posts;
-  if (typeof user === 'string') {
-    posts = posts.filter(post => post.authorId === Number(user));
-  }
-  if (typeof group === 'string') {
-    posts = posts.filter(post => post.group === group);
-  }
+  const posts = getPost(Number(user), group);
   res.send(posts);
 });
 
@@ -32,21 +25,8 @@ router.post('/', function (req, res) {
   )
     return res.status(400).send({ error: true });
 
-  _posts.push({
-    id: _posts[_posts.length - 1].id + 1,
-    authorId: Number(authorId),
-    title,
-    content,
-    description,
-    group,
-    img,
-    datePublished: new Date().toISOString(),
-    dateEnd: dateEnd,
-    nbrVue: 0,
-    comments: []
-  });
-
-  res.send(_posts);
+  const post = createPost(Number(authorId), title, content, description, group, img, dateEnd);
+  res.send(post);
 });
 
 router.put('/', function (req, res) {
@@ -61,22 +41,45 @@ router.put('/', function (req, res) {
   )
     return res.status(400).send({ error: true });
 
-  const post = _posts.find(post => post.id === Number(id));
-
-  if (title) post.title = title;
-  if (content) post.content = content;
-  if (description) post.description = description;
-  if (img) post.img = img;
-  if (dateEnd) post.dateEnd = dateEnd;
-
+  const post = updatePost(Number(id), title, content, description, img, dateEnd);
   res.send(post);
 });
 
 router.delete('/', function (req, res) {
   const { id } = req.body;
-  //const oldLength = _posts.length;
-  _posts = _posts.filter(post => post.id !== Number(id));
-  res.status(200).send(_posts);
+  deletePost(Number(id));
+  res.status(200).send({ success: true });
+});
+
+/** VOTE **/
+
+router.post('/vote', function (req, res) {});
+
+router.get('/vote', function (req, res) {});
+
+/** LIKE **/
+
+router.post('/like', function (req, res) {});
+
+router.get('/like', function (req, res) {});
+
+router.delete('/like', function (req, res) {});
+
+/** COMMENT **/
+
+router.post('/comment', function (req, res) {});
+
+router.get('/comment', function (req, res) {});
+
+router.delete('/comment', function (req, res) {});
+
+router.put('/comment', function (req, res) {});
+
+router.post('/view', function (req, res) {
+  const { id } = req.body;
+  if (typeof id !== 'string') return res.status(400).send({ error: true });
+  addView(Number(id));
+  res.status(200).send({ success: true });
 });
 
 module.exports = router;
