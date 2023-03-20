@@ -1,24 +1,21 @@
 const { createMockComment } = require('../utils/mockData');
-const comments = [createMockComment(1), createMockComment(2), createMockComment(3)];
+const comments = [createMockComment(1, 1), createMockComment(2, 2), createMockComment(3, 3), createMockComment(4, 1)];
 
-const createComment = (idPost, idUser, date, response) => {
+const createComment = (idPost, idUser, response, content) => {
   const id = comments.length + 1;
-  const comment = { id, idPost, idUser, date, response };
+  const comment = { id, idPost, authorId: idUser, date: new Date().toISOString(), response, content };
   comments.push(comment);
   return comment;
 };
 
 const getComment = idPost => {
-  return comments.filter(comment => comment.idPost === idPost);
+  return comments.filter(comment => comment.postId === idPost);
 };
 
-const updateComment = (id, idPost, idUser, date, response) => {
+const updateComment = (id, content) => {
   const comment = comments.find(comment => comment.id === id);
   if (!comment) return null;
-  if (idPost) comment.idPost = idPost;
-  if (idUser) comment.idUser = idUser;
-  if (date) comment.date = date;
-  if (response) comment.response = response;
+  if (content) comment.content = content;
 
   return comment;
 };

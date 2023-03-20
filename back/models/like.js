@@ -9,8 +9,10 @@ const createLike = (idPost, emoji) => {
   return like;
 };
 
-const getLike = idPost => {
-  return likes.filter(like => like.idPost === idPost);
+const getLike = (idPost, idUser) => {
+  const like = likes.filter(like => like.idPost === idPost);
+  if (idUser) return like.find(like => like.idUser === idUser);
+  return like;
 };
 
 const updateLike = (id, emoji) => {

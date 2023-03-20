@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require('express');
 const app = express();
 const port = 3000;
@@ -5,6 +6,7 @@ const port = 3000;
 const postRoutes = require('./routes/post');
 const notifRoutes = require('./routes/notif');
 
+app.use(cors());
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });

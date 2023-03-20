@@ -18,20 +18,20 @@ const getVote = (postId, userId) => {
 };
 
 const updateVote = (id, vote) => {
-  const vote = _votes.find(vote => vote.id === id);
-  vote.vote = vote;
-  return vote;
+  const voteObj = _votes.find(vote => vote.id === id);
+  vote.vote = voteObj;
+  return voteObj;
 };
 
 const createVote = (postId, userId, vote) => {
-  const vote = {
+  const voteObj = {
     id: _votes[_votes.length - 1].id + 1,
     postId,
     userId,
     vote
   };
-  _votes.push(vote);
-  return vote;
+  _votes.push(voteObj);
+  return voteObj;
 };
 
 const deleteVote = id => {

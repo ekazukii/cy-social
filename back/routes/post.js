@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 const { createPost, updatePost, getPost, deletePost, addView } = require('../models/post');
+const { createVote, updateVote, deleteVote, getVote } = require('../models/vote');
+const { createLike, getLike, updateLike, deleteLike } = require('../models/like');
+const { createComment, getComment, updateComment, deleteComment } = require('../models/comment');
 
 //TODO: Check date format
 //TODO: Check if post exist
@@ -9,6 +12,11 @@ const { createPost, updatePost, getPost, deletePost, addView } = require('../mod
 router.get('/', function (req, res) {
   const { user, group } = req.query;
   const posts = getPost(Number(user), group);
+  posts.map(post => {
+    post.comments = getComment(post.id);
+    post.votes = getVote(post.id);
+    post.likes = getLike(post.id);
+  });
   res.send(posts);
 });
 
@@ -53,27 +61,90 @@ router.delete('/', function (req, res) {
 
 /** VOTE **/
 
-router.post('/vote', function (req, res) {});
+// getVote(id, user)
+// If vote already exist, update it
+router.post('/vote', function (req, res) {
+  const { id, user, vote } = req.body;
+  if (typeof id !== 'string' || typeof user !== 'string' || typeof vote !== 'string')
+    return res.status(400).send({ error: true });
 
-router.get('/vote', function (req, res) {});
+  const oldVote = getVote(Number(id), Number(user));
+  if (oldVote.length === 1) {
+    const newVote = updateVote(Number(id), Number(user), vote === 'true');
+    return res.send(newVote);
+  }
+
+  const newVote = createVote(Number(id), Number(user), vote === 'true');
+  res.send(newVote);
+});
+
+router.get('/vote', function (req, res) {
+  const { id } = req.query;
+  if (typeof id !== 'string') return res.status(400).send({ error: true });
+  const votes = getVote(Number(id), Number(user));
+  res.send(votes);
+});
 
 /** LIKE **/
 
-router.post('/like', function (req, res) {});
+router.post('/like', function (req, res) {
+  const { id, user } = req.body;
+  if (typeof id !== 'string' || typeof user !== 'string') return res.status(400).send({ error: true });
 
-router.get('/like', function (req, res) {});
+  const oldLike = getLike(Number(id), Number(user));
+  if (oldLike.length === 1) {
+    const newLike = updateLike(Number(id), Number(user), 'like');
+    return res.send(newLike);
+  }
 
-router.delete('/like', function (req, res) {});
+  const newLike = createLike(Number(id), Number(user), 'like');
+  res.send(newLike);
+});
+
+router.get('/like', function (req, res) {
+  const { id, user } = req.query;
+  if (typeof id !== 'string' || typeof user !== 'string') return res.status(400).send({ error: true });
+  const like = getLike(Number(id), Number(user));
+  res.send(like);
+});
+
+router.delete('/like', function (req, res) {
+  const { id, user } = req.body;
+  if (typeof id !== 'string' || typeof user !== 'string') return res.status(400).send({ error: true });
+  deleteLike(Number(id), Number(user));
+  res.status(200).send({ success: true });
+});
 
 /** COMMENT **/
 
-router.post('/comment', function (req, res) {});
+router.post('/comment', function (req, res) {
+  const { idPost, content, response } = req.body;
+  if (typeof idPost !== 'string' || typeof content !== 'string') return res.status(400).send({ error: true });
 
-router.get('/comment', function (req, res) {});
+  const comment = createComment(Number(idPost), 1, null, content);
+  res.send(comment);
+});
 
-router.delete('/comment', function (req, res) {});
+router.get('/comment', function (req, res) {
+  const { id } = req.query;
+  if (typeof id !== 'string') return res.status(400).send({ error: true });
+  const comments = getComment(Number(id));
+  res.send(comments);
+});
 
-router.put('/comment', function (req, res) {});
+router.delete('/comment', function (req, res) {
+  const { id } = req.body;
+  if (typeof id !== 'string') return res.status(400).send({ error: true });
+  deleteComment(Number(id));
+  res.status(200).send({ success: true });
+});
+
+router.put('/comment', function (req, res) {
+  const { id, content } = req.body;
+  if (typeof id !== 'string' || typeof content !== 'string') return res.status(400).send({ error: true });
+  const comment = updateComment(Number(id), content);
+  res.send(comment);
+});
 
 router.post('/view', function (req, res) {
   const { id } = req.body;
