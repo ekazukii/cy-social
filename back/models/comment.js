@@ -1,6 +1,6 @@
 const { createMockComment } = require('../utils/mockData');
 const { asyncQuery } = require('./database');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const comments = [createMockComment(1, 1), createMockComment(2, 2), createMockComment(3, 3), createMockComment(4, 1)];
 
 const createComment = (idPost, idUser, response, content) => {

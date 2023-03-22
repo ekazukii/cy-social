@@ -4,6 +4,28 @@ import PercentBar from "../Percent-bar/Percent-bar";
 import classes from "./poste.module.css";
 import HeaderProfil from "../Header-profil/Header-profil"
 
+/**
+ * 
+ * @param {Object} props 
+ * @param {Object} props.poste
+ * @param {Number} props.poste.id
+ * @param {Date} props.poste.date_publi
+ * @param {String} props.poste.content
+ * @param {String} props.poste.img
+ * @param {Number} props.poste.view_count
+ * @param {Number} props.poste.comments
+ * @param {Number} props.poste.likes
+ * @param {Number} props.poste.votes_against 
+ * @param {Number} props.poste.votes_neutral
+ * @param {Number} props.poste.votes_for
+ * @param {Object} props.user 
+ * @param {String} props.user.name
+ * @param {String} props.user.username
+ * @param {Number} props.user.nbPoste
+ * @param {Number} props.user.nbFollow
+ * @param {Number} props.user.nbFollower
+ * @returns 
+ */
 export default function Poste(props) {
  const avatarRef = useRef(null);
  const [isHovering, setIsHovering] = useState(false);
@@ -17,7 +39,7 @@ export default function Poste(props) {
   };
 
  return (
-    <div className={classes["post-container"]}>
+    <div className={classes["post-container"]} key={props.poste.id}>
         <div className={classes["post-user"]}>
             <img
             src="/img/avatar.png"
@@ -26,42 +48,42 @@ export default function Poste(props) {
             onMouseEnter={handleHover} 
             onMouseLeave={handleLeave}
             />
-            <div className={classes["hoverCard"]}>{isHovering && <HeaderProfil username={props.username} nbPoste={props.nbPoste} nbFollow={props.nbFollow} nbFollower={props.nbFollower}/>}</div>
+            <div className={classes["hoverCard"]}>{isHovering && <HeaderProfil username={props.user.username} nbPoste={props.user.nbPoste} nbFollow={props.user.nbFollow} nbFollower={props.user.nbFollower}/>}</div>
         </div>
         <div className={classes["post-content"]}>
             <div className={classes["post-header"]}>
                 <div className={classes["post-name-user"]}>
-                    <span>{props.name}</span>
+                    <span>{props.user.name}</span>
                 </div>
                 <div className={classes["post-detail-user"]}>
-                    <span>{props.username}</span>
+                    <span>{props.user.username}</span>
                 </div>
                 <div className={classes["post-head-separator"]}>
                     <span>·</span>
                 </div>
                 <div className={classes["post-time"]}>
-                    <span>{props.time}</span>
+                    <span>{props.poste.date_publi}</span>
                 </div>
             </div>
             <div className={classes["post-body"]}>
                 <div className={classes["post-body-text"]}>
-                    <p>{props.contentText}</p>
+                    <p>{props.poste.content}</p>
                 </div>
                 <div className={classes["post-body-img"]}>
                 <img
-                src="/img/test_post_img.jpg"
+                src={props.poste.img}
                 alt="img"
                 width="50%"
                 />
                 </div>
                 <div className={classes["post-body-survey"]}>
-                    <PercentBar yesPercent={props.yesPercent} otherPercent={props.otherPercent} noPercent={props.noPercent} />
+                    <PercentBar yesNumber={props.poste.votes_for} otherNumber={props.poste.votes_neutral} noNumber={props.poste.votes_against} />
                 </div>
             </div>
             <div className={classes["post-react"]}>
-                <Icon icon="fi fi-rr-heart" iconClicked="fi fi-sr-heart" hoverColor="icon-will-be-red" number={props.nbLike}/>
-                <Icon icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue" number={props.nbComment}/>
-                <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green" number={props.nbStats}/>
+                <Icon icon="fi fi-rr-heart" iconClicked="fi fi-sr-heart" hoverColor="icon-will-be-red" number={props.poste.likes}/>
+                <Icon icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue" number={props.poste.comments}/>
+                <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green" number={props.poste.view_count}/>
             </div>
         </div>
     </div>
