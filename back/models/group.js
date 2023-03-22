@@ -1,38 +1,35 @@
-const { createMockGroup } = require('../utils/mockData');
-const groups = [createMockGroup(1), createMockGroup(2), createMockGroup(3)];
+const { asyncQuery } = require('./database');
+const mysql = require('mysql2');
 
-const createGroup = (name, isPrivate, img, description) => {
-  const group = {
-    id: groups.length + 1,
-    name,
-    isPrivate,
-    dateCrea: new Date(),
-    img,
-    description,
-    postPinId: null
-  };
+const createGroup = async (name, isPrivate, img, description) => {
+  const sql = mysql.format(
+    'INSERT INTO Groups (name, is_private, date_crea, img, description, post_pinned) VALUES (?, ?, ?, ?, ?, ?)',
+    [name, isPrivate, new Date(), img, description, null]
+  );
 
-  groups.push(group);
-  return group;
+  return asyncQuery(sql);
 };
 
-const deleteGroup = id => {
-  groups = groups.filter(group => group.id !== id);
+const deleteGroup = async id => {
+  const sql = mysql.format('DELETE FROM Groups WHERE id = ?', [id]);
+  return asyncQuery(sql);
 };
 
 const updateGroup = (id, name, isPrivate, img, description, postPinId) => {
-  const group = groups.find(group => group.id === id);
-  if (name) group.name = name;
-  if (isPrivate) group.isPrivate = isPrivate;
-  if (img) group.img = img;
-  if (description) group.description = description;
-  if (postPinId) group.postPinId = postPinId;
+  const sql = mysql.format(
+    'UPDATE Groups SET name = ?, is_private = ?, img = ?, description = ?, post_pinned = ? WHERE id = ?',
+    [name, isPrivate, img, description, postPinId, id]
+  );
 
-  return group;
+  return asyncQuery(sql);
 };
 
-const getGroup = () => {
-  return groups;
+const getGroup = groupId => {
+  if (typeof groupId === 'number') {
+    return asyncQuery(mysql.format('SELECT * FROM Groups WHERE id = ?', [groupId]));
+  }
+  const sql = mysql.format('SELECT * FROM Groups');
+  return asyncQuery(sql);
 };
 
-module.exports(createGroup, deleteGroup, updateGroup, getGroup);
+module.exports = { createGroup, deleteGroup, updateGroup, getGroup };

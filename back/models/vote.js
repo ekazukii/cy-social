@@ -1,5 +1,5 @@
 const { asyncQuery } = require('./database');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const { createMockVote } = require('../utils/mockData');
 const _votes = [
   createMockVote(1, 1),
@@ -24,24 +24,18 @@ const getVote = (postId, userId) => {
 };
 
 const updateVote = (id, vote) => {
-  const voteObj = _votes.find(vote => vote.id === id);
-  vote.vote = voteObj;
-  return voteObj;
+  const sql = mysql.format('UPDATE Votes SET vote = ? WHERE id = ?', [vote, id]);
+  return asyncQuery(sql);
 };
 
 const createVote = (postId, userId, vote) => {
-  const voteObj = {
-    id: _votes[_votes.length - 1].id + 1,
-    postId,
-    userId,
-    vote
-  };
-  _votes.push(voteObj);
-  return voteObj;
+  const sql = mysql.format('INSERT INTO Votes (id_post, id_user, vote) VALUES(?, ?, ?)', [postId, userId, vote]);
+  return asyncQuery(sql);
 };
 
 const deleteVote = id => {
-  _votes = _votes.filter(vote => vote.id !== id);
+  const sql = mysql.format('DELETE Votes WHERE id = ?', [id]);
+  return asyncQuery(sql);
 };
 
 module.exports = { createVote, updateVote, deleteVote, getVote };
