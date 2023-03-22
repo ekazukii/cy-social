@@ -21,7 +21,12 @@ router.get('/tl', async function (req, res) {
   const posts = await getPostWithCounts(Number(user), group ? Number(group) : undefined);
   let authorsId = posts.map(post => post['id_user']);
   authorsId = [...new Set(authorsId)];
-  const users = await getUsers(authorsId);
+  const usersArray = await getUsers(authorsId);
+  let users = {};
+
+  usersArray.forEach(user => {
+    users[user.id] = user;
+  });
 
   res.send({ posts, users });
 });
