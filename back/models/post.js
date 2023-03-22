@@ -1,5 +1,5 @@
 const { asyncQuery } = require('./database');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 /**
  * create a notification in db

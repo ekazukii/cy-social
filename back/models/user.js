@@ -1,5 +1,5 @@
 const { asyncQuery } = require('./database');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 const getUser = userId => {
   if (typeof userId === 'number') {

@@ -1,5 +1,5 @@
 const { asyncQuery } = require('./database');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const { createMockVote } = require('../utils/mockData');
 const _votes = [
   createMockVote(1, 1),

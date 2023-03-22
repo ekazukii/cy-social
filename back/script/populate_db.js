@@ -1,5 +1,5 @@
 const { asyncQuery } = require('../models/database');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 const { faker } = require('@faker-js/faker');
 
