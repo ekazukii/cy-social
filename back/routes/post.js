@@ -1,18 +1,29 @@
 var express = require('express');
 var router = express.Router();
 
-const { createPost, updatePost, getPostWithCounts, deletePost, addView } = require('../models/post');
+const { createPost, updatePost, getPostWithCounts, deletePost, addView, getPost } = require('../models/post');
 const { createVote, updateVote, deleteVote, getVote } = require('../models/vote');
 const { createLike, getLike, updateLike, deleteLike } = require('../models/like');
 const { createComment, getComment, updateComment, deleteComment } = require('../models/comment');
+const { getUsers } = require('../models/user');
 
 //TODO: Check date format
 //TODO: Check if post exist
 
 router.get('/', async function (req, res) {
   const { user, group } = req.query;
-  const posts = await getPostWithCounts(Number(user), group ? Number(group) : undefined);
+  const posts = await getPost(Number(user), group ? Number(group) : undefined);
   res.send(posts);
+});
+
+router.get('/tl', async function (req, res) {
+  const { user, group } = req.query;
+  const posts = await getPostWithCounts(Number(user), group ? Number(group) : undefined);
+  let authorsId = posts.map(post => post['id_user']);
+  authorsId = [...new Set(authorsId)];
+  const users = await getUsers(authorsId);
+
+  res.send({ posts, users });
 });
 
 router.post('/', function (req, res) {

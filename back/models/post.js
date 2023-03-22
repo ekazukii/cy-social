@@ -1,18 +1,18 @@
-const { createMockPost } = require('../utils/mockData');
 const { asyncQuery } = require('./database');
 const mysql = require('mysql');
-const _posts = [createMockPost(1), createMockPost(2), createMockPost(3), createMockPost(4), createMockPost(5)];
 
 /**
  * create a notification in db
  * @param {Number} userId
  */
-const getPost = async (user, group) => {
+const getPost = async (user, group, id) => {
   let sql;
   if (typeof user !== 'undefined') {
-    sql = mysql.format('SELECT * FROM Posts WHERE id_user = ? AND id_group = ?', [user, group]);
-  } else {
-    sql = mysql.format('SELECT * FROM posts WHERE id_group = ?', [group]);
+    sql = mysql.format('SELECT * FROM Posts WHERE id_user = ?', [user]);
+  } else if (typeof group !== 'undefined') {
+    sql = mysql.format('SELECT * FROM Posts WHERE id_group = ?', [group]);
+  } else if (typeof id !== 'undefined') {
+    sql = mysql.format('SELECT * FROM Posts WHERE id = ?', [id]);
   }
   return asyncQuery(sql);
 };
@@ -34,16 +34,16 @@ const getPostWithCounts = async (user, group) => {
   return asyncQuery(sql);
 };
 
-const updatePost = (id, title, content, description, img, dateEnd) => {
-  const post = _posts.find(post => post.id === id);
+const updatePost = (id, title, content, img, dateEnd) => {
+  const sql = mysql.format('UPDATE Posts SET title = ?, content = ?, img = ?, date_fin = ? WHERE id = ?', [
+    title,
+    content,
+    img,
+    dateEnd,
+    id
+  ]);
 
-  if (title) post.title = title;
-  if (content) post.content = content;
-  if (description) post.description = description;
-  if (img) post.img = img;
-  if (dateEnd) post.dateEnd = dateEnd;
-
-  return post;
+  return asyncQuery(sql);
 };
 
 /**
@@ -51,38 +51,27 @@ const updatePost = (id, title, content, description, img, dateEnd) => {
  * @param {number} authorId
  * @param {String} title
  * @param {String} content
- * @param {String} description
  * @param {String} group
  * @param {String} img
  * @param {String} dateEnd iso string
  */
-const createPost = (authorId, title, content, description, group, img, dateEnd) => {
-  const post = {
-    id: _posts[_posts.length - 1].id + 1,
-    authorId: authorId,
-    title,
-    content,
-    description,
-    group,
-    img,
-    datePublished: new Date().toISOString(),
-    dateEnd,
-    nbrVue: 0,
-    comments: []
-  };
+const createPost = (authorId, title, content, group, img, dateEnd) => {
+  const sql = mysql.format(
+    'INSERT INTO Posts (id_user, title, content, id_group, img, date_publi, date_fin, view_count) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [authorId, title, content, group, img, new Date(), dateEnd, 0]
+  );
 
-  _posts.push(post);
-
-  return post;
+  return asyncQuery(sql);
 };
 
 const deletePost = id => {
-  _posts = _posts.filter(post => post.id !== id);
+  const sql = mysql.format('DELETE FROM Posts WHERE id = ?', [id]);
+  return asyncQuery(sql);
 };
 
 const addView = id => {
-  const post = _posts.find(post => post.id === id);
-  post.nbrVue++;
+  const sql = mysql.format('UPDATE Posts SET view_count = view_count + 1 WHERE id = ?', [id]);
+  return asyncQuery(sql);
 };
 
 module.exports = { createPost, updatePost, getPost, deletePost, addView, getPostWithCounts };

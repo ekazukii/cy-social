@@ -3,11 +3,13 @@ const { asyncQuery } = require('./database');
 const mysql = require('mysql');
 const comments = [createMockComment(1, 1), createMockComment(2, 2), createMockComment(3, 3), createMockComment(4, 1)];
 
-const createComment = (idPost, idUser, response, content) => {
-  const id = comments.length + 1;
-  const comment = { id, idPost, authorId: idUser, date: new Date().toISOString(), response, content };
-  comments.push(comment);
-  return comment;
+const createComment = async (idPost, idUser, response, content) => {
+  const sql = mysql.format(
+    'INSERT INTO Comments (id_post, id_user, date, id_comment, content) VALUES (?, ?, ?, ?, ?)',
+    [idPost, idUser, new Date(), response, content]
+  );
+
+  return asyncQuery(sql);
 };
 
 const getComment = async idPost => {
@@ -15,16 +17,14 @@ const getComment = async idPost => {
   return asyncQuery(sql);
 };
 
-const updateComment = (id, content) => {
-  const comment = comments.find(comment => comment.id === id);
-  if (!comment) return null;
-  if (content) comment.content = content;
-
-  return comment;
+const updateComment = async (id, content) => {
+  const sql = mysql.format('UPDATE Comments SET content = ? WHERE id = ?', [content, id]);
+  return asyncQuery(sql);
 };
 
-const deleteComment = id => {
-  comments = comments.filter(comment => comment.id !== id);
+const deleteComment = async id => {
+  const sql = mysql.format('DELETE FROM Comments WHERE id = ?', [id]);
+  return asyncQuery(sql);
 };
 
 module.exports = { createComment, getComment, updateComment, deleteComment };

@@ -4,11 +4,9 @@ const mysql = require('mysql');
 
 const likes = [createMockLike(1), createMockLike(2), createMockLike(3)];
 
-const createLike = (idPost, emoji) => {
-  const id = likes.length + 1;
-  const like = { id, idPost, emoji };
-  likes.push(like);
-  return like;
+const createLike = (idPost, idUser, emoji) => {
+  const sql = mysql.format('INSERT INTO Likes (id_post, id_user, emojis) VALUES(?, ?, ?', [idPost, idUser, emoji]);
+  return asyncQuery(sql);
 };
 
 const getLike = async (idPost, idUser) => {
@@ -21,15 +19,14 @@ const getLike = async (idPost, idUser) => {
   return asyncQuery(sql);
 };
 
-const updateLike = (id, emoji) => {
-  const like = likes.find(like => like.id === id);
-  if (!like) return null;
-  like.emoji = emoji;
-  return like;
+const updateLike = (idPost, idUser, emoji) => {
+  const sql = mysql.format('UPDATE Likes SET emojis = ? WHERE id_post = ? AND id_user = ?', [emoji, idPost, idUser]);
+  return asyncQuery(sql);
 };
 
 const deleteLike = id => {
-  like = likes.filter(like => like.id !== id);
+  const sql = mysql.format('DELETE Likes WHERE id = ?', [id]);
+  return asyncQuery(sql);
 };
 
 module.exports = { createLike, getLike, updateLike, deleteLike };
