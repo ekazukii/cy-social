@@ -1,4 +1,6 @@
 const { createMockLike } = require('../utils/mockData');
+const { asyncQuery } = require('./database');
+const mysql = require('mysql');
 
 const likes = [createMockLike(1), createMockLike(2), createMockLike(3)];
 
@@ -9,10 +11,14 @@ const createLike = (idPost, emoji) => {
   return like;
 };
 
-const getLike = (idPost, idUser) => {
-  const like = likes.filter(like => like.idPost === idPost);
-  if (idUser) return like.find(like => like.idUser === idUser);
-  return like;
+const getLike = async (idPost, idUser) => {
+  let sql;
+  if (idUser) {
+    sql = mysql.format('SELECT * FROM Likes WHERE id_post = ? AND id_user = ?', [idPost, idUser]);
+  } else {
+    sql = mysql.format('SELECT * FROM Likes WHERE id_post = ?', [idPost]);
+  }
+  return asyncQuery(sql);
 };
 
 const updateLike = (id, emoji) => {
