@@ -1,0 +1,44 @@
+.contain-body{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.contain-left{
+    padding: 0.5rem;
+    padding-right: 0.25rem;
+}
+
+.contain-right{
+    padding: 0.5rem;
+    padding-left: 0.25rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.list-conv{
+    padding: 0.25rem;
+    padding-top: 0;
+}
+
+.list-conv > div{
+    margin-bottom: 0.25rem;
+    padding-bottom: 0.5rem;
+}
+
+.list-conv > div:hover{
+    cursor: pointer;
+}
+
+.list-conv > div:first-child{
+    padding-top: 0;
+}
+
+.list-conv > div:last-child{
+    margin-bottom: 0;
+    border:0;
+}
+
+.conv-content > div:last-child{
+    width: 100%;
+}

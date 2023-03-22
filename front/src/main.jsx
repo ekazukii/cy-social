@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Test from "./pages/Test";
 import RegisterPage from "./pages/Register";
 import Profil from "./pages/Profil";
+import Message from "./pages/Message"
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/profil/with-replies",
     element: <Profil info="with-replies"/>,
+  },
+  {
+    path: "/messagerie",
+    element: <Message />,
   }
 ]);
 
