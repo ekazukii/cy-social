@@ -1,3 +1,5 @@
+const { asyncQuery } = require('./database');
+const mysql = require('mysql');
 const { createMockVote } = require('../utils/mockData');
 const _votes = [
   createMockVote(1, 1),
@@ -12,9 +14,13 @@ const _votes = [
  * @param {Number} userId
  */
 const getVote = (postId, userId) => {
-  let votes = _votes.filter(vote => vote.idPost === postId);
-  if (userId) votes = votes.filter(vote);
-  return votes;
+  let sql;
+  if (userId) {
+    sql = mysql.format('SELECT * FROM Votes WHERE id_post = ? AND id_user = ?', [postId, userId]);
+  } else {
+    sql = mysql.format('SELECT * FROM Votes WHERE id_post = ?', [postId]);
+  }
+  return asyncQuery(sql);
 };
 
 const updateVote = (id, vote) => {

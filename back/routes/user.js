@@ -12,3 +12,10 @@ router.delete('/', function (req, res) {});
 router.post('/follow', function (req, res) {});
 
 router.delete('/follow', function (req, res) {});
+
+/**
+ *
+ * post: {
+ *
+ * }
+ */

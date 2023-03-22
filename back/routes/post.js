@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const { createPost, updatePost, getPost, deletePost, addView } = require('../models/post');
+const { createPost, updatePost, getPostWithCounts, deletePost, addView } = require('../models/post');
 const { createVote, updateVote, deleteVote, getVote } = require('../models/vote');
 const { createLike, getLike, updateLike, deleteLike } = require('../models/like');
 const { createComment, getComment, updateComment, deleteComment } = require('../models/comment');
@@ -9,14 +9,9 @@ const { createComment, getComment, updateComment, deleteComment } = require('../
 //TODO: Check date format
 //TODO: Check if post exist
 
-router.get('/', function (req, res) {
+router.get('/', async function (req, res) {
   const { user, group } = req.query;
-  const posts = getPost(Number(user), group);
-  posts.map(post => {
-    post.comments = getComment(post.id);
-    post.votes = getVote(post.id);
-    post.likes = getLike(post.id);
-  });
+  const posts = await getPostWithCounts(Number(user), group ? Number(group) : undefined);
   res.send(posts);
 });
 

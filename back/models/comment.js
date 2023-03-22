@@ -1,4 +1,6 @@
 const { createMockComment } = require('../utils/mockData');
+const { asyncQuery } = require('./database');
+const mysql = require('mysql');
 const comments = [createMockComment(1, 1), createMockComment(2, 2), createMockComment(3, 3), createMockComment(4, 1)];
 
 const createComment = (idPost, idUser, response, content) => {
@@ -8,8 +10,9 @@ const createComment = (idPost, idUser, response, content) => {
   return comment;
 };
 
-const getComment = idPost => {
-  return comments.filter(comment => comment.postId === idPost);
+const getComment = async idPost => {
+  const sql = mysql.format('SELECT * FROM Comments WHERE id_post = ?', [idPost]);
+  return asyncQuery(sql);
 };
 
 const updateComment = (id, content) => {

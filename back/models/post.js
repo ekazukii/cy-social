@@ -1,19 +1,37 @@
 const { createMockPost } = require('../utils/mockData');
+const { asyncQuery } = require('./database');
+const mysql = require('mysql');
 const _posts = [createMockPost(1), createMockPost(2), createMockPost(3), createMockPost(4), createMockPost(5)];
 
 /**
  * create a notification in db
  * @param {Number} userId
  */
-const getPost = (user, group) => {
-  let posts = _posts;
-  if (!isNaN(user)) {
-    posts = posts.filter(post => post.authorId === user);
+const getPost = async (user, group) => {
+  let sql;
+  if (typeof user !== 'undefined') {
+    sql = mysql.format('SELECT * FROM Posts WHERE id_user = ? AND id_group = ?', [user, group]);
+  } else {
+    sql = mysql.format('SELECT * FROM posts WHERE id_group = ?', [group]);
   }
+  return asyncQuery(sql);
+};
+
+const getPostWithCounts = async (user, group) => {
+  let sql;
   if (typeof group !== 'undefined') {
-    posts = posts.filter(post => post.group === group);
+    sql = mysql.format(
+      'SELECT *, (SELECT COUNT(*) FROM Comments c WHERE c.id_post = p.id) AS comments, (SELECT COUNT(*) FROM Likes l WHERE l.id_post = p.id) as likes, (SELECT COUNT(*) FROM Votes v1 WHERE v1.id_post = p.id AND v1.vote = -1) as votes_against, (SELECT COUNT(*) FROM Votes v2 WHERE v2.id_post = p.id AND v2.vote = 0) as votes_neutral, (SELECT COUNT(*) FROM Votes v3 WHERE v3.id_post = p.id AND v3.vote = 1) AS votes_for FROM Posts p WHERE p.id_user = ? AND p.id_group = ? ORDER BY p.date_publi DESC LIMIT 20',
+      [user, group]
+    );
+  } else {
+    sql =
+      'SELECT *, (SELECT COUNT(*) FROM Comments c WHERE c.id_post = p.id) AS comments, (SELECT COUNT(*) FROM Likes l WHERE l.id_post = p.id) as likes, (SELECT COUNT(*) FROM Votes v1 WHERE v1.id_post = p.id AND v1.vote = -1) as votes_against, (SELECT COUNT(*) FROM Votes v2 WHERE v2.id_post = p.id AND v2.vote = 0) as votes_neutral, (SELECT COUNT(*) FROM Votes v3 WHERE v3.id_post = p.id AND v3.vote = 1) AS votes_for FROM Posts p WHERE p.id_group IN (SELECT id_group FROM UsersGroups WHERE id_user = ' +
+      +user +
+      ') ORDER BY p.date_publi DESC LIMIT 20';
   }
-  return posts;
+
+  return asyncQuery(sql);
 };
 
 const updatePost = (id, title, content, description, img, dateEnd) => {
@@ -67,4 +85,4 @@ const addView = id => {
   post.nbrVue++;
 };
 
-module.exports = { createPost, updatePost, getPost, deletePost, addView };
+module.exports = { createPost, updatePost, getPost, deletePost, addView, getPostWithCounts };
