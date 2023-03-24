@@ -24,6 +24,9 @@ import HeaderProfil from "../Header-profil/Header-profil"
  * @param {Number} props.user.nbPoste
  * @param {Number} props.user.nbFollow
  * @param {Number} props.user.nbFollower
+ * @param {String} props.username
+ * @param {Number} props.nbPoste
+ * @param {Number} 
  * @returns 
  */
 export default function Poste(props) {

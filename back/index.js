@@ -2,12 +2,13 @@ const cors = require('cors');
 const express = require('express');
 const app = express();
 const port = 3000;
-
+const cors = require("cors");
 const postRoutes = require('./routes/post');
 const notifRoutes = require('./routes/notif');
 
 const { getPost } = require('./models/post');
-const { getComment } = require('./models/comment');
+const { createGroup } = require('./models/comment');
+const { getGroup } = require('./models/group');
 const { getLike } = require('./models/like');
 const { getVote } = require('./models/vote');
 const { createUserData, createPostData } = require('./script/populate_db');
