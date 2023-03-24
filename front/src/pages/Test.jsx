@@ -1,9 +1,3 @@
-import Icon from '../components/Icon/Icon';
-import Poste from '../components/Poste/Poste';
-import PosteList from '../components/Poste/PosteList';
-import Navbar from '../components/Navbar/Navbar';
-import React, { useState, useEffect } from 'react';
-
 export default function Test() {
   let [postes, setPostes] = useState(null);
 
@@ -15,8 +9,9 @@ export default function Test() {
 
   return (
     <>
-      <Navbar isConnected={true}/>
-      {postes && <PosteList postes ={postes}/>}
+      <h1>Bienvenue sur la page de Test</h1>
+      <h3>Ici vous pouvez modifier totalement la page pour vos test</h3>
+      <p>Mais attention ne surtout pas commit Test.jsx ni Test.css</p>
     </>
   );
 }

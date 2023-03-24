@@ -1,22 +1,34 @@
 var express = require('express');
 var router = express.Router();
-const { createMockPost } = require('../utils/mockData');
 
-const _posts = [createMockPost(1), createMockPost(2), createMockPost(3), createMockPost(4), createMockPost(5)];
+const { createPost, updatePost, getPostWithCounts, deletePost, addView, getPost } = require('../models/post');
+const { createVote, updateVote, deleteVote, getVote } = require('../models/vote');
+const { createLike, getLike, updateLike, deleteLike } = require('../models/like');
+const { createComment, getComment, updateComment, deleteComment } = require('../models/comment');
+const { getUsers } = require('../models/user');
 
 //TODO: Check date format
 //TODO: Check if post exist
 
-router.get('/', function (req, res) {
+router.get('/', async function (req, res) {
   const { user, group } = req.query;
-  let posts = _posts;
-  if (typeof user === 'string') {
-    posts = posts.filter(post => post.authorId === Number(user));
-  }
-  if (typeof group === 'string') {
-    posts = posts.filter(post => post.group === group);
-  }
+  const posts = await getPost(Number(user), group ? Number(group) : undefined);
   res.send(posts);
+});
+
+router.get('/tl', async function (req, res) {
+  const { user, group } = req.query;
+  const posts = await getPostWithCounts(Number(user), group ? Number(group) : undefined);
+  let authorsId = posts.map(post => post['id_user']);
+  authorsId = [...new Set(authorsId)];
+  const usersArray = await getUsers(authorsId);
+  let users = {};
+
+  usersArray.forEach(user => {
+    users[user.id] = user;
+  });
+
+  res.send({ posts, users });
 });
 
 router.post('/', function (req, res) {
@@ -32,21 +44,8 @@ router.post('/', function (req, res) {
   )
     return res.status(400).send({ error: true });
 
-  _posts.push({
-    id: _posts[_posts.length - 1].id + 1,
-    authorId: Number(authorId),
-    title,
-    content,
-    description,
-    group,
-    img,
-    datePublished: new Date().toISOString(),
-    dateEnd: dateEnd,
-    nbrVue: 0,
-    comments: []
-  });
-
-  res.send(_posts);
+  const post = createPost(Number(authorId), title, content, description, group, img, dateEnd);
+  res.send(post);
 });
 
 router.put('/', function (req, res) {
@@ -61,22 +60,108 @@ router.put('/', function (req, res) {
   )
     return res.status(400).send({ error: true });
 
-  const post = _posts.find(post => post.id === Number(id));
-
-  if (title) post.title = title;
-  if (content) post.content = content;
-  if (description) post.description = description;
-  if (img) post.img = img;
-  if (dateEnd) post.dateEnd = dateEnd;
-
+  const post = updatePost(Number(id), title, content, description, img, dateEnd);
   res.send(post);
 });
 
 router.delete('/', function (req, res) {
   const { id } = req.body;
-  //const oldLength = _posts.length;
-  _posts = _posts.filter(post => post.id !== Number(id));
-  res.status(200).send(_posts);
+  deletePost(Number(id));
+  res.status(200).send({ success: true });
+});
+
+/** VOTE **/
+
+// getVote(id, user)
+// If vote already exist, update it
+router.post('/vote', function (req, res) {
+  const { id, user, vote } = req.body;
+  if (typeof id !== 'string' || typeof user !== 'string' || typeof vote !== 'string')
+    return res.status(400).send({ error: true });
+
+  const oldVote = getVote(Number(id), Number(user));
+  if (oldVote.length === 1) {
+    const newVote = updateVote(Number(id), Number(user), vote === 'true');
+    return res.send(newVote);
+  }
+
+  const newVote = createVote(Number(id), Number(user), vote === 'true');
+  res.send(newVote);
+});
+
+router.get('/vote', function (req, res) {
+  const { id } = req.query;
+  if (typeof id !== 'string') return res.status(400).send({ error: true });
+  const votes = getVote(Number(id), Number(user));
+  res.send(votes);
+});
+
+/** LIKE **/
+
+router.post('/like', function (req, res) {
+  const { id, user } = req.body;
+  if (typeof id !== 'string' || typeof user !== 'string') return res.status(400).send({ error: true });
+
+  const oldLike = getLike(Number(id), Number(user));
+  if (oldLike.length === 1) {
+    const newLike = updateLike(Number(id), Number(user), 'like');
+    return res.send(newLike);
+  }
+
+  const newLike = createLike(Number(id), Number(user), 'like');
+  res.send(newLike);
+});
+
+router.get('/like', function (req, res) {
+  const { id, user } = req.query;
+  if (typeof id !== 'string' || typeof user !== 'string') return res.status(400).send({ error: true });
+  const like = getLike(Number(id), Number(user));
+  res.send(like);
+});
+
+router.delete('/like', function (req, res) {
+  const { id, user } = req.body;
+  if (typeof id !== 'string' || typeof user !== 'string') return res.status(400).send({ error: true });
+  deleteLike(Number(id), Number(user));
+  res.status(200).send({ success: true });
+});
+
+/** COMMENT **/
+
+router.post('/comment', function (req, res) {
+  const { idPost, content, response } = req.body;
+  if (typeof idPost !== 'string' || typeof content !== 'string') return res.status(400).send({ error: true });
+
+  const comment = createComment(Number(idPost), 1, null, content);
+  res.send(comment);
+});
+
+router.get('/comment', function (req, res) {
+  const { id } = req.query;
+  if (typeof id !== 'string') return res.status(400).send({ error: true });
+  const comments = getComment(Number(id));
+  res.send(comments);
+});
+
+router.delete('/comment', function (req, res) {
+  const { id } = req.body;
+  if (typeof id !== 'string') return res.status(400).send({ error: true });
+  deleteComment(Number(id));
+  res.status(200).send({ success: true });
+});
+
+router.put('/comment', function (req, res) {
+  const { id, content } = req.body;
+  if (typeof id !== 'string' || typeof content !== 'string') return res.status(400).send({ error: true });
+  const comment = updateComment(Number(id), content);
+  res.send(comment);
+});
+
+router.post('/view', function (req, res) {
+  const { id } = req.body;
+  if (typeof id !== 'string') return res.status(400).send({ error: true });
+  addView(Number(id));
+  res.status(200).send({ success: true });
 });
 
 module.exports = router;
