@@ -18,7 +18,7 @@ export default function HeaderProfil(props) {
                 <span>{props.nbPoste} Postes publiés</span>
                 <span>{props.nbFollow} Abonnements</span>
                 <span>{props.nbFollower} Abonné</span>
-                <Button text="Suivre" type="primary"/>
+                {props.isUser ? (<Button text="Suivre" type="primary"/>) : (<Button text="Paramètres" type="primary"/>)}
             </div>
         </div>
         <div className={classes["header-profil-group"]}> 
