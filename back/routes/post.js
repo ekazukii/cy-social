@@ -44,7 +44,7 @@ router.post('/', function (req, res) {
   )
     return res.status(400).send({ error: true });
 
-  const post = createPost(Number(authorId), title, content, description, group, img, dateEnd);
+  const post = createPost(Number(authorId), title, content, group, img, dateEnd);
   res.send(post);
 });
 
@@ -68,6 +68,34 @@ router.delete('/', function (req, res) {
   const { id } = req.body;
   deletePost(Number(id));
   res.status(200).send({ success: true });
+});
+
+router.get('/:id', async function (req, res) {
+  const { id } = req.params;
+  const posts = await getPost(undefined, undefined, id);
+  const post = posts[0];
+  const comments = await getComment(post.id);
+
+  res.status(200).send({
+    post,
+    comments
+  });
+});
+
+router.get('/:id/likes', async function (req, res) {
+  const { id } = req.params;
+  const likes = await getLike(id);
+  res.status(200).send({
+    likes
+  });
+});
+
+router.get('/:id/votes', async function (req, res) {
+  const { id } = req.params;
+  const votes = await getVote(id);
+  res.status(200).send({
+    votes
+  });
 });
 
 /** VOTE **/
