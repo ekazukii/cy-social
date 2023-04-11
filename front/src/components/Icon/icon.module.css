@@ -5,10 +5,11 @@
     justify-content: center;
     align-content: center;
     font-size: 2rem;
+    line-height: 1rem;
   }
   
 .clicked {
-  color: red;
+  color: rgb(0, 0, 0);
 }
 
 .icon:hover {
@@ -16,7 +17,7 @@
   }
 
 .icon-will-be-red:hover{
-    color: red;
+    color: rgb(0, 0, 0);
 }
 
 .icon-will-be-blue:hover{
