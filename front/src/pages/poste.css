@@ -1,0 +1,10 @@
+.container_body{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.container_body_center{
+    max-width: 60vw;
+    flex-grow: 1;
+}

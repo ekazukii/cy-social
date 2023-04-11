@@ -1,5 +1,6 @@
 const { asyncQuery } = require('./database');
 const mysql = require('mysql2');
+const _posts = [createMockPost(1), createMockPost(2), createMockPost(3), createMockPost(4), createMockPost(5)];
 
 /**
  * create a notification in db

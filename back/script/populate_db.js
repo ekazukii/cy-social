@@ -7,12 +7,12 @@ const rand = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-const NBR_USERS = 143;
-const NBR_POSTS = 6292;
-const NBR_COMMENTS = 66519;
-const NBR_LIKES = 14037;
-const NBR_VOTES = 32003;
-const NBR_GROUPS = 42;
+const NBR_USERS = 20;
+const NBR_POSTS = 60;
+const NBR_COMMENTS = 180;
+const NBR_LIKES = 300;
+const NBR_VOTES = 500;
+const NBR_GROUPS = 10;
 
 const createUserData = () => {
   return {
@@ -48,7 +48,7 @@ const createGroupData = () => {
     isPrivate: faker.helpers.arrayElement([0, 1]),
     dateCrea: faker.date.past(),
     img: faker.image.imageUrl(),
-    description: faker.lorem.sentence(20)
+    description: faker.lorem.sentence(4)
   };
 };
 
@@ -86,7 +86,7 @@ const populateUserInfo = async () => {
     const uData = createUserData();
 
     const sql = mysql.format(
-      'INSERT INTO Users (username, name, mail, tel, adresse, date_bday, role, profile_pic) VALUES(?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO `Users` (`username`, `name`, `mail`, `tel`, `adresse`, `date_bday`, `role`, `profile_pic`) VALUES(?, ?, ?, ?, ?, ?, ?, ?)',
       [uData.username, uData.name, uData.main, uData.phone, uData.adresse, uData.date_bday, uData.role, uData.profile]
     );
     const res = await asyncQuery(sql);
@@ -99,7 +99,7 @@ const populateGroupInfo = async () => {
     const gData = createGroupData();
 
     const sql = mysql.format(
-      'INSERT INTO Groups (name, is_private, date_crea, img, description) VALUES(?, ?, ?, ?, ?)',
+      'INSERT INTO `Groups` (`name`, `is_private`, `date_crea`, `img`, `description`) VALUES(?, ?, ?, ?, ?)',
       [gData.name, gData.isPrivate, gData.dateCrea, gData.img, gData.description]
     );
 
@@ -113,7 +113,7 @@ const populatePostInfo = async () => {
     const pInfo = createPostData();
 
     const sql = mysql.format(
-      'INSERT INTO Posts (id_user, id_group, content, title, img, display, date_fin, date_publi, view_count) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO `Posts` (`id_user`, `id_group`, `content`, `title`, `img`, `display`, `date_fin`, `date_publi`, `view_count`) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         pInfo.userId,
         pInfo.groupId,
@@ -137,7 +137,7 @@ const populateCommentInfo = async () => {
     const cInfo = createCommentData();
 
     const sql = mysql.format(
-      'INSERT INTO Comments (id_post, id_user, id_comment, date, content, view_count) VALUES(?, ?, ?, ?, ?, ?)',
+      'INSERT INTO `Comments` (`id_post`, `id_user`, `id_comment`, `date`, `content`, `view_count`) VALUES(?, ?, ?, ?, ?, ?)',
       [cInfo.postId, cInfo.userId, cInfo.commentId, cInfo.date, cInfo.content, cInfo.viewCount]
     );
 
@@ -150,7 +150,7 @@ const populateLikeInfo = async () => {
   for (let i = 0; i < NBR_LIKES; i++) {
     const lInfo = createLikeData();
 
-    const sql = mysql.format('INSERT INTO Likes (id_post, id_user, emojis) VALUES(?, ?, ?)', [
+    const sql = mysql.format('INSERT INTO `Likes` (`id_post`, `id_user`, `emojis`) VALUES(?, ?, ?)', [
       lInfo.postId,
       lInfo.userId,
       lInfo.emojis
@@ -165,7 +165,7 @@ const populateVoteData = async () => {
   for (let i = 0; i < NBR_VOTES; i++) {
     const lInfo = createVoteData();
 
-    const sql = mysql.format('INSERT INTO Votes (id_post, id_user, vote) VALUES(?, ?, ?)', [
+    const sql = mysql.format('INSERT INTO `Votes` (`id_post`, `id_user`, `vote`) VALUES(?, ?, ?)', [
       lInfo.postId,
       lInfo.userId,
       lInfo.vote
@@ -186,7 +186,7 @@ const populateAll = async () => {
 };
 
 // setTimeout(() => {
-//   populateVoteData();
+//   populateAll();
 // }, 1000);
 
 module.exports = { createUserData, createPostData };
