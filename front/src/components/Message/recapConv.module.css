@@ -1,0 +1,38 @@
+.container{
+    display: flex;
+    flex-direction: row;
+    padding: 0.25rem;
+    width: fit-content;
+    border-bottom: 1px solid rgb(60,60,60);
+}
+
+.img-grp-conv > img{
+    border-radius: 50%;
+    width: 3.5rem;
+}
+
+.img-grp-conv{
+    display: flex;
+    justify-content: center;
+    padding-right: 0.175rem;
+}
+
+.info-conv{
+    display: flex;
+    flex-direction: row;
+}
+
+.info-conv-title{
+    flex-grow: 1;
+}
+
+.content-conv > p{
+    margin-block: 0;
+}
+
+.prevu-conv{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 0.175rem;
+}
