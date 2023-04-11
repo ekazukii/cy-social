@@ -4,6 +4,14 @@ import PercentBar from "../Percent-bar/Percent-bar";
 import classes from "./poste.module.css";
 import HeaderProfil from "../Header-profil/Header-profil"
 
+/**
+ * 
+ * @param {Object} props 
+ * @param {String} props.username
+ * @param {Number} props.nbPoste
+ * @param {Number} 
+ * @returns 
+ */
 export default function Poste(props) {
  const avatarRef = useRef(null);
  const [isHovering, setIsHovering] = useState(false);
@@ -40,12 +48,12 @@ export default function Poste(props) {
                     <span>·</span>
                 </div>
                 <div className={classes["post-time"]}>
-                    <span>{props.time}</span>
+                    <span>{props.datePublished}</span>
                 </div>
             </div>
             <div className={classes["post-body"]}>
                 <div className={classes["post-body-text"]}>
-                    <p>{props.contentText}</p>
+                    <p>{props.content}</p>
                 </div>
                 <div className={classes["post-body-img"]}>
                 <img
@@ -61,7 +69,7 @@ export default function Poste(props) {
             <div className={classes["post-react"]}>
                 <Icon icon="fi fi-rr-heart" iconClicked="fi fi-sr-heart" hoverColor="icon-will-be-red" number={props.nbLike}/>
                 <Icon icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue" number={props.nbComment}/>
-                <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green" number={props.nbStats}/>
+                <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green" number={props.nbrVue}/>
             </div>
         </div>
     </div>

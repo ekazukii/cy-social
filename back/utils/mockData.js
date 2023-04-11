@@ -19,29 +19,7 @@ const createMockPost = id => {
     img: 'https://picsum.photos/600/200',
     datePublished: DateTime.now().minus({ days: 1 }).toISO(),
     dateEnd: DateTime.now().plus({ days: 1 }).toISO(),
-    nbrVue: 8371,
-    comments: [
-      {
-        id: id * 2,
-        authorId: rand(1, 2),
-        response: null,
-        date: DateTime.now()
-          .minus({ hours: rand(2, 4) })
-          .toISO(),
-        content: 'Comment 1',
-        nbrVue: 1529
-      },
-      {
-        id: (id + 1) * 2,
-        authorId: rand(1, 2),
-        response: null,
-        date: DateTime.now()
-          .minus({ hours: rand(0, 2) })
-          .toISO(),
-        content: 'Comment 2',
-        nbrVue: 1589
-      }
-    ]
+    nbrVue: 8371
   };
 };
 
@@ -67,7 +45,63 @@ const createMockNotif = id => {
   };
 };
 
+const createMockMessage = id => {
+  return {
+    id: id,
+    target: 1,
+    source: rand(2, 3)
+  };
+};
+
+const createMockVote = (id, idPost) => {
+  return {
+    id,
+    idPost,
+    userVote: rand(1, 2),
+    vote: rand(1, 3) - 2
+  };
+};
+
+const createMockLike = id => {
+  return {
+    id: id,
+    idPost: rand(1, 3),
+    emojis: 'like'
+  };
+};
+
+const createMockGroup = id => {
+  return {
+    id,
+    name: 'Groupe 1',
+    isPrivate: rand(1, 2) === 1,
+    dateCrea: DateTime.now()
+      .minus({ hours: rand(2, 4) })
+      .toISO(),
+    img: 'https://picsum.photos/600/200',
+    description: 'Group 1 desc',
+    postPinId: null
+  };
+};
+
+const createMockComment = (id, postId) => {
+  return {
+    id,
+    postId,
+    authorId: rand(1, 2),
+    date: DateTime.now().minus({ hours: 6 }).toISO(),
+    response: null,
+    content: "Bonjour c'est un commentaire de test",
+    nbrVue: 1589
+  };
+};
+
 module.exports = {
   createMockPost,
-  createMockNotif
+  createMockNotif,
+  createMockMessage,
+  createMockVote,
+  createMockLike,
+  createMockGroup,
+  createMockComment
 };

@@ -1,4 +1,5 @@
 import classes from "./notifications.module.css";
+import Icon from "../Icon/Icon"
 
 /**
  * 
@@ -7,10 +8,12 @@ import classes from "./notifications.module.css";
  * @param {Date} props.time
  * @param {String} props.content
  * @param {String} props.img link of img
+ * @param {String} props.read
  * @returns 
  */
 export default function Notifications(props) {
     return (
+      <>
       <div className = {classes["notif-container"]}>
         <div className={classes["notif-pic-author"]}>
             <img
@@ -27,6 +30,8 @@ export default function Notifications(props) {
                 <p>{props.content}</p>
             </div>
         </div>
+        <Icon icon="fi fi-rr-trash"/>
       </div>
+      </>
     );
   }

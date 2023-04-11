@@ -7,6 +7,7 @@ import Test from "./pages/Test";
 import RegisterPage from "./pages/Register";
 import Profil from "./pages/Profil";
 import Message from "./pages/Message"
+import Notif from "./pages/Notif";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
   {
     path: "/messagerie",
     element: <Message />,
+  },
+  {
+    path: "/notif",
+    element: <Notif />,
   }
 ]);
 
