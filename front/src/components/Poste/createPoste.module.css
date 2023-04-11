@@ -1,0 +1,30 @@
+.create-post-container{
+    display: flex;
+    padding: 0.25rem;
+}
+
+.create-post-content{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-left: 0.25rem;
+}
+
+.create-post-author > img{
+    border-radius: 50%;
+    width: 3.5rem;
+}
+
+.hoverCard{
+    position: absolute;
+    z-index: 10;
+}
+
+.create-post-content-footer{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.create-post-content-header, .create-post-content-body{
+    margin-bottom: 0.25rem;
+}
