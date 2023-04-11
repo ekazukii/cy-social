@@ -11,6 +11,10 @@ import Message from "./pages/Message"
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Accueil />,
+  },
+  {
+    path: "/App",
     element: <App />,
   },
   {

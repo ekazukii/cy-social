@@ -24,6 +24,30 @@ export default function Messagerie() {
         content: "Msg court.",
         author: "user2",
       },
+      {
+        content: "Msg court.",
+        author: "user2",
+      },
+      {
+        content: "ça va nickel ça marche pas trop trop mal",
+        author: "user2",
+      },
+      {
+        content: "ça va nickel ça marche pas trop trop mal",
+        author: "user2",
+      },
+      {
+        content: "ça va nickel ça marche pas trop trop mal",
+        author: "user2",
+      },
+      {
+        content: "ça va nickel ça marche pas trop trop mal",
+        author: "user2",
+      },
+      {
+        content: "ça va nickel ça marche pas trop trop mal",
+        author: "user2",
+      },
     ]
 
     const recapConv = [
