@@ -9,6 +9,7 @@ import Profil from "./pages/Profil";
 import Post from "./pages/Poste";
 import Message from "./pages/Message"
 import Notif from "./pages/Notif";
+import Accueil from "./pages/Accueil";
 
 const router = createBrowserRouter([
   {

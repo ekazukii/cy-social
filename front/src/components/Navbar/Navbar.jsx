@@ -43,8 +43,8 @@ export default function Navbar({ isConnected, isNotified, numberNotif }) {
         {isConnected ? (
           <div className={classes["button-group"]}>
             <Icon className="iconNotif" icon="fi fi-rr-bell" iconClicked="fi fi-sr-bell" hoverColor="icon-will-be-blue" isNotified={isNotified} number={numberNotif} handleClick={toggleClick} />
-            <Button text={"Profile"} type={"primary"} />
-            <Button text={"Message"} />
+            <Button text={"Profile"} type={"primary"} link={"/profil"} />
+            <Button text={"Message"} link={"/messagerie"}/>
             <Button text={"Déconnexion"} />
           </div>
         ) : (

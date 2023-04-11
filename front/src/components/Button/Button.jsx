@@ -1,9 +1,11 @@
 import classes from "./button.module.css";
 
-export default function Button({ text, type, handleClick }) {
+export default function Button({ text, type, handleClick, link }) {
   return (
-    <button onClick={handleClick} className={classes[type]}>
-      {text}
-    </button>
+    <a href={link}>
+      <button onClick={handleClick} className={classes[type]}>
+        {text}
+      </button>
+    </a>
   );
 }
