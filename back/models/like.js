@@ -14,7 +14,7 @@ const getLike = async (idPost, idUser) => {
   if (idUser) {
     sql = mysql.format('SELECT * FROM Likes WHERE id_post = ? AND id_user = ?', [idPost, idUser]);
   } else {
-    sql = mysql.format('SELECT * FROM Likes WHERE id_post = ?', [idPost]);
+    sql = mysql.format('SELECT * FROM Likes l INNER JOIN Users u ON id_post = ? AND l.id_user = u.id', [idPost]);
   }
   return asyncQuery(sql);
 };

@@ -11,7 +11,10 @@ const getPost = async (user, group, id) => {
   } else if (typeof group !== 'undefined') {
     sql = mysql.format('SELECT * FROM `Posts` WHERE id_group = ?', [group]);
   } else if (typeof id !== 'undefined') {
-    sql = mysql.format('SELECT * FROM `Posts` WHERE id = ?', [id]);
+    sql = mysql.format(
+      'SELECT *, (SELECT COUNT(*) FROM `Comments` c WHERE c.id_post = p.id) AS comments, (SELECT COUNT(*) FROM `Likes` l WHERE l.id_post = p.id) as likes, (SELECT COUNT(*) FROM `Votes` v1 WHERE v1.id_post = p.id AND v1.vote = -1) as votes_against, (SELECT COUNT(*) FROM `Votes` v2 WHERE v2.id_post = p.id AND v2.vote = 0) as votes_neutral, (SELECT COUNT(*) FROM `Votes` v3 WHERE v3.id_post = p.id AND v3.vote = 1) AS votes_for FROM `Posts` p WHERE p.id = ? ORDER BY p.date_publi DESC LIMIT 20',
+      [id]
+    );
   }
   return asyncQuery(sql);
 };

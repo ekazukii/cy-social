@@ -32,4 +32,12 @@ const getGroup = groupId => {
   return asyncQuery(sql);
 };
 
-module.exports = { createGroup, deleteGroup, updateGroup, getGroup };
+const getGroupsOf = userId => {
+  const sql = mysql.format(
+    'SELECT * FROM `Groups` WHERE id IN (SELECT id_group FROM `UsersGroups` WHERE id_user = ?)',
+    [userId]
+  );
+  return asyncQuery(sql);
+};
+
+module.exports = { createGroup, deleteGroup, updateGroup, getGroup, getGroupsOf };
