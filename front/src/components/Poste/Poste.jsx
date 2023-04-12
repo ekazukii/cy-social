@@ -41,12 +41,15 @@ export default function Poste(props) {
     setIsHovering(false);
   };
 
+  const moveToPost = () => {
+    window.location.replace(`/post/${props.poste.id}`);
+  }
  return (
     <div className={classes["post-container"]} key={props.poste.id}>
         <div className={classes["post-user"]}>
             <img
-            src="/img/avatar.png"
-            alt="user"
+            src={props.user.profile_pic}
+            alt={props.user.name}
             ref={avatarRef}
             onMouseEnter={handleHover} 
             onMouseLeave={handleLeave}
@@ -68,7 +71,7 @@ export default function Poste(props) {
                     <span>{props.poste.date_publi}</span>
                 </div>
             </div>
-            <div className={classes["post-body"]}>
+            <div className={classes["post-body"]} onClick={moveToPost}>
                 <div className={classes["post-body-text"]}>
                     <p>{props.poste.content}</p>
                 </div>
@@ -84,9 +87,9 @@ export default function Poste(props) {
                 </div>
             </div>
             <div className={classes["post-react"]}>
-                <Icon icon="fi fi-rr-heart" iconClicked="fi fi-sr-heart" hoverColor="icon-will-be-red" number={props.poste.likes}/>
-                <Icon icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue" number={props.poste.comments}/>
-                <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green" number={props.poste.view_count}/>
+                <Icon icon="fi fi-rr-heart" iconClicked="fi fi-sr-heart" hoverColor="icon-will-be-red" stats={props.poste.likes}/>
+                <Icon icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue" stats={props.poste.comments}/>
+                <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green" stats={props.poste.view_count}/>
             </div>
         </div>
     </div>
