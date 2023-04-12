@@ -1,10 +1,12 @@
 const cors = require('cors');
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const port = 3000;
 const postRoutes = require('./routes/post');
 const notifRoutes = require('./routes/notif');
 const groupRoutes = require('./routes/group');
+const authRoutes = require('./routes/auth.routes');
 
 const { getPost } = require('./models/post');
 const { createGroup } = require('./models/comment');
@@ -13,7 +15,29 @@ const { getLike } = require('./models/like');
 const { getVote } = require('./models/vote');
 const { createUserData, createPostData } = require('./script/populate_db');
 
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+  })
+);
+
+app.use(
+  session({
+    key: 'sid',
+    secret: process.env.SECRET || 'dev env secret unsafe',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      path: '/',
+      secure: process.env.NODE_ENV === 'development' ? false : true,
+      httpOnly: process.env.NODE_ENV === 'development' ? false : true,
+      sameSite: process.env.NODE_ENV === 'development' ? false : 'none',
+      maxAge: 10000000000000
+    }
+  })
+);
+
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
@@ -22,6 +46,7 @@ app.use(express.json());
 app.use('/post', postRoutes);
 app.use('/notif', notifRoutes);
 app.use('/group', groupRoutes);
+app.use('/auth', authRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
