@@ -2,8 +2,11 @@ const { asyncQuery } = require('./database');
 const mysql = require('mysql2');
 
 const getUser = userId => {
-  if (typeof userId === 'number') {
-    const sql = mysql.format('SELECT * FROM Users WHERE id = ?', [userId]);
+  if (userId) {
+    const sql = mysql.format(
+      'SELECT *, (SELECT COUNT(*) FROM `Followers` WHERE id_user = 1) as nbFollowers, (SELECT COUNT(*) FROM `Followers` WHERE id_follower = 1) as nbFollows, (SELECT COUNT(*) FROM `Posts` WHERE id_user = 1) as nbPosts, (SELECT COUNT(*) FROM `UsersGroups` u INNER JOIN `Groups` g ON(id_user = 1 AND g.id = u.id_group)) as nbGroups FROM `Users` WHERE id = ?',
+      [userId]
+    );
     return asyncQuery(sql);
   }
 
