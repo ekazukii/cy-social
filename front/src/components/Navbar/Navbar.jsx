@@ -5,6 +5,8 @@ import Input from "../Input/Input";
 import useOnClickOutside from "../../hooks/useOnClickOutside";
 import { useEffect, useState, useRef } from "react";
 import ContainerNotif from "../Notifications/ContainerNotif";
+import Modal from "../Modal/Modal";
+import { useSession } from '../../hooks/useSession';
 
 /**
  * 
@@ -14,6 +16,8 @@ import ContainerNotif from "../Notifications/ContainerNotif";
  * @returns 
  */
 export default function Navbar( props ) {
+  const { user, setSession, login, refreshData, logout } = useSession();
+
   const [afficherDiv, setAfficherDiv] = useState(false);
 
   const toggleClick = () => {
@@ -41,10 +45,22 @@ export default function Navbar( props ) {
             <Icon className="iconNotif" icon="fi fi-sr-bell" iconClicked="fi fi-sr-bell" hoverColor="icon-will-be-blue" isNotified={isNotified} number={numberNotif} handleClick={toggleClick} font_size="1.5rem"/>
             <Button text={"Profile"} type={"primary"} link={"/profil"} />
             <Button text={"Message"} link={"/messagerie"}/>
-            <Button text={"Déconnexion"} />
+            <Button text={"Déconnexion"} handleClick={() => logout()} />
           </div>
         ) : (
-          <Button text={"Connexion"} type={"primary"} />
+          <Modal 
+            textButton="Connexion"
+            title={<img
+            src="https://user-images.githubusercontent.com/28058068/225023680-440646b9-9f7f-45cd-993b-abfbdeb69ba1.png"
+            alt="logo"
+            width="80rem"
+            onClick={() => setCount(count + 1)}
+            />}>
+            <p>Connectez vous pour en voir plus!</p>
+            <Input id="user" label="Identifiant" type="text" placeholder="Entrez votre nom" />
+            <Input id="password" label="Mot de passe" type="password" placeholder="Entrez votre mot de passe" />
+            <Button text={"Se connecter"} type={"secondary"} handleClick={() => login('test', 'test')}/>
+          </Modal>
         )}
       </nav>
       {afficherDiv && (
