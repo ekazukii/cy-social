@@ -45,6 +45,7 @@ export default function Navbar( props ) {
             <Icon className="iconNotif" icon="fi fi-sr-bell" iconClicked="fi fi-sr-bell" hoverColor="icon-will-be-blue" isNotified={isNotified} number={numberNotif} handleClick={toggleClick} font_size="1.5rem"/>
             <Button text={"Profile"} type={"primary"} link={"/profil"} />
             <Button text={"Message"} link={"/messagerie"}/>
+            <Button text={"Administration"} link={"/admin"}/>
             <Button text={"Déconnexion"} handleClick={() => logout()} />
           </div>
         ) : (
