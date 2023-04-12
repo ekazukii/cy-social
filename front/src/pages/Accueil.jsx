@@ -3,8 +3,12 @@ import Navbar from "../components/Navbar/Navbar"
 import React, { useEffect, useState } from 'react';
 import Poste from "../components/Poste/Poste";
 import classes from "./accueil.module.css";
+import { useSession } from '../hooks/useSession';
 
 export default function Accueil() {
+  const { user, setSession, login, refreshData, logout } = useSession();
+  console.log(user);
+
   const [data_tl, setData_tl] = useState([]);
   const [data_notif, setData_notif] = useState([]);
 
@@ -54,9 +58,11 @@ export default function Accueil() {
   //     content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis libero dolorum ad.",
   //   },
   // ]
+  var isConnected= false;
+  if(user?.id){isConnected=true;}
   return (
     <>
-      <Navbar isConnected={true} notifs={data_notif}/>
+      <Navbar isConnected={isConnected} notifs={data_notif}/>
       <div className={classes["container_body"]}>
             <div className={classes["container_body_left"]}>
               <h3>Nouveau Sondage</h3>
