@@ -1,0 +1,32 @@
+.create-post-container{
+    display: flex;
+    padding: 0.5rem;
+    background-color: rgb(230,230,230);
+    border-radius: 10px;
+}
+
+.create-post-content{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-left: 0.5rem;
+}
+
+.create-post-author > img{
+    border-radius: 50%;
+    width: 3.5rem;
+}
+
+.hoverCard{
+    position: absolute;
+    z-index: 10;
+}
+
+.create-post-content-footer{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.create-post-content-header, .create-post-content-body{
+    margin-bottom: 0.5rem;
+}

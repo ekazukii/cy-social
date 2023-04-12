@@ -7,4 +7,14 @@
 .container_body_center{
     max-width: 60vw;
     flex-grow: 1;
+    margin-top: 0.5rem;
+}
+
+.container_body_center > div:first-child{
+    border-radius : 10px 10px 0 0;
+}
+
+.container_body_center > div:last-child{
+    border-radius : 0 0 10px 10px;
+    margin-bottom: 0.5rem;
 }

@@ -6,7 +6,14 @@ import useOnClickOutside from "../../hooks/useOnClickOutside";
 import { useEffect, useState, useRef } from "react";
 import ContainerNotif from "../Notifications/ContainerNotif";
 
-export default function Navbar({ isConnected, isNotified, numberNotif }) {
+/**
+ * 
+ * @param {Object} props
+ * @param {Object} props.notifs
+ * @param {Boolean} props.isConnected
+ * @returns 
+ */
+export default function Navbar( props ) {
   const [afficherDiv, setAfficherDiv] = useState(false);
 
   const toggleClick = () => {
@@ -18,19 +25,8 @@ export default function Navbar({ isConnected, isNotified, numberNotif }) {
 
   useOnClickOutside([ref, ref2], () => setAfficherDiv(false));
 
-  const Notif = [
-    {
-      author: "@Youbuze",
-      time: "15/05/2001",
-      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis libero dolorum ad.",
-    },
-    {
-      author: "@Youbuze",
-      time: "15/05/2001",
-      content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis libero dolorum ad.",
-    },
-  ]
-
+  const numberNotif = props.notifs.length;
+  const isNotified = (numberNotif > 0);
   return (
     <>
       <nav ref={ref}>
@@ -40,9 +36,9 @@ export default function Navbar({ isConnected, isNotified, numberNotif }) {
           width="80rem"
           onClick={() => setCount(count + 1)}
         />
-        {isConnected ? (
+        {props.isConnected ? (
           <div className={classes["button-group"]}>
-            <Icon className="iconNotif" icon="fi fi-rr-bell" iconClicked="fi fi-sr-bell" hoverColor="icon-will-be-blue" isNotified={isNotified} number={numberNotif} handleClick={toggleClick} />
+            <Icon className="iconNotif" icon="fi fi-sr-bell" iconClicked="fi fi-sr-bell" hoverColor="icon-will-be-blue" isNotified={isNotified} number={numberNotif} handleClick={toggleClick} font_size="1.5rem"/>
             <Button text={"Profile"} type={"primary"} link={"/profil"} />
             <Button text={"Message"} link={"/messagerie"}/>
             <Button text={"Déconnexion"} />
@@ -53,7 +49,7 @@ export default function Navbar({ isConnected, isNotified, numberNotif }) {
       </nav>
       {afficherDiv && (
         <div className={classes["notifSum"]}>
-          <ContainerNotif ref={ref2}  notifications={Notif}/>
+          <ContainerNotif ref={ref2}  notifications={props.notifs}/>
         </div>
       )}
     </>

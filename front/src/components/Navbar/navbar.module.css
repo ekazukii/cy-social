@@ -4,19 +4,20 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
-  border-bottom: solid 1px rgb(255, 255, 255);
-  background-color: black;
+  border-bottom: solid 1px rgb(0, 0, 0);
+  background-color: rgb(135, 135, 135);
 }
 
 .button-group {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 14rem;
+  width: 17rem;
 }
 
 .notifSum{
   position: absolute;
+  z-index: 10;
   right: 0.5rem;
   top: 3.25rem;
 }

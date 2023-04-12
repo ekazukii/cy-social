@@ -4,6 +4,7 @@ import HeaderProfil from "../components/Header-profil/Header-profil"
 import Conversation from "../components/Message/Conversation"
 import "./Message.css"
 import TextArea from "../components/TextArea/TextArea"
+import React, { useEffect, useState } from 'react'
 
 export default function Messagerie() {
     const conversation = [
@@ -76,9 +77,19 @@ export default function Messagerie() {
         time: "15/05/2005"
     },
     ];
+
+    const [data_notif, setData_notif] = useState([]);
+
+    useEffect(() => {
+      fetch("http://localhost:3000/notif?user=1") // remplacez l'URL par celle de votre API
+        .then(response => response.json())
+        .then(data_notif => setData_notif(data_notif))
+        .catch(error => console.error(error));
+    }, []);
+
     return (
     <>
-      <Navbar isConnected={true}/>
+      <Navbar isConnected={true} notifs={data_notif}/>
       <div class="contain-body">
         <div class="contain-left">
           <div class="list-conv">
