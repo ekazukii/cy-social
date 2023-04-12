@@ -7,6 +7,7 @@ const postRoutes = require('./routes/post');
 const notifRoutes = require('./routes/notif');
 const groupRoutes = require('./routes/group');
 const authRoutes = require('./routes/auth.routes');
+const userRoutes = require('./routes/user');
 
 const { getPost } = require('./models/post');
 const { createGroup } = require('./models/comment');
@@ -47,6 +48,7 @@ app.use('/post', postRoutes);
 app.use('/notif', notifRoutes);
 app.use('/group', groupRoutes);
 app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

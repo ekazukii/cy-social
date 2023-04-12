@@ -12,7 +12,7 @@ const createLike = (idPost, idUser, emoji) => {
 const getLike = async (idPost, idUser) => {
   let sql;
   if (idUser) {
-    sql = mysql.format('SELECT * FROM Likes WHERE id_post = ? AND id_user = ?', [idPost, idUser]);
+    sql = mysql.format('SELECT * FROM Likes WHERE id_user = ?', [idUser]);
   } else {
     sql = mysql.format('SELECT * FROM Likes l INNER JOIN Users u ON id_post = ? AND l.id_user = u.id', [idPost]);
   }
