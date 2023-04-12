@@ -12,7 +12,7 @@ nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 17rem;
+  width: 25rem;
 }
 
 .notifSum{
