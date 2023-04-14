@@ -63,3 +63,7 @@
 .comment-header-second > span{
     color: rgb(113, 118, 123);
 }
+
+.hoverCard{
+    position: absolute;
+}
