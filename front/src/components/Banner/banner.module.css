@@ -56,7 +56,7 @@
     width: 100%;
     position: absolute;
     z-index: 10;
-    top: -3.75rem;
+    top: -2.5rem;
 }
 
 .header-profil-user-pic{
@@ -64,7 +64,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 7.5rem;
+    width: 5rem;
     position: relative;
 }
 

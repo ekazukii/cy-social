@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import { useSession } from '../hooks/useSession';
 import classes from "./profil.module.css";
+import CreatePoste from "../components/Poste/CreatePoste"
 
 export default function Profil(props) {
   const { user, setSession, login, refreshData, logout } = useSession();
@@ -17,7 +18,7 @@ export default function Profil(props) {
   useEffect(() => {
     Promise.all([
       fetch("http://localhost:3000/post?user=4").then(response => response.json()),
-      fetch("http://localhost:3000/user/1").then(response => response.json()),
+      fetch("http://localhost:3000/user/4").then(response => response.json()),
       fetch("http://localhost:3000/notif?user=1").then(response => response.json()),
     ]).then(([postData, userData, notifData]) => {
       setData(postData);
@@ -44,7 +45,7 @@ export default function Profil(props) {
           {/* Affichage des informations de l'utilisateur */}
           <div className={classes["container_body_left"]}>
             <h3>Nouveau Sondage</h3>
-            <Banner user={dataUser} />
+            <CreatePoste author={dataUser}/>
             <h3>Mon Recap</h3>
             <div className={classes["recapBox"]}>
 
@@ -55,7 +56,8 @@ export default function Profil(props) {
             </div>
           </div>
           <div className={classes["container_body_center"]}>
-            <h3>Ma Timeline</h3>
+            <Banner user={dataUser} />
+            <h3>Les postes de @{dataUser.username}</h3>
             {props.info === "with-post" && (
               <div className={classes["list-post"]}>
                 {data.map((item, index) => (
