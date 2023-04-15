@@ -6,7 +6,7 @@ import classes from "./accueil.module.css";
 import { useSession } from '../hooks/useSession';
 
 export default function Accueil() {
-  const { user, setSession, login, refreshData, logout } = useSession();
+  const { user, setSession, login, refreshData, logout } = useSession(); // Recup isConnected depuis useSession
   console.log(user);
 
   const [data_tl, setData_tl] = useState([]);
@@ -28,15 +28,21 @@ export default function Accueil() {
   }, []);
 
   const author = 
-    {
-      "id": 1,
-      "name": "Baillet Tom",
-      "username": "@Youbuze",
-      "img" : "/img/avatar.png",
-      "nbPoste": 12,
-      "nbFollow": 13,
-      "nbFollower": 14,
-    }
+  {
+    "id": 1,
+    "username": "Johnpaul_Connelly1",
+    "name": "Ervin",
+    "mail": "Joany20@gmail.com",
+    "tel": "04 97 15 29 77",
+    "adresse": "68253 Kuhlman Points Glendale",
+    "date_bday": "2022-09-01T22:00:00.000Z",
+    "role": 2,
+    "profile_pic": "https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/1018.jpg",
+    "nbFollowers": 0,
+    "nbFollows": 0,
+    "nbPosts": 1,
+    "nbGroups": 1
+}
 
   // let [postes, setPostes] = useState(null);
 
@@ -58,7 +64,7 @@ export default function Accueil() {
   //     content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis libero dolorum ad.",
   //   },
   // ]
-  var isConnected= false;
+  let isConnected= false;
   if(user?.id){isConnected=true;}
   return (
     <>

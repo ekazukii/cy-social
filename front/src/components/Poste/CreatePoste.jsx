@@ -37,13 +37,13 @@ export default function CreatePoste( props ) {
       ))} */}
         <div className={classes["create-post-author"]}>
             <img
-                src={props.author.img}
+                src={props.author.profile_pic}
                 alt={props.author.username}
                 ref={avatarRef}
                 onMouseEnter={handleHover} 
                 onMouseLeave={handleLeave}
             />
-            <div className={classes["hoverCard"]}>{isHovering && <HeaderProfil username={props.author.username} nbPoste={props.author.nbPoste} nbFollow={props.author.nbFollow} nbFollower={props.author.nbFollower}/>}</div>
+            <div className={classes["hoverCard"]}>{isHovering && <HeaderProfil user={props.author}/>}</div>
         </div>
       <div className={classes["create-post-content"]}>
         <div className={classes["create-post-content-header"]}>

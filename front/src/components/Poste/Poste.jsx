@@ -26,6 +26,7 @@ import HeaderProfil from "../Header-profil/Header-profil"
  * @param {Number} props.user.nbFollower
  * @param {String} props.username
  * @param {Number} props.nbPoste
+ * @param {Boolean} props.isLinkToPost
  * @param {Number} 
  * @returns 
  */
@@ -54,7 +55,7 @@ export default function Poste(props) {
             onMouseEnter={handleHover} 
             onMouseLeave={handleLeave}
             />
-            <div className={classes["hoverCard"]}>{isHovering && <HeaderProfil username={props.user.username} nbPoste={props.user.nbPoste} nbFollow={props.user.nbFollow} nbFollower={props.user.nbFollower}/>}</div>
+            <div className={classes["hoverCard"]}>{isHovering && <HeaderProfil user={props.user}/>}</div>
         </div>
         <div className={classes["post-content"]}>
             <div className={classes["post-header"]}>
@@ -71,7 +72,7 @@ export default function Poste(props) {
                     <span>{props.poste.date_publi}</span>
                 </div>
             </div>
-            <div className={classes["post-body"]} onClick={moveToPost}>
+            <div className={classes["post-body"]} onClick={props.isLinkToPost && moveToPost} style={props.isLinkToPost ? {cursor: 'pointer'} : {}}>
                 <div className={classes["post-body-text"]}>
                     <p>{props.poste.content}</p>
                 </div>
@@ -95,3 +96,7 @@ export default function Poste(props) {
     </div>
   );
 }
+
+Poste.defaultProps = {
+    isLinkToPost: true,
+  };
