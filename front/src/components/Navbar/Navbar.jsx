@@ -38,7 +38,8 @@ export default function Navbar( props ) {
           src="https://user-images.githubusercontent.com/28058068/225023680-440646b9-9f7f-45cd-993b-abfbdeb69ba1.png"
           alt="logo"
           width="80rem"
-          onClick={() => setCount(count + 1)}
+          onClick={() => window.location.href = '/'}
+          style={{cursor: "pointer"}}
         />
         {props.isConnected ? (
           <div className={classes["button-group"]}>

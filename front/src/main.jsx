@@ -10,6 +10,7 @@ import Post from './pages/Poste';
 import Message from './pages/Message';
 import Notif from './pages/Notif';
 import Accueil from './pages/Accueil';
+import Admin1 from './pages/Admin';
 import { SessionProvider } from './hooks/useSession';
 
 const router = createBrowserRouter([
@@ -48,7 +49,11 @@ const router = createBrowserRouter([
   {
     path: '/notif',
     element: <Notif />
-  }
+  },
+  {
+    path: '/admin',
+    element: <Admin1 />
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
