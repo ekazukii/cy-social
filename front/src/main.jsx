@@ -54,6 +54,10 @@ const router = createBrowserRouter([
     path: '/admin',
     element: <Admin1 />
   },
+  {
+    path: '/group/:id_tl_group',
+    element: <Accueil />
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
