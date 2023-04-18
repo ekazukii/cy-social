@@ -38,12 +38,15 @@ export const useSession = () => {
       method: 'POST',
       body: urlencoded
     });
+
     const json = await data.json();
     if (json.success) {
       refreshData(json => {
         if (json.user) setSession(json.user);
       });
     }
+
+    throw new Error('Login failed');
   };
 
   const logout = () => {

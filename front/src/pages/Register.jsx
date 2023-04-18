@@ -2,6 +2,7 @@ import { useState } from 'react';
 import classes from './Register.module.css';
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
+import OpnAvatar from '../components/Avatar/Avatar';
 
 export default function RegisterPage() {
   const [formValues, setFormValues] = useState({
@@ -53,7 +54,9 @@ export default function RegisterPage() {
 
   return (
     <div className={classes['container']}>
+      <h1>Créer un compte</h1>
       <form onSubmit={handleSubmit}>
+        <OpnAvatar />
         <Input
           label="Prénom :"
           id="firstName"
@@ -101,6 +104,7 @@ export default function RegisterPage() {
           onChange={e => handleChange(e, 'contact')}
           value={formValues.contact.value}
           isValid={formValues.contact.isValid}
+          placeholder="+33"
           large
         />
 
