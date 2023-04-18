@@ -25,16 +25,24 @@ const updateGroup = (id, name, isPrivate, img, description, postPinId) => {
 };
 
 const getGroup = groupId => {
-  if (typeof groupId === 'number') {
-    return asyncQuery(mysql.format('SELECT * FROM `Groups` WHERE id = ?', [groupId]));
+  if (typeof groupId !== 'undefined') {
+    return asyncQuery(
+      mysql.format(
+        'SELECT *, (SELECT COUNT(*) FROM `Posts` p WHERE p.id_group = g.id) as nbPosts, (SELECT COUNT(*) FROM `UsersGroups` u WHERE u.id_group = g.id) as nbMembers FROM `Groups` g WHERE g.id = ?',
+        [groupId]
+      )
+    );
   }
-  const sql = mysql.format('SELECT * FROM `Groups`');
+  const sql = mysql.format(
+    'SELECT *, (SELECT COUNT(*) FROM `Posts` p WHERE p.id_group = g.id) as nbPosts, (SELECT COUNT(*) FROM `UsersGroups` u WHERE u.id_group = g.id) as nbMembers FROM `Groups` g'
+  );
   return asyncQuery(sql);
 };
 
 const getGroupsOf = userId => {
   const sql = mysql.format(
-    'SELECT * FROM `Groups` WHERE id IN (SELECT id_group FROM `UsersGroups` WHERE id_user = ?)',
+    //'SELECT * FROM `Groups` WHERE id IN (SELECT id_group FROM `UsersGroups` WHERE id_user = ?)',
+    'SELECT *, (SELECT COUNT(*) FROM `Posts` p WHERE p.id_group = g.id) as nbPosts, (SELECT COUNT(*) FROM `UsersGroups` u WHERE u.id_group = g.id) as nbMembers FROM `Groups` g WHERE id IN (SELECT id_group FROM `UsersGroups` WHERE id_user = ?)',
     [userId]
   );
   return asyncQuery(sql);

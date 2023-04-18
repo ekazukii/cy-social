@@ -12,7 +12,7 @@ router.get('/', async function (req, res) {
 
 router.get('/:id', async function (req, res) {
   const { id } = req.params;
-  const group = await getGroup(id);
+  const group = await getGroup(Number(id));
   return res.status(200).send({ error: false, group });
 });
 
