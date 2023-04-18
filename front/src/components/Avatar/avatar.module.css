@@ -1,0 +1,21 @@
+.refresh {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.icon-ctn {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #e5e5e5;
+  border-radius: 50%;
+  top: -130px;
+  right: -96px;
+  position: relative;
+  z-index: 20;
+  padding: 0.5rem;
+}
+
+.icon-ctn:hover {
+  background-color: #d5d5d5;
+  cursor: pointer;
+}
