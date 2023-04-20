@@ -18,7 +18,7 @@ export default function Modal(props) {
 
   return (
     <>
-      <Button text={"Ouvrir la modal"} type={"primary"} handleClick={toggleModal}/>
+      <Button text={props.textButton} type={"primary"} handleClick={toggleModal}/>
       {isOpen && (
         <div className={classes["modal-overlay"]}>
           <div className={classes["modal"]}>

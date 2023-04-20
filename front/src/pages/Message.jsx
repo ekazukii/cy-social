@@ -4,6 +4,7 @@ import HeaderProfil from "../components/Header-profil/Header-profil"
 import Conversation from "../components/Message/Conversation"
 import "./Message.css"
 import TextArea from "../components/TextArea/TextArea"
+import React, { useEffect, useState } from 'react'
 
 
 export default function Messagerie() {

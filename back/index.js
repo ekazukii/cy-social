@@ -1,5 +1,6 @@
 const cors = require('cors');
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const port = 3000;
 const postRoutes = require('./routes/post');
@@ -15,9 +16,31 @@ const { createGroup } = require('./models/comment');
 const { getGroup } = require('./models/group');
 const { getLike } = require('./models/like');
 const { getVote } = require('./models/vote');
-const { createUserData, createPostData } = require('./script/populate_db');
+//const { createUserData, createPostData } = require('./script/populate_db');
 
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+  })
+);
+
+app.use(
+  session({
+    key: 'sid',
+    secret: process.env.SECRET || 'dev env secret unsafe',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      path: '/',
+      secure: process.env.NODE_ENV === 'development' ? false : true,
+      httpOnly: process.env.NODE_ENV === 'development' ? false : true,
+      sameSite: process.env.NODE_ENV === 'development' ? false : 'none',
+      maxAge: 10000000000000
+    }
+  })
+);
+
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });

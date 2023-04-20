@@ -7,11 +7,20 @@ const mysql = require('mysql2');
 const getPost = async (user, group, id) => {
   let sql;
   if (typeof user !== 'undefined') {
-    sql = mysql.format('SELECT * FROM `Posts` WHERE id_user = ?', [user]);
+    sql = mysql.format(
+      'SELECT *, (SELECT COUNT(*) FROM `Comments` c WHERE c.id_post = p.id) AS comments, (SELECT COUNT(*) FROM `Likes` l WHERE l.id_post = p.id) as likes, (SELECT COUNT(*) FROM `Votes` v1 WHERE v1.id_post = p.id AND v1.vote = -1) as votes_against, (SELECT COUNT(*) FROM `Votes` v2 WHERE v2.id_post = p.id AND v2.vote = 0) as votes_neutral, (SELECT COUNT(*) FROM `Votes` v3 WHERE v3.id_post = p.id AND v3.vote = 1) AS votes_for FROM `Posts` p WHERE id_user = ?',
+      [user]
+    );
   } else if (typeof group !== 'undefined') {
-    sql = mysql.format('SELECT * FROM `Posts` WHERE id_group = ?', [group]);
+    sql = mysql.format(
+      'SELECT *, (SELECT COUNT(*) FROM `Comments` c WHERE c.id_post = p.id) AS comments, (SELECT COUNT(*) FROM `Likes` l WHERE l.id_post = p.id) as likes, (SELECT COUNT(*) FROM `Votes` v1 WHERE v1.id_post = p.id AND v1.vote = -1) as votes_against, (SELECT COUNT(*) FROM `Votes` v2 WHERE v2.id_post = p.id AND v2.vote = 0) as votes_neutral, (SELECT COUNT(*) FROM `Votes` v3 WHERE v3.id_post = p.id AND v3.vote = 1) AS votes_for FROM `Posts` p WHERE id_group = ?',
+      [group]
+    );
   } else if (typeof id !== 'undefined') {
-    sql = mysql.format('SELECT * FROM `Posts` WHERE id = ?', [id]);
+    sql = mysql.format(
+      'SELECT *, (SELECT COUNT(*) FROM `Comments` c WHERE c.id_post = p.id) AS comments, (SELECT COUNT(*) FROM `Likes` l WHERE l.id_post = p.id) as likes, (SELECT COUNT(*) FROM `Votes` v1 WHERE v1.id_post = p.id AND v1.vote = -1) as votes_against, (SELECT COUNT(*) FROM `Votes` v2 WHERE v2.id_post = p.id AND v2.vote = 0) as votes_neutral, (SELECT COUNT(*) FROM `Votes` v3 WHERE v3.id_post = p.id AND v3.vote = 1) AS votes_for FROM `Posts` p WHERE p.id = ? ORDER BY p.date_publi DESC LIMIT 20',
+      [id]
+    );
   }
   return asyncQuery(sql);
 };
@@ -20,8 +29,8 @@ const getPostWithCounts = async (user, group) => {
   let sql;
   if (typeof group !== 'undefined') {
     sql = mysql.format(
-      'SELECT *, (SELECT COUNT(*) FROM `Comments` c WHERE c.id_post = p.id) AS comments, (SELECT COUNT(*) FROM `Likes` l WHERE l.id_post = p.id) as likes, (SELECT COUNT(*) FROM `Votes` v1 WHERE v1.id_post = p.id AND v1.vote = -1) as votes_against, (SELECT COUNT(*) FROM `Votes` v2 WHERE v2.id_post = p.id AND v2.vote = 0) as votes_neutral, (SELECT COUNT(*) FROM `Votes` v3 WHERE v3.id_post = p.id AND v3.vote = 1) AS votes_for FROM `Posts` p WHERE p.id_user = ? AND p.id_group = ? ORDER BY p.date_publi DESC LIMIT 20',
-      [user, group]
+      'SELECT *, (SELECT COUNT(*) FROM `Comments` c WHERE c.id_post = p.id) AS comments, (SELECT COUNT(*) FROM `Likes` l WHERE l.id_post = p.id) as likes, (SELECT COUNT(*) FROM `Votes` v1 WHERE v1.id_post = p.id AND v1.vote = -1) as votes_against, (SELECT COUNT(*) FROM `Votes` v2 WHERE v2.id_post = p.id AND v2.vote = 0) as votes_neutral, (SELECT COUNT(*) FROM `Votes` v3 WHERE v3.id_post = p.id AND v3.vote = 1) AS votes_for FROM `Posts` p WHERE p.id_group = ? ORDER BY p.date_publi DESC LIMIT 20',
+      [group]
     );
   } else {
     sql =

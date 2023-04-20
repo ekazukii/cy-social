@@ -26,6 +26,7 @@ import HeaderProfil from "../Header-profil/Header-profil"
  * @param {Number} props.user.nbFollower
  * @param {String} props.username
  * @param {Number} props.nbPoste
+ * @param {Boolean} props.isLinkToPost
  * @param {Number} 
  * @returns 
  */
@@ -41,17 +42,20 @@ export default function Poste(props) {
     setIsHovering(false);
   };
 
+  const moveToPost = () => {
+    window.location.replace(`/post/${props.poste.id}`);
+  }
  return (
     <div className={classes["post-container"]} key={props.poste.id}>
         <div className={classes["post-user"]}>
             <img
-            src="/img/avatar.png"
-            alt="user"
+            src={props.user.profile_pic}
+            alt={props.user.name}
             ref={avatarRef}
             onMouseEnter={handleHover} 
             onMouseLeave={handleLeave}
             />
-            <div className={classes["hoverCard"]}>{isHovering && <HeaderProfil username={props.user.username} nbPoste={props.user.nbPoste} nbFollow={props.user.nbFollow} nbFollower={props.user.nbFollower}/>}</div>
+            <div className={classes["hoverCard"]}>{isHovering && <HeaderProfil user={props.user}/>}</div>
         </div>
         <div className={classes["post-content"]}>
             <div className={classes["post-header"]}>
@@ -68,7 +72,7 @@ export default function Poste(props) {
                     <span>{props.poste.date_publi}</span>
                 </div>
             </div>
-            <div className={classes["post-body"]}>
+            <div className={classes["post-body"]} onClick={props.isLinkToPost && moveToPost} style={props.isLinkToPost ? {cursor: 'pointer'} : {}}>
                 <div className={classes["post-body-text"]}>
                     <p>{props.poste.content}</p>
                 </div>
@@ -84,11 +88,15 @@ export default function Poste(props) {
                 </div>
             </div>
             <div className={classes["post-react"]}>
-                <Icon icon="fi fi-rr-heart" iconClicked="fi fi-sr-heart" hoverColor="icon-will-be-red" number={props.poste.likes}/>
-                <Icon icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue" number={props.poste.comments}/>
-                <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green" number={props.poste.view_count}/>
+                <Icon icon="fi fi-rr-heart" iconClicked="fi fi-sr-heart" hoverColor="icon-will-be-red" stats={props.poste.likes}/>
+                <Icon icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue" stats={props.poste.comments}/>
+                <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green" stats={props.poste.view_count}/>
             </div>
         </div>
     </div>
   );
 }
+
+Poste.defaultProps = {
+    isLinkToPost: true,
+  };
