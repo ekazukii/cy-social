@@ -5,98 +5,91 @@ import Conversation from "../components/Message/Conversation"
 import "./Message.css"
 import TextArea from "../components/TextArea/TextArea"
 
-export default function Messagerie() {
-    const conversation = [
-      {
-        content: "Hello comment ça va",
-        author: "user1",
-      },
-      {
-        content: "ça va nickel ça marche pas trop trop mal",
-        author: "user2",
-      },
-      {
-        content:
-          "Bah ça me semble parfait (ptit message long sur plusieurs lignes)",
-        author: "user1",
-      },
-      {
-        content: "Msg court.",
-        author: "user2",
-      },
-      {
-        content: "Msg court.",
-        author: "user2",
-      },
-      {
-        content: "ça va nickel ça marche pas trop trop mal",
-        author: "user2",
-      },
-      {
-        content: "ça va nickel ça marche pas trop trop mal",
-        author: "user2",
-      },
-      {
-        content: "ça va nickel ça marche pas trop trop mal",
-        author: "user2",
-      },
-      {
-        content: "ça va nickel ça marche pas trop trop mal",
-        author: "user2",
-      },
-      {
-        content: "ça va nickel ça marche pas trop trop mal",
-        author: "user2",
-      },
-    ]
 
-    const recapConv = [
-    {
-        content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit sit minima nam non? Deleniti veritatis esse possimus illum aperiam, reprehenderit unde. Culpa, impedit laudantium! Soluta vero cumque quaerat reiciendis similique?",
-        author: "@Youbuze",
-        title: "Test",
-        time: "15/05/2005"
-    },
-    {
-        content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit sit minima nam non? Deleniti veritatis esse possimus illum aperiam, reprehenderit unde. Culpa, impedit laudantium! Soluta vero cumque quaerat reiciendis similique?",
-        author: "@Youbuze",
-        title: "Test",
-        time: "15/05/2005"
-    },
-    {
-        content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit sit minima nam non? Deleniti veritatis esse possimus illum aperiam, reprehenderit unde. Culpa, impedit laudantium! Soluta vero cumque quaerat reiciendis similique?",
-        author: "@Youbuze",
-        title: "Test",
-        time: "15/05/2005"
-    },
-    {
-        content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit sit minima nam non? Deleniti veritatis esse possimus illum aperiam, reprehenderit unde. Culpa, impedit laudantium! Soluta vero cumque quaerat reiciendis similique?",
-        author: "@Youbuze",
-        title: "Test",
-        time: "15/05/2005"
-    },
-    ];
-    return (
-    <>
-      <Navbar isConnected={true}/>
-      <div class="contain-body">
-        <div class="contain-left">
-          <div class="list-conv">
-            {recapConv.map((conv, index) => (
-                <RecapConv
-                    key={index}
-                    content={conv.content}
-                    author={conv.author}
-                    title={conv.title}
-                    time={conv.time}
-                />
-            ))}
-                <RecapConv author="@Youbuze" content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Velit sit minima nam non? Deleniti veritatis esse possimus illum aperiam, reprehenderit unde. Culpa, impedit laudantium! Soluta vero cumque quaerat reiciendis similique?" title="Test" time="15/08/2005"/>            
+export default function Messagerie() {
+  
+  const [dataAuth, setDataAuth] = useState(null);
+  const [dataRecapConv, setDataRecapConv] = useState(null);
+  const [selectedConv, setSelectedConv] = useState(null);
+  const [data_notif, setData_notif] = useState([]);
+  const [dataSelectedConv, setdataSelectedConv] = useState([]);
+  
+  const changeConv = (conv) => {
+    setSelectedConv(conv);
+  }
+
+  useEffect(() => {
+    fetch("http://localhost:3000/auth/whoami", {
+      method: "GET",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(response => response.json())
+    .then(dataAuth => setDataAuth(dataAuth))
+    .catch(error => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    if (dataAuth && dataAuth.user) {
+      fetch("http://localhost:3000/conversation?user=" + dataAuth.user.id.toString())
+      .then(response => response.json())
+      .then(dataRecapConv => setDataRecapConv(dataRecapConv))
+      .catch(error => console.error(error));
+    }
+  }, [dataAuth]);
+
+  useEffect(() => {
+    if (dataRecapConv && dataRecapConv[0].id_conv) {
+      setSelectedConv(dataRecapConv[0].id_conv);
+    }
+  }, [dataRecapConv]);
+  
+  useEffect(() => {
+    if (selectedConv && dataSelectedConv) {
+      fetch("http://localhost:3000/message?conv=" + selectedConv.toString())
+      .then(response => response.json())
+      .then(dataSelectedConv => setdataSelectedConv(dataSelectedConv))
+      .catch(error => console.error(error));
+    }
+  }, [selectedConv, dataSelectedConv]);
+
+useEffect(() => {
+  if (dataAuth && dataAuth.user) {
+    fetch("http://localhost:3000/notif?user=" + dataAuth.user.id.toString()) 
+      .then(response => response.json())
+      .then(data_notif => setData_notif(data_notif))
+      .catch(error => console.error(error));
+  }
+  }, [dataAuth]);
+ 
+      return (
+      <>
+      <Navbar isConnected={true} notifs={data_notif}/>
+      <div className="contain-body">
+        <div className="contain-left">
+          <div className="list-conv">
+            {(dataRecapConv && selectedConv) && (
+              dataRecapConv.map((conv, index) => (
+                  <RecapConv
+                  key={index}
+                  content={conv.content}
+                  // author={conv.author}
+                  // author="@Youbuze"
+                  title={conv.title}
+                  time={conv.date}
+                  onClick={() => changeConv(conv.id_conv)}
+                  />
+                ))
+              )}
             </div>
         </div>
-        <div class="contain-right">
-              <div class="conv-content">
-                <Conversation author={"user1"} messages={conversation}/>
+        <div className="contain-right">
+              <div className="conv-content">
+                {(dataAuth && dataAuth.user.id && dataSelectedConv) && (
+                  <Conversation author={dataAuth.user.id} messages={dataSelectedConv}/>
+                )}
                 <TextArea />
               </div>    
         </div>

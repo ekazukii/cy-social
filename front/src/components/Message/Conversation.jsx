@@ -15,8 +15,8 @@ export default function Conversation({ messages, author }) {
         <Message
           key={index}
           content={message.content}
-          author={message.author}
-          isSender={message.author === author}
+          author={message.id}
+          isSender={message.id_user !== author}
           ref={messagesEndRef}
         />
       ))}
