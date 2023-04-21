@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
 // const { createMockNotif } = require('../utils/mockData');
-const { getMessages } = require('../models/message');
+const { getConversations } = require('../models/conversation');
 
 //TODO: Check date forma
 
 router.get('/', async function (req, res) {
-    const { conv } = req.query;
-    const messages = await getMessages(Number(conv));
-    res.send(messages);
+    const { user } = req.query;
+    const conversations = await getConversations(Number(user));
+    res.send(conversations);
 });
 
 router.post('/', function (req, res) {});

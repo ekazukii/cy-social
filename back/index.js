@@ -8,13 +8,15 @@ const notifRoutes = require('./routes/notif');
 const groupRoutes = require('./routes/group');
 const authRoutes = require('./routes/auth.routes');
 const userRoutes = require('./routes/user');
+const MessageRoutes = require('./routes/message');
+const ConversationRoutes = require('./routes/conversation');
 
 const { getPost } = require('./models/post');
 const { createGroup } = require('./models/comment');
 const { getGroup } = require('./models/group');
 const { getLike } = require('./models/like');
 const { getVote } = require('./models/vote');
-const { createUserData, createPostData } = require('./script/populate_db');
+//const { createUserData, createPostData } = require('./script/populate_db');
 
 app.use(
   cors({
@@ -49,6 +51,8 @@ app.use('/notif', notifRoutes);
 app.use('/group', groupRoutes);
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
+app.use('/message', MessageRoutes);
+app.use('/conversation', ConversationRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
