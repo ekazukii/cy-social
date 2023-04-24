@@ -7,23 +7,30 @@ import React, { useEffect, useState } from 'react';
 import { useSession } from '../hooks/useSession';
 import classes from "./profil.module.css";
 import CreatePoste from "../components/Poste/CreatePoste"
+import Recap from "../components/Recap/Recap";
+import RecapFav from "../components/Recap/RecapFav";
 
 export default function Profil(props) {
   const { user, setSession, login, refreshData, logout } = useSession();
   const [data, setData] = useState([]);
   const [dataUser, setDataUser] = useState({});
+  const [dataGroup, setDataGroup] = useState({});
   const [dataNotif, setDataNotif] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [numGroups, setNumGroups] = useState(3); // Nombre de groupes affichés par défaut
+  const [numFav, setNumFav] = useState(3);
 
   useEffect(() => {
     Promise.all([
       fetch("http://localhost:3000/post?user=4").then(response => response.json()),
       fetch("http://localhost:3000/user/4").then(response => response.json()),
       fetch("http://localhost:3000/notif?user=1").then(response => response.json()),
-    ]).then(([postData, userData, notifData]) => {
+      fetch("http://localhost:3000/group/?user=1").then(response => response.json()),
+    ]).then(([postData, userData, notifData, groupData]) => {
       setData(postData);
       setDataUser(userData[0]);
       setDataNotif(notifData);
+      setDataGroup(groupData);
       setIsLoading(false);
     }).catch(error => console.error(error));
   }, []);
@@ -34,7 +41,7 @@ export default function Profil(props) {
   console.log("data:", data);
   console.log("dataUser:", dataUser);
   console.log("dataNotif:", dataNotif);
-
+  console.log("dataGroup:", dataGroup);
   return (
     <>
       <Navbar isConnected={isConnected} notifs={dataNotif} />
@@ -46,13 +53,22 @@ export default function Profil(props) {
           <div className={classes["container_body_left"]}>
             <h3>Nouveau Sondage</h3>
             <CreatePoste author={dataUser}/>
-            <h3>Mon Recap</h3>
+            <h3>Mes groupes</h3>
             <div className={classes["recapBox"]}>
-
+              {dataGroup.groups && dataGroup.groups.slice(0, numGroups).map((item, key) =>
+                <Recap group={item} indice={key} isLinkToGroup={true}/>
+              )}
+              {dataGroup.groups && dataGroup.groups.length > numGroups && (
+                <span className={classes["voirPlus"]} onClick={() => setNumGroups(numGroups + 3)}>
+                  Voir plus
+                </span>
+              )}
             </div>
             <h3>Mes favoris</h3>
             <div className={classes["recapBox"]}>
-
+                <RecapFav post={data[0]} indice={0}/>
+                <RecapFav post={data[0]} indice={1}/>
+                <RecapFav post={data[0]} indice={2}/>
             </div>
           </div>
           <div className={classes["container_body_center"]}>

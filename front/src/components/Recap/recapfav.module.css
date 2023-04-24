@@ -1,0 +1,18 @@
+.recap-container{
+    display: flex;
+    flex-direction: row;
+    padding: 0.25rem;
+    cursor: pointer;
+}
+
+.recap-right{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.recap-left{
+    display: flex;
+    flex-direction: column;
+    margin-right: 0.25rem;
+}

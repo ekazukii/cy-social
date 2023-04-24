@@ -1,24 +1,39 @@
 import CreatePoste from "../components/Poste/CreatePoste"
 import Navbar from "../components/Navbar/Navbar"
 import React, { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
 import Poste from "../components/Poste/Poste";
 import classes from "./accueil.module.css";
 import { useSession } from '../hooks/useSession';
+import Recap from "../components/Recap/Recap";
+import RecapFav from "../components/Recap/RecapFav";
 
 export default function Accueil() {
+  const { id_tl_group } = useParams();
+
   const { user, setSession, login, refreshData, logout } = useSession(); // Recup isConnected depuis useSession
   console.log(user);
 
   const [data_tl, setData_tl] = useState([]);
+  const [dataGroup, setData_Group] = useState({});
+  const [numGroups, setNumGroups] = useState(3);
   const [data_notif, setData_notif] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  id_tl_group && console.log("id tl groupe : "+id_tl_group);
 
   // envoi des requêtes au serveur + récupération des réponses du serveur
   useEffect(() => {
-    fetch("http://localhost:3000/post/tl?user=1") // remplacez l'URL par celle de votre API
-      .then(response => response.json())
-      .then(data_tl => setData_tl(data_tl))
-      .catch(error => console.error(error));
+    Promise.all([
+      fetch(`http://localhost:3000/post/tl?${id_tl_group > 0 ? "group="+id_tl_group : "user=1"}`).then(response => response.json()),
+      fetch("http://localhost:3000/group/?user=1").then(response => response.json()),
+    ]).then(([dataTl, dataGroup]) => {
+      setData_tl(dataTl);
+      setData_Group(dataGroup);
+      setIsLoading(false);
+    }).catch(error => console.error(error));
   }, []);
+    
 
   useEffect(() => {
     fetch("http://localhost:3000/notif?user=1") // remplacez l'URL par celle de votre API
@@ -69,14 +84,24 @@ export default function Accueil() {
   return (
     <>
       <Navbar isConnected={isConnected} notifs={data_notif}/>
+      {isLoading ? (
+        <div>Chargement des données...</div>
+      ) : (
       <div className={classes["container_body"]}>
             <div className={classes["container_body_left"]}>
               <h3>Nouveau Sondage</h3>
               <CreatePoste author={author}/>
-              <h3>Mon Recap</h3>
-              <div className={classes["recapBox"]}>
-
-              </div>
+              <h3>Mes groupes</h3>
+                <div className={classes["recapBox"]}>
+                  {dataGroup.groups && dataGroup.groups.slice(0, numGroups).map((item, key) =>
+                    <Recap group={item} indice={key} isLinkToGroup={true}/>
+                  )}
+                  {dataGroup.groups && dataGroup.groups.length > numGroups && (
+                    <span className={classes["voirPlus"]} onClick={() => setNumGroups(numGroups + 3)}>
+                      Voir plus
+                    </span>
+                  )}
+            </div>
               <h3>Mes favoris</h3>
               <div className={classes["recapBox"]}>
 
@@ -91,6 +116,7 @@ export default function Accueil() {
             <div className={classes["container_body_right"]}>
             </div>
         </div>
+      )}
     </>
   );
 }
