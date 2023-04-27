@@ -87,34 +87,55 @@ export default function Accueil() {
       {isLoading ? (
         <div>Chargement des données...</div>
       ) : (
-      <div className={classes["container_body"]}>
-            <div className={classes["container_body_left"]}>
-              <h3>Nouveau Sondage</h3>
-              <CreatePoste author={author}/>
-              <h3>Mes groupes</h3>
-                <div className={classes["recapBox"]}>
-                  {dataGroup.groups && dataGroup.groups.slice(0, numGroups).map((item, key) =>
-                    <Recap group={item} indice={key} isLinkToGroup={true}/>
-                  )}
-                  {dataGroup.groups && dataGroup.groups.length > numGroups && (
-                    <span className={classes["voirPlus"]} onClick={() => setNumGroups(numGroups + 3)}>
-                      Voir plus
-                    </span>
-                  )}
-            </div>
-              <h3>Mes favoris</h3>
-              <div className={classes["recapBox"]}>
+        <div className={classes["container_body"]}>
 
+          <div className={classes["container_body_left"]}>
+
+            <div className={classes["nouveau_sondage"]}>
+              <h3 className={classes["titre"]}>Nouveau Sondage</h3>
+              <CreatePoste author={author}/>
+            </div>
+
+            
+            <div className={classes["mes_groupes"]}>
+              <h3 className={classes["titre"]}>Mes groupes</h3>
+              <div className={classes["recapBox"]}>
+                {dataGroup.groups && dataGroup.groups.slice(0, numGroups).map((item, key) =>
+                  <Recap group={item} indice={key} isLinkToGroup={true}/>
+                )}
+                {dataGroup.groups && dataGroup.groups.length > numGroups && (
+                  <span className={classes["voirPlus"]} onClick={() => setNumGroups(numGroups + 3)}>
+                    Voir plus
+                  </span>
+                )}
               </div>
             </div>
-            <div className={classes["container_body_center"]}>
-              <h3>Ma Timeline</h3>
+
+            
+            <div className={classes["mes_favories"]}>
+              <h3 className={classes["titre"]}>Mes favoris</h3>
+              <div className={classes["recapBox"]}>
+                {/* <RecapFav post={data[0]} indice={0}/>
+                <RecapFav post={data[0]} indice={1}/>
+                <RecapFav post={data[0]} indice={2}/> */}
+              </div>
+            </div>
+
+          </div>
+
+          <div className={classes["container_body_center"]}>
+            <div className={classes["postes"]}>
+              <h3 className={classes["titre"]}>Ma Timeline</h3>
                 {data_tl.posts && data_tl.posts.map((item) => (
-                  <Poste poste={item} user={data_tl.users[item.id_user]}/>
+                  <div className={classes["poste"]}>
+                    <Poste poste={item} user={data_tl.users[item.id_user]}/>
+                  </div>
                 ))}
             </div>
-            <div className={classes["container_body_right"]}>
-            </div>
+          </div>
+
+          <div className={classes["container_body_right"]}></div>
+
         </div>
       )}
     </>

@@ -1,5 +1,5 @@
 div.conversation-container {
-  max-width: 60vw;
+  /* max-width: 60vw; */
   display: flex;
   flex-direction: column;
 }

@@ -2,8 +2,11 @@
     background-color: rgb(230, 230, 230);
     display: flex;
     flex-direction: row;
-    padding: 0.5rem;
+    padding: 0.7;
+    padding-right: 1.5rem;
+    padding-left: 0.9rem;
     border-bottom: 1px solid rgb(47, 51, 54);;
+    text-align: justify;
 }
 
 .post-content{
@@ -15,7 +18,7 @@
 
 .post-user > img{
     border-radius: 50%;
-    width: 3.5rem;
+    width: 3rem;
 }
 
 .post-header{
@@ -48,6 +51,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    margin-bottom: 0.5rem;
 }
 
 .hoverCard{

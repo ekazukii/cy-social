@@ -29,4 +29,9 @@
 
 .create-post-content-header, .create-post-content-body{
     margin-bottom: 0.5rem;
+    /* background-color: black; */
+}
+
+.create-post-content-body > * {
+    background-color: black;
 }

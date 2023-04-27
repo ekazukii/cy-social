@@ -34,10 +34,10 @@ export default function Navbar(props) {
   return (
     <>
       <nav ref={ref}>
-        <img
-          src="https://user-images.githubusercontent.com/28058068/225023680-440646b9-9f7f-45cd-993b-abfbdeb69ba1.png"
+        <img className={classes['logo']}
+          src={window.innerWidth <= 768 ? '/img/survey_sphere_mobile.PNG' : '/img/survey_sphere_02.PNG'}
+          width={window.innerWidth <= 768 ? '30rem' : '145rem'}
           alt="logo"
-          width="80rem"
           onClick={() => (window.location.href = '/')}
           style={{ cursor: 'pointer' }}
         />

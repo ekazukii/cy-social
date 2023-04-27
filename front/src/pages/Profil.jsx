@@ -48,42 +48,67 @@ export default function Profil(props) {
       {isLoading ? (
         <div>Chargement des données...</div>
       ) : (
+        // conteneur flex principale
         <div className={classes["container_body"]}>
-          {/* Affichage des informations de l'utilisateur */}
+
+          {/* conteneur flex droit  */}
           <div className={classes["container_body_left"]}>
-            <h3>Nouveau Sondage</h3>
-            <CreatePoste author={dataUser}/>
-            <h3>Mes groupes</h3>
-            <div className={classes["recapBox"]}>
-              {dataGroup.groups && dataGroup.groups.slice(0, numGroups).map((item, key) =>
-                <Recap group={item} indice={key} isLinkToGroup={true}/>
-              )}
-              {dataGroup.groups && dataGroup.groups.length > numGroups && (
-                <span className={classes["voirPlus"]} onClick={() => setNumGroups(numGroups + 3)}>
-                  Voir plus
-                </span>
-              )}
+
+            <div className={classes["nouveau_sondage"]}>
+              <h3 className={classes["titre"]}>Nouveau Sondage</h3>
+              <CreatePoste author={dataUser}/>
             </div>
-            <h3>Mes favoris</h3>
-            <div className={classes["recapBox"]}>
+
+            <div className={classes["mes_groupes"]}>
+              <h3 className={classes["titre"]}>Mes groupes</h3>
+              <div className={classes["recapBox"]}>
+                {dataGroup.groups && dataGroup.groups.slice(0, numGroups).map((item, key) =>
+                  <Recap group={item} indice={key} isLinkToGroup={true}/>
+                  )}
+                {dataGroup.groups && dataGroup.groups.length > numGroups && (
+                  <span className={classes["voirPlus"]} onClick={() => setNumGroups(numGroups + 3)}>
+                    Voir plus
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <div className={classes["mes_favories"]}>
+              <h3 className={classes["titre"]}>Mes favoris</h3>
+              <div className={classes["recapBox"]}>
                 <RecapFav post={data[0]} indice={0}/>
                 <RecapFav post={data[0]} indice={1}/>
                 <RecapFav post={data[0]} indice={2}/>
+              </div>
             </div>
+
           </div>
+
+          {/* conteneur flex central  */}
           <div className={classes["container_body_center"]}>
-            <Banner user={dataUser} />
-            <h3>Les postes de @{dataUser.username}</h3>
+
+            <div className={classes["banner"]}>
+              <Banner user={dataUser} />
+            </div>
+
+            <div className={classes["postes"]}>
+            <h3 className={classes["titre"]}>Les postes de @{dataUser.username}</h3>
             {props.info === "with-post" && (
               <div className={classes["list-post"]}>
                 {data.map((item, index) => (
-                  <Poste key={index} poste={item} user={dataUser} />
-                ))}
+                  <div className={classes["poste"]}>
+                    <Poste key={index} poste={item} user={dataUser} />
+                  </div>
+                  ))}
               </div>
             )}
+            </div>
+
           </div>
-          <div className={classes["container_body_right"]}>
-          </div>
+
+          {/* conteneur flex gauche  */}
+          {/* <div className={classes["container_body_right"]}></div> */}
+
         </div>
       )}
     </>

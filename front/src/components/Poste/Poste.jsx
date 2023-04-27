@@ -69,7 +69,11 @@ export default function Poste(props) {
                     <span>·</span>
                 </div>
                 <div className={classes["post-time"]}>
-                    <span>{props.poste.date_publi}</span>
+                <span>
+                    {new Date(props.poste.date_publi).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} -{' '}
+                    {new Date(props.poste.date_publi).toLocaleDateString()}
+                </span>
+
                 </div>
             </div>
             <div className={classes["post-body"]} onClick={props.isLinkToPost && moveToPost} style={props.isLinkToPost ? {cursor: 'pointer'} : {}}>
