@@ -16,7 +16,13 @@ router.get('/:id', async function (req, res) {
   return res.status(200).send({ error: false, group });
 });
 
-router.post('/', function (req, res) {});
+router.post('/', async function (req, res) {
+  const { name, img, description } = req.body;
+  if (typeof name !== 'string' || typeof description !== 'string' || typeof img !== 'string')
+    return res.status(400).send({ error: true });
+  await createGroup(name, false, img, description);
+  return res.status(200).send({ error: false });
+});
 
 router.put('/', function (req, res) {});
 
