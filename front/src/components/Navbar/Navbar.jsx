@@ -52,6 +52,7 @@ export default function Navbar(props) {
               number={numberNotif}
               handleClick={toggleClick}
               font_size="1.5rem"
+              color="#FCA311"
             />
             <Button text={'Profile'} type={'primary'} link={'/profil'} />
             <Button text={'Message'} link={'/messagerie'} />

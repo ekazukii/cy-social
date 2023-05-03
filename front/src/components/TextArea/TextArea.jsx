@@ -1,7 +1,7 @@
 import classes from './textarea.module.css';
 import Icon from '../Icon/Icon';
 import ImageAnimated from '../ImageAnimated/ImageAnimated';
-import { placeholder } from '@uiw/react-codemirror';
+//import { placeholder } from '@uiw/react-codemirror';
 
 /**
  *
