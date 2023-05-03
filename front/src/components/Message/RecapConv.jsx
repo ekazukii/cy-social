@@ -27,7 +27,7 @@ export default function RecapConv(props) {
             <div className={classes["prevu-conv"]} onClick={handleClick}>
               <div className={classes["info-conv"]}>
                 <div className={classes["info-conv-title"]}><span>{props.title}</span></div>
-                <div><span>{props.time}</span></div>
+                <div className={classes["info-conv-time"]}><span>{props.time}</span></div>
               </div>
               <div className={classes["content-conv"]}>
                 <p><span>{props.author} :</span> {props.content.substr(0,30)}...</p>

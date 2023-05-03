@@ -28,6 +28,15 @@
   z-index: 10;
 }
 
+.create-post-content-header, .create-post-content-body{
+    margin-bottom: 0.5rem;
+    /* background-color: black; */
+}
+
+.create-post-content-body > * {
+    background-color: black;
+}
+
 .create-post-content-footer {
   display: flex;
   justify-content: flex-end;

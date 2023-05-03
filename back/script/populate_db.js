@@ -217,7 +217,7 @@ const populateConversationsuser = async () => {
   for (let i = 0; i < NBR_CONVERSATION_USER; i++) {
     const lInfo = createConversationsuserData();
 
-    const sql = mysql.format('INSERT INTO `conversationsuser` (`id_user`, `id_conv`, `join_date`, `leave_date`) VALUES(?, ?, ?, ?)', [
+    const sql = mysql.format('INSERT INTO `ConversationsUser` (`id_user`, `id_conv`, `join_date`, `leave_date`) VALUES(?, ?, ?, ?)', [
       lInfo.id_user,
       lInfo.id_conv,
       lInfo.join_date,
@@ -246,7 +246,7 @@ const populateConversations = async () => {
   for (let i = 0; i < NBR_CONVERSATION; i++) {
     const lInfo = createConversationsData();
 
-    const sql = mysql.format('INSERT INTO `conversations` (`title`, `date_crea`) VALUES(?, ?)', [
+    const sql = mysql.format('INSERT INTO `Conversations` (`title`, `date_crea`) VALUES(?, ?)', [
       // lInfo.id,
       lInfo.title,
       lInfo.date_crea,
@@ -276,7 +276,7 @@ const populateConversationsmessages = async () => {
   for (let i = 0; i < NBR_CONVERSATION_MSG; i++) {
     const lInfo = createConversationsmessagesData();
 
-    const sql = mysql.format('INSERT INTO `conversationsmessages` (`id_conv`, `id_user`, `content`, `date`, `is_deleted`) VALUES(?, ?, ?, ?, ?)', [
+    const sql = mysql.format('INSERT INTO `ConversationsMessages` (`id_conv`, `id_user`, `content`, `date`, `is_deleted`) VALUES(?, ?, ?, ?, ?)', [
       // lInfo.id,
       lInfo.id_conv,
       lInfo.id_user,
