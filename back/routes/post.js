@@ -126,17 +126,17 @@ router.get('/vote', function (req, res) {
 
 /** LIKE **/
 
-router.post('/like', function (req, res) {
+router.post('/like', async function (req, res) {
   const { id, user } = req.body;
-  if (typeof id !== 'string' || typeof user !== 'string') return res.status(400).send({ error: true });
+  if (id == undefined || user == undefined) return res.status(400).send({ error: true });
 
-  const oldLike = getLike(Number(id), Number(user));
+  const oldLike = await getLike(Number(id), Number(user));
   if (oldLike.length === 1) {
-    const newLike = updateLike(Number(id), Number(user), 'like');
+    const newLike = await updateLike(Number(id), Number(user), 0);
     return res.send(newLike);
   }
 
-  const newLike = createLike(Number(id), Number(user), 'like');
+  const newLike = await createLike(Number(id), Number(user), 0);
   res.send(newLike);
 });
 
@@ -149,18 +149,19 @@ router.get('/like', function (req, res) {
 
 router.delete('/like', function (req, res) {
   const { id, user } = req.body;
-  if (typeof id !== 'string' || typeof user !== 'string') return res.status(400).send({ error: true });
+  if (id === undefined || user === undefined) return res.status(400).send({ error: true });
   deleteLike(Number(id), Number(user));
   res.status(200).send({ success: true });
 });
 
 /** COMMENT **/
 
-router.post('/comment', function (req, res) {
-  const { idPost, content, response } = req.body;
-  if (typeof idPost !== 'string' || typeof content !== 'string') return res.status(400).send({ error: true });
+router.post('/comment', async function (req, res) {
+  const { idPost, content, idUser, response } = req.body;
+  if (typeof idPost !== 'string' || typeof content !== 'string' || typeof idUser !== 'string')
+    return res.status(400).send({ error: true });
 
-  const comment = createComment(Number(idPost), 1, null, content);
+  const comment = await createComment(Number(idPost), Number(idUser), null, content);
   res.send(comment);
 });
 

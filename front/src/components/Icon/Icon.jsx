@@ -21,7 +21,7 @@ export default function Icon(props) {
   const handleClick = () => {
     if (props.notClickable) return;
     setIsClicked(!isClicked);
-    typeof props.handleClick === 'function' && props.handleClick();
+    typeof props.handleClick === 'function' && props.handleClick(!isClicked);
   };
 
   const iconClass = isClicked ? classes['icon'] + ' ' + classes['clicked'] : classes['icon'];
