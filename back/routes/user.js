@@ -57,7 +57,15 @@ router.get('/:id/following', async function (req, res) {
   }
 });
 
-router.post('/', function (req, res) {});
+router.post('/', async function (req, res) {
+  const { username, name, mail, tel, password, img } = req.body;
+  try {
+    await createUser(username, name, mail, tel, '', null, 0, password, JSON.stringify(img));
+    res.status(200).send({ error: false });
+  } catch (e) {
+    res.status(400).send({ error: true });
+  }
+});
 
 router.put('/', function (req, res) {});
 

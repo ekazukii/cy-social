@@ -1,18 +1,25 @@
 var express = require('express');
+const crypto = require('crypto');
 var router = express.Router();
 // USING EXPRESS SESSION PACKKAGE
+const { getUserByUsername } = require('../models/user');
 
-router.post('/login', (req, res) => {
+router.post('/login', async (req, res) => {
   const { email, username, phone, password } = req.body;
+  if (!username) return res.send({ success: false });
 
-  console.log(req.body);
+  const user = await getUserByUsername(username);
+  if (!user) return res.send({ success: false });
 
-  if (password == 'test') {
-    req.session.user = { username, email, phone, id: 1 };
-    res.send({ success: true });
-  } else {
-    res.send({ success: false });
-  }
+  const hash = crypto.createHash('sha256');
+  hash.update(password);
+  const hashedPassword = hash.digest('hex');
+
+  console.log(hashedPassword, user);
+  if (hashedPassword !== user.passwd) return res.send({ success: false });
+
+  req.session.user = { username, email, phone, id: user.id };
+  res.send({ success: true });
 });
 
 router.post('/logout', (req, res) => {
