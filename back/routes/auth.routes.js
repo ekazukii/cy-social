@@ -18,7 +18,7 @@ router.post('/login', async (req, res) => {
   console.log(hashedPassword, user);
   if (hashedPassword !== user.passwd) return res.send({ success: false });
 
-  req.session.user = { username, email, phone, id: user.id };
+  req.session.user = user;
   res.send({ success: true });
 });
 
