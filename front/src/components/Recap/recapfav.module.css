@@ -3,16 +3,37 @@
     flex-direction: row;
     padding: 0.25rem;
     cursor: pointer;
+    line-height: 1.2;
+    text-align: justify;
+    padding-bottom: 0.6rem;
+    padding-top: 0.6rem;
+    justify-content: space-arround;
+    
+    gap: 0.5rem;
+    padding-left: 0.4rem;
+    /* border: 2px solid greenyellow; */
 }
 
 .recap-right{
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    gap: 0.4rem;
+
+    /* border: 2px solid red; */
 }
 
 .recap-left{
     display: flex;
     flex-direction: column;
     margin-right: 0.25rem;
+
+    gap: 0.4rem;
+
+    /* border: 2px solid blue; */
+}
+
+.recap-left-bottom{
+    margin-top: 0.1rem;
+    margin-bottom: 0.2rem;
 }

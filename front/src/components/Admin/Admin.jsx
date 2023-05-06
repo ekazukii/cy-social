@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./admin.module.css";
 import Icon from "../Icon/Icon";
+import Button from "../Button/Button";
 
 const Admin = () => {
 
@@ -181,17 +182,17 @@ const Admin = () => {
   const activeData = entities.find(entity => entity.name === activeTab).data;
 
   return (
+    <div className={styles.main}>
     <div className={styles.admin}>
       <h1>Admin Dashboard</h1>
       <div className={styles.tabs}>
         {entities.map(entity => (
-          <div
+          <Button
             key={entity.name}
-            className={`${styles.tab} ${activeTab === entity.name ? styles.active : ""}`}
-            onClick={() => handleTab(entity.name)}
-          >
-            {entity.name}
-          </div>
+            handleClick={() => handleTab(entity.name)}
+            text={entity.name}
+            type={activeTab === entity.name ? 'primary' : 'secondary'}
+          />
         ))}
       </div>
       <div className={styles.content}>
@@ -217,6 +218,7 @@ const Admin = () => {
                         type="text"
                         value={currentRow[field]} 
                         onChange={(event) => handleRowChange(event,field)}
+                         style={{color: '#FCA311' }}
                       />
                     )}
                     {(!enableChangeOnRow || item["id"] !== idRow) && (
@@ -245,6 +247,7 @@ const Admin = () => {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 };

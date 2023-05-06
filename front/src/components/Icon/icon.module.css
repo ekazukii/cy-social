@@ -20,7 +20,7 @@
 }
 
 .icon-will-be-blue:hover{
-    color: blue;
+    color: #FCA311;
 }
 
 .icon-will-be-green:hover{
@@ -39,4 +39,5 @@
   width: fit-content;
   display: flex;
   align-items: center;
+  margin-right: 0.5rem;
 }

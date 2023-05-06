@@ -23,7 +23,7 @@ export default forwardRef(function containerNotif({ notifications }, ref) {
           key={index}
           content={notifications.content}
           author={notifications.author}
-          time={notifications.time}
+          time={`${new Date(notifications.time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} - ${new Date(notifications.time).toLocaleDateString()}`}
           type={notifications.type}
           link={notifications.link}
         />

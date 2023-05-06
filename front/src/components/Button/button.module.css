@@ -13,11 +13,11 @@ button:hover {
 }
 
 .primary {
-  background-color: #00dfd5;
+  background-color: #FCA311;
 }
 
 .primary:hover {
-  background-color: #00dfd5;
+  background-color: #FCA311;
   color: black;
   transition: none;
 }

@@ -4,12 +4,12 @@ const mysql = require('mysql2');
 const getMessages = async (conv) => {
   let sql;
   if (typeof conv !== 'undefined') {
-  sql = mysql.format('SELECT conversationsmessages.id, conversationsmessages.content, conversationsmessages.date, conversationsmessages.id_user ' + 
-                     'FROM conversationsmessages ' + 
-                     'JOIN conversations ON conversationsmessages.id_conv = conversations.id ' + 
-                     'WHERE conversations.id = ? ' + 
-                     'AND conversationsmessages.is_deleted  = 0 ' +
-                     'ORDER BY conversationsmessages.date ASC;',
+  sql = mysql.format('SELECT ConversationsMessages.id, ConversationsMessages.content, ConversationsMessages.date, ConversationsMessages.id_user ' + 
+                     'FROM ConversationsMessages ' + 
+                     'JOIN Conversations ON ConversationsMessages.id_conv = Conversations.id ' + 
+                     'WHERE Conversations.id = ? ' + 
+                     'AND ConversationsMessages.is_deleted  = 0 ' +
+                     'ORDER BY ConversationsMessages.date ASC;',
                      [conv]
                     );
   }                  

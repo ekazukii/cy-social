@@ -31,9 +31,9 @@ const LoginModal = ({ handleClose }) => {
         textButton="Connexion"
         title={
           <img
-            src="https://user-images.githubusercontent.com/28058068/225023680-440646b9-9f7f-45cd-993b-abfbdeb69ba1.png"
+            src="/img/survey_sphere_02.PNG"
             alt="logo"
-            width="80rem"
+            width="125rem"
           />
         }
       >
@@ -52,7 +52,7 @@ const LoginModal = ({ handleClose }) => {
           placeholder="Entrez votre mot de passe"
           onChange={e => setPassword(e.target.value)}
         />
-        <Button text={'Se connecter'} type={'secondary'} handleClick={tryLogin} />
+        <Button text={'Se connecter'} type={'primary'} handleClick={tryLogin} />
       </Modal>
       {showToast && <Toast message="Erreur lors de la connexion" onClose={handleCloseToast} />}
     </>

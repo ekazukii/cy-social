@@ -4,13 +4,14 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
+    border: 1px solid #000000;
   }
   
   .percent-bar-inner {
     text-align: center;
     font-size: 12px;
     font-weight: bold;
-    color: #fff;
+    /* color: #000000; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,15 +19,18 @@
   }
   
   .percent-bar-yes {
-    background-color: green;
+    background-color: #14213d;
+    color: #fff;
   }
   
   .percent-bar-no {
-    background-color: red;
+    background-color: #000000;
+    color: #ffffff;
   }
   
   .percent-bar-other {
-    background-color: orange;
+    background-color: #ffffff;
+    color: #000000;
   }
   
   @media screen and (max-width: 768px) {

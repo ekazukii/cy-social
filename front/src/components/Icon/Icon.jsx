@@ -30,7 +30,7 @@ export default function Icon(props) {
     <div className={classes.container + ' ' + classes[props.className]}>
       <div
         className={iconClass + ' ' + classes[props.hoverColor]}
-        style={{ fontSize: props.font_size, lineHeight: props.line_height }}
+        style={{ fontSize: props.font_size, lineHeight: props.line_height, color: props.color }}
         onClick={handleClick}
       >
         <i className={isClicked ? props.iconClicked : props.icon}></i>
@@ -43,5 +43,6 @@ export default function Icon(props) {
 
 Icon.defaultProps = {
   font_size: '1rem',
-  line_height: '1rem'
+  line_height: '1rem',
+  color: "black"
 };

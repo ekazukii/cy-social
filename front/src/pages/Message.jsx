@@ -87,11 +87,13 @@ useEffect(() => {
             </div>
         </div>
         <div className="contain-right">
-              <div className="conv-content">
+              <div className="conv-content">  
                 {(dataAuth && dataAuth.user.id && dataSelectedConv) && (
-                  <Conversation author={dataAuth.user.id} messages={dataSelectedConv}/>
+                  <div className="conv-msgs">
+                    <Conversation author={dataAuth.user.id} messages={dataSelectedConv}/>
+                  </div>
                 )}
-                <TextArea />
+                <TextArea className="conv-textarea"/>
               </div>    
         </div>
       </div>
