@@ -70,18 +70,6 @@ router.delete('/', function (req, res) {
   res.status(200).send({ success: true });
 });
 
-router.get('/:id', async function (req, res) {
-  const { id } = req.params;
-  const posts = await getPost(undefined, undefined, id);
-  const post = posts[0];
-  const comments = await getComment(post.id);
-
-  res.status(200).send({
-    post,
-    comments
-  });
-});
-
 router.get('/:id/likes', async function (req, res) {
   const { id } = req.params;
   const likes = await getLike(id);
@@ -102,25 +90,33 @@ router.get('/:id/votes', async function (req, res) {
 
 // getVote(id, user)
 // If vote already exist, update it
-router.post('/vote', function (req, res) {
+router.post('/vote', async function (req, res) {
   const { id, user, vote } = req.body;
   if (typeof id !== 'string' || typeof user !== 'string' || typeof vote !== 'string')
     return res.status(400).send({ error: true });
 
-  const oldVote = getVote(Number(id), Number(user));
+  const oldVote = await getVote(Number(id), Number(user));
   if (oldVote.length === 1) {
-    const newVote = updateVote(Number(id), Number(user), vote === 'true');
+    const newVote = updateVote(Number(id), Number(user), Number(vote));
     return res.send(newVote);
   }
 
-  const newVote = createVote(Number(id), Number(user), vote === 'true');
+  const newVote = createVote(Number(id), Number(user), Number(vote));
   res.send(newVote);
 });
 
-router.get('/vote', function (req, res) {
-  const { id } = req.query;
+router.get('/vote', async function (req, res) {
+  const { id, user } = req.query;
   if (typeof id !== 'string') return res.status(400).send({ error: true });
-  const votes = getVote(Number(id), Number(user));
+  const votes = await getVote(Number(id), Number(user));
+  res.send(votes);
+});
+
+router.delete('/vote', function (req, res) {
+  const { id, user } = req.query;
+  if (typeof id !== 'string' || typeof user !== 'string') 
+    return res.status(400).send({ error: true });
+  const votes = deleteVote(Number(id), Number(user));
   res.send(votes);
 });
 
@@ -191,6 +187,18 @@ router.post('/view', function (req, res) {
   if (typeof id !== 'string') return res.status(400).send({ error: true });
   addView(Number(id));
   res.status(200).send({ success: true });
+});
+
+router.get('/:id', async function (req, res) {
+  const { id } = req.params;
+  const posts = await getPost(undefined, undefined, id);
+  const post = posts[0];
+  const comments = await getComment(post.id);
+
+  res.status(200).send({
+    post,
+    comments
+  });
 });
 
 module.exports = router;

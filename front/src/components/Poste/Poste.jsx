@@ -74,8 +74,11 @@ export default function Poste(props) {
           <div className={classes['post-head-separator']}>
             <span>·</span>
           </div>
-          <div className={classes['post-time']}>
-            <span>{props.poste.date_publi}</span>
+          <div className={classes['post-time-hour']}>
+            <span>{`${new Date(props.poste.date_publi).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`}</span>
+          </div>
+          <div className={classes['post-time-date']}>
+            <span>{`${new Date(props.poste.date_publi).toLocaleDateString()}`}</span>
           </div>
         </div>
         <div
@@ -89,14 +92,15 @@ export default function Poste(props) {
           <div className={classes['post-body-img']}>
             <img src={props.poste.img} alt="img" width="50%" />
           </div>
+        </div>
           <div className={classes['post-body-survey']}>
             <PercentBar
               yesNumber={props.poste.votes_for}
               otherNumber={props.poste.votes_neutral}
               noNumber={props.poste.votes_against}
+              id_poste={props.poste.id} 
             />
           </div>
-        </div>
         <div className={classes['post-react']}>
           <Icon
             icon="fi fi-rr-heart"
