@@ -141,7 +141,7 @@ router.post('/like', async function (req, res) {
   }
 
   const newLike = await createLike(Number(id), Number(user), 0);
-  generateLikeNotifs(Number(user), Number(id));
+  await generateLikeNotifs(Number(user), Number(id));
   res.send(newLike);
 });
 

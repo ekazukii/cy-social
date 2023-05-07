@@ -9,6 +9,7 @@ import Input from '../Input/Input';
 import TextArea from '../TextArea/TextArea';
 import Button from '../Button/Button';
 import Select from '../Input/Select';
+import { useSession } from '../../hooks/useSession';
 
 /**
  *
@@ -39,6 +40,7 @@ import Select from '../Input/Select';
 export default function Poste(props) {
   const avatarRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
+  const { user } = useSession();
 
   const handleHover = () => {
     setIsHovering(true);
@@ -104,7 +106,6 @@ export default function Poste(props) {
             hoverColor="icon-will-be-red"
             stats={props.poste.likes}
             handleClick={isClicked => {
-              console.log('IS CLICKED');
               if (isClicked) {
                 fetch(`${getBaseUrl()}/post/like`, {
                   method: 'POST',
@@ -124,7 +125,7 @@ export default function Poste(props) {
                   },
                   body: JSON.stringify({
                     id: props.poste.id,
-                    user: 1
+                    user: user.id
                   })
                 });
               }
