@@ -14,11 +14,12 @@ const refreshData = cb => {
 };
 
 export const SessionProvider = ({ children }) => {
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState({ user: null, isLoggedIn: null });
 
   useEffect(() => {
     refreshData(json => {
-      if (json.user) setSession(json.user);
+      if (json.user) setSession({user: json.user, isLoggedIn: true});
+      else setSession({user: null, isLoggedIn: false});
     });
   }, []);
 
@@ -42,11 +43,12 @@ export const useSession = () => {
     const json = await data.json();
     if (json.success) {
       refreshData(json => {
-        if (json.user) setSession(json.user);
+        if (json.user) setSession({ user: json.user, isLoggedIn: true });
       });
+      return true;
     }
 
-    throw new Error('Login failed');
+    return false;
   };
 
   const logout = () => {
@@ -55,8 +57,8 @@ export const useSession = () => {
       credentials: 'include'
     });
 
-    setSession(null);
+    setSession({ user: null, isLoggedIn: false });
   };
 
-  return { user: session, setSession, login, refreshData, logout };
+  return { user: session.user, isLoggedIn: session.isLoggedIn, setSession, login, refreshData, logout };
 };
