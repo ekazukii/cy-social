@@ -1,9 +1,19 @@
 var express = require('express');
 var router = express.Router();
 
-const { getUser, createUser, updateUser, deleteUser, getUsers, getFollowers, getFollowing } = require('../models/user');
+const {
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  getUsers,
+  getFollowers,
+  getFollowing,
+  createFollow
+} = require('../models/user');
 const { createVote, updateVote, deleteVote, getVote } = require('../models/vote');
 const { createLike, getLike, updateLike, deleteLike } = require('../models/like');
+const { generateFollowerNotifs } = require('../models/notif');
 
 router.get('/', function (req, res) {});
 
@@ -71,7 +81,15 @@ router.put('/', function (req, res) {});
 
 router.delete('/', function (req, res) {});
 
-router.post('/follow', function (req, res) {});
+router.post('/follow', async function (req, res) {
+  const { userId, followerId } = req.body;
+  if (iuserIdd === undefined || followerId === undefined) return res.status(400).send({ error: true });
+
+  const newFollow = await createFollow(Number(userId), Number(followerId));
+  generateFollowerNotifs(Number(userId), Number(followerId));
+
+  res.send(newFollow);
+});
 
 router.delete('/follow', function (req, res) {});
 

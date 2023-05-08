@@ -25,6 +25,13 @@ const getUsers = usersId => {
   return asyncQuery(sql);
 };
 
+const getUsersInGroup = groupId => {
+  const sql = mysql.format('SELECT * FROM Users WHERE id IN (SELECT id_user FROM UsersGroups WHERE id_group = ?)', [
+    groupId
+  ]);
+  return asyncQuery(sql);
+};
+
 const createUser = (username, name, mail, tel, adresse, dateBday, role, password, img) => {
   const hash = crypto.createHash('sha256');
   hash.update(password);
@@ -65,12 +72,19 @@ const getFollowing = id => {
   return asyncQuery(sql);
 };
 
+const createFollow = (id_user, id_follower) => {
+  const sql = mysql.format('INSERT INTO Followers (id_user, id_follower) VALUES(?, ?)', [id_user, id_follower]);
+  return asyncQuery(sql);
+};
+
 module.exports = {
   getUser,
+  getUsersInGroup,
   createUser,
   updateUser,
   deleteUser,
   getUsers,
+  createFollow,
   getFollowers,
   getFollowing,
   getUserByUsername

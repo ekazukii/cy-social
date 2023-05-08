@@ -1,26 +1,63 @@
-const { createMockNotif } = require('../utils/mockData');
+const { getUsersInGroup, getUser } = require('./user');
+const { getPost } = require('./post');
+const { asyncQuery } = require('./database');
+const mysql = require('mysql2');
 
-let _notifs = [createMockNotif(1), createMockNotif(2), createMockNotif(3)];
-
-/**
- * create a notification in db
- * @param {Number} userId
- */
 const getNotif = userId => {
-  if (!userId) return _notifs;
-  return _notifs.filter(notif => notif.target === userId);
+  const sql = mysql.format('SELECT * FROM Notifications n LEFT JOIN Users u ON(id_user = ? AND u.id = n.id_author)', [
+    userId
+  ]);
+  return asyncQuery(sql);
 };
 
 const updateNotif = (id, read) => {
-  const notif = _notifs.find(notif => notif.id === id);
-  notif.read = read;
-  return notif;
+  // will see later
 };
 
-const createNotif = () => {};
+const createNotif = (idUser, link, title, type, authorId) => {
+  const creation = new Date();
+  const sql = mysql.format(
+    'INSERT INTO Notifications (id_user, link, title, type, id_author, creation) VALUES(?, ?, ?, ?, ?, ?)',
+    [idUser, link, title, type, authorId, creation]
+  );
+
+  return asyncQuery(sql);
+};
 
 const deleteNotif = id => {
-  _notifs = _notifs.filter(notif => notif.id !== id);
+  const sql = mysql.format('DELETE FROM Notifications WHERE id = ?', [id]);
+  return asyncQuery(sql);
 };
 
-module.exports = { createNotif, updateNotif, getNotif, deleteNotif };
+const generatePostNotifs = async (postId, authorId, groupId, title) => {
+  const users = await getUsersInGroup(groupId);
+  users.forEach(user => {
+    createNotif(user.id, `/post/${postId}`, title, 1, authorId);
+  });
+};
+
+// send notifcation to post author
+const generateCommentNotifs = async (postId, authorId, message) => {
+  const post = (await getPost(undefined, undefined, postId))[0];
+  createNotif(post.id_user, `/post/${postId}`, 'a posté un commentaire : ' + message, 2, authorId);
+};
+
+const generateFollowerNotifs = async (userId, followerId) => {
+  createNotif(userId, `/user/${followerId}`, `a commencé à vous suivre`, 3, followerId);
+};
+
+const generateLikeNotifs = async (userId, postId) => {
+  const post = (await getPost(undefined, undefined, postId))[0];
+  createNotif(post.id_user, `/post/${postId}`, `a aimé votre post : ${post.title}`, 4, userId);
+};
+
+module.exports = {
+  createNotif,
+  updateNotif,
+  getNotif,
+  deleteNotif,
+  generatePostNotifs,
+  generateCommentNotifs,
+  generateFollowerNotifs,
+  generateLikeNotifs
+};

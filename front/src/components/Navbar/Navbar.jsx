@@ -34,7 +34,8 @@ export default function Navbar(props) {
   return (
     <>
       <nav ref={ref}>
-        <img className={classes['logo']}
+        <img
+          className={classes['logo']}
           src={window.innerWidth <= 768 ? '/img/survey_sphere_mobile.PNG' : '/img/survey_sphere_02.PNG'}
           width={window.innerWidth <= 768 ? '30rem' : '145rem'}
           alt="logo"
