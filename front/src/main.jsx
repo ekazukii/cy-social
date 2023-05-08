@@ -11,6 +11,7 @@ import Message from './pages/Message';
 import Notif from './pages/Notif';
 import Accueil from './pages/Accueil';
 import Admin1 from './pages/Admin';
+import ListGroup from './pages/ListGroup';
 import { SessionProvider } from './hooks/useSession';
 import Follows from './pages/Follows'
 
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
   {
     path: '/profil/:id_other_user',
     element: <Profil otherProfil={true}/>
+  },
+  {
+    path: '/viewGroups',
+    element: <ListGroup />
   }
 ]);
 

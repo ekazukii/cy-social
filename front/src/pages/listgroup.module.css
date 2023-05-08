@@ -123,7 +123,3 @@
 .voirPlus{
     margin: 0.7rem;
 }
-
-.list-post > .poste:last-child > div{
-    border-bottom: none;
-}

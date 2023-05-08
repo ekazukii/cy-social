@@ -22,6 +22,16 @@ button:hover {
   transition: none;
 }
 
+.color-blue{
+  background-color: #14213d;
+  color:white;
+}
+
+.color-blue:hover{
+  background-color: #14213d;
+  transition: none;
+}
+
 .secondary{
   color: black;
 }

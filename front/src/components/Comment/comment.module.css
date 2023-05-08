@@ -66,4 +66,9 @@
 
 .hoverCard{
     position: absolute;
+    z-index: 10;
+}
+
+.comment-parent-avatar{
+    cursor: pointer;
 }

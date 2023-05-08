@@ -13,6 +13,7 @@
 
 .icon:hover {
     transition: color 0.2s ease-in-out;
+    cursor: pointer;
   }
 
 .icon-will-be-red:hover{

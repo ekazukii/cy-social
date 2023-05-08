@@ -55,10 +55,6 @@
     /* border: 3px solid purple; */
 }
 
-.post-body{
-    /* border: 3px solid olivedrab; */
-}
-
 .post-body-text > p{
     margin: 0;
     /* border: 3px solid violet; */
@@ -82,4 +78,8 @@
 
 .hoverCard{
     position: absolute;
+}
+
+.post-parent-Avatar:hover{
+    cursor: pointer;
 }
