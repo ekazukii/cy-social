@@ -23,102 +23,112 @@ export default function PercentBar(props) {
     setNoPercent(noPct);
     setOtherPercent(otherPct);
   }, [yesNumber, noNumber, otherNumber]);
-  
+
   const [dataAuth, setDataAuth] = useState(null);
   const [connectedUserVote, setConnectedUserVote] = useState(null);
 
   const voteCounters = {
-    "1": { setter: setYesNumber, count: yesNumber },
-    "0": { setter: setOtherNumber, count: otherNumber },
-    "-1": { setter: setNoNumber, count: noNumber }
+    1: { setter: setYesNumber, count: yesNumber },
+    0: { setter: setOtherNumber, count: otherNumber },
+    '-1': { setter: setNoNumber, count: noNumber }
   };
-  
-  const handleVote = (voteValue) => {
+
+  const handleVote = voteValue => {
     const sameVote = connectedUserVote && connectedUserVote.toString() === voteValue.toString();
     const method = sameVote ? 'DELETE' : 'POST';
-    const endpoint = sameVote ? `${getBaseUrl()}/post/vote?id=${id_poste}&user=${dataAuth.user.id}` : `${getBaseUrl()}/post/vote`;
-  
+    const endpoint = sameVote
+      ? `${getBaseUrl()}/post/vote?id=${id_poste}&user=${dataAuth.user.id}`
+      : `${getBaseUrl()}/post/vote`;
+
     fetch(endpoint, {
       method,
       headers: {
         'Content-Type': 'application/json'
       },
-      body: sameVote ? null : JSON.stringify({
-        id: id_poste.toString(),
-        user: dataAuth.user.id.toString(),
-        vote: voteValue,
-      })
+      body: sameVote
+        ? null
+        : JSON.stringify({
+            id: id_poste.toString(),
+            user: dataAuth.user.id.toString(),
+            vote: voteValue
+          })
     });
-  
+
     if (!sameVote && connectedUserVote) {
       const prevCounter = voteCounters[connectedUserVote.toString()];
       prevCounter.setter(prevCounter.count - 1);
     }
-  
+
     setConnectedUserVote(sameVote ? null : voteValue);
-  
+
     const currentCounter = voteCounters[voteValue];
     currentCounter.setter(sameVote ? currentCounter.count - 1 : currentCounter.count + 1);
   };
-  
-  const handleClick = (vote) => {
+
+  const handleClick = vote => {
     handleVote(vote);
   };
-  
+
   useEffect(() => {
     fetch(`${getBaseUrl()}/auth/whoami`, {
-      method: "GET",
-      credentials: "include",
+      method: 'GET',
+      credentials: 'include',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       }
     })
-    .then(response => response.json())
-    .then(dataAuth => setDataAuth(dataAuth))
-    .catch(error => console.error(error));
-  }, []);
-  
-  useEffect(() => {
-    if (dataAuth && dataAuth.user && dataAuth.user.id){
-      fetch(`${getBaseUrl()}/post/vote?id=${id_poste}&user=${dataAuth.user.id}`, {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
       .then(response => response.json())
-      .then(getVote => {
-        if (!(getVote && getVote.length === 0)){
-          setConnectedUserVote(getVote[0].vote.toString());
+      .then(dataAuth => setDataAuth(dataAuth))
+      .catch(error => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    if (dataAuth && dataAuth.user && dataAuth.user.id) {
+      fetch(`${getBaseUrl()}/post/vote?id=${id_poste}&user=${dataAuth.user.id}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
         }
       })
-      .catch(error => console.error(error));
+        .then(response => response.json())
+        .then(getVote => {
+          if (getVote && getVote.length === 0) {
+            setConnectedUserVote(getVote[0].vote.toString());
+          }
+        })
+        .catch(error => console.error(error));
     }
   }, [dataAuth, dataAuth?.user?.id]);
 
   return (
-    <div className={classes["percent-bar"]}>
+    <div className={classes['percent-bar']}>
       <div
-        className={`${classes["percent-bar-inner"]} ${classes["percent-bar-yes"]} ${connectedUserVote === "1" ? classes["current-vote-yes"] : ''}`}
+        className={`${classes['percent-bar-inner']} ${classes['percent-bar-yes']} ${
+          connectedUserVote === '1' ? classes['current-vote-yes'] : ''
+        }`}
         style={{ width: `${yesPercent}%` }}
         onClick={() => {
-          handleClick("1");
-        }}     
+          handleClick('1');
+        }}
       >
         {yesNumber > 0 ? yesNumber : ''}
       </div>
       <div
-        className={`${classes["percent-bar-inner"]} ${classes["percent-bar-other"]} ${connectedUserVote === "0" ? classes["current-vote-other"] : ''}`}
+        className={`${classes['percent-bar-inner']} ${classes['percent-bar-other']} ${
+          connectedUserVote === '0' ? classes['current-vote-other'] : ''
+        }`}
         style={{ width: `${otherPercent}%` }}
-        onClick={() => handleClick("0")}
+        onClick={() => handleClick('0')}
       >
         {otherNumber > 0 ? otherNumber : ''}
       </div>
       <div
-        className={`${classes["percent-bar-inner"]} ${classes["percent-bar-no"]} ${connectedUserVote === "-1" ? classes["current-vote-no"] : ''}`}
+        className={`${classes['percent-bar-inner']} ${classes['percent-bar-no']} ${
+          connectedUserVote === '-1' ? classes['current-vote-no'] : ''
+        }`}
         style={{ width: `${noPercent}%` }}
-        onClick={() => handleClick("-1")}
+        onClick={() => handleClick('-1')}
       >
         {noNumber > 0 ? noNumber : ''}
       </div>

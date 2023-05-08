@@ -77,6 +77,7 @@ router.delete('/', function (req, res) {
 router.get('/:id', async function (req, res) {
   const { id } = req.params;
   const posts = await getPost(undefined, undefined, id);
+  if (posts.length === 0) return res.status(404).send({ error: true });
   const post = posts[0];
   const comments = await getComment(post.id);
 
