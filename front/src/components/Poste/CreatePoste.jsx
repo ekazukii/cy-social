@@ -8,6 +8,7 @@ import TextArea from '../TextArea/TextArea';
 import Button from '../Button/Button';
 import Select from '../Input/Select';
 import CreateGroup from '../Group/CreateGroup';
+import NiceAvatar from 'react-nice-avatar';
 
 /**
  *
@@ -41,9 +42,10 @@ export default function CreatePoste(props) {
   return (
     <div className={classes['create-post-container']}>
       <div className={classes['create-post-author']}>
-        <img
-          src={props.author.profile_pic}
-          alt={props.author.username}
+        <NiceAvatar
+          style={{ width: '4rem', height: '4rem' }}
+          {...JSON.parse(props.author.profile_pic)}
+          id={'nice-avatar'}
           ref={avatarRef}
           onMouseEnter={handleHover}
           onMouseLeave={handleLeave}

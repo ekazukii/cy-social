@@ -186,8 +186,8 @@ const NBR_USERS = 20;
 // };
 
 // setTimeout(() => {
-  //   populateAll();
-  // }, 1000);
+//   populateAll();
+// }, 1000);
 
 // const NBR_USERS = 20;
 // const NBR_POSTS = 60;
@@ -205,9 +205,9 @@ const createConversationsuserData = () => {
     id_user: rand(1, NBR_USERS),
     id_conv: rand(1, NBR_CONVERSATION),
     // commentId: null,
-    join_date:  faker.date.recent(60),
+    join_date: faker.date.recent(60),
     // leave_date: new Date(join_date.getTime() + (Math.floor(Math.random() * 800) + 1) * 24 * 60 * 60 * 1000),
-    join_date:  faker.date.recent(60),
+    join_date: faker.date.recent(60)
     // content: faker.lorem.paragraph(3),
     // viewCount: rand(100, 48392)
   };
@@ -217,12 +217,10 @@ const populateConversationsuser = async () => {
   for (let i = 0; i < NBR_CONVERSATION_USER; i++) {
     const lInfo = createConversationsuserData();
 
-    const sql = mysql.format('INSERT INTO `ConversationsUser` (`id_user`, `id_conv`, `join_date`, `leave_date`) VALUES(?, ?, ?, ?)', [
-      lInfo.id_user,
-      lInfo.id_conv,
-      lInfo.join_date,
-      lInfo.leave_date,
-    ]);
+    const sql = mysql.format(
+      'INSERT INTO `ConversationsUser` (`id_user`, `id_conv`, `join_date`, `leave_date`) VALUES(?, ?, ?, ?)',
+      [lInfo.id_user, lInfo.id_conv, lInfo.join_date, lInfo.leave_date]
+    );
 
     const res = await asyncQuery(sql);
     console.log(res);
@@ -235,7 +233,7 @@ const createConversationsData = () => {
     // id_conv: rand(1, NBR_USERS),
     // commentId: null,
     title: faker.lorem.sentence(),
-    date_crea:  faker.date.recent(60),
+    date_crea: faker.date.recent(60)
     // leave_date: new Date(join_date.getTime() + (Math.floor(Math.random() * 800) + 1) * 24 * 60 * 60 * 1000);,
     // content: faker.lorem.paragraph(3),
     // viewCount: rand(100, 48392)
@@ -249,7 +247,7 @@ const populateConversations = async () => {
     const sql = mysql.format('INSERT INTO `Conversations` (`title`, `date_crea`) VALUES(?, ?)', [
       // lInfo.id,
       lInfo.title,
-      lInfo.date_crea,
+      lInfo.date_crea
     ]);
 
     const res = await asyncQuery(sql);
@@ -264,8 +262,8 @@ const createConversationsmessagesData = () => {
     id_user: rand(1, NBR_CONVERSATION_USER),
     // commentId: null,
     content: faker.lorem.paragraph(1),
-    date:  faker.date.recent(60),
-    is_deleted: faker.helpers.arrayElement([0, 1]),
+    date: faker.date.recent(60),
+    is_deleted: faker.helpers.arrayElement([0, 1])
     // leave_date: new Date(join_date.getTime() + (Math.floor(Math.random() * 800) + 1) * 24 * 60 * 60 * 1000),
     // content: faker.lorem.paragraph(3),
     // viewCount: rand(100, 48392)
@@ -276,14 +274,17 @@ const populateConversationsmessages = async () => {
   for (let i = 0; i < NBR_CONVERSATION_MSG; i++) {
     const lInfo = createConversationsmessagesData();
 
-    const sql = mysql.format('INSERT INTO `ConversationsMessages` (`id_conv`, `id_user`, `content`, `date`, `is_deleted`) VALUES(?, ?, ?, ?, ?)', [
-      // lInfo.id,
-      lInfo.id_conv,
-      lInfo.id_user,
-      lInfo.content,
-      lInfo.date,
-      lInfo.is_deleted,
-    ]);
+    const sql = mysql.format(
+      'INSERT INTO `ConversationsMessages` (`id_conv`, `id_user`, `content`, `date`, `is_deleted`) VALUES(?, ?, ?, ?, ?)',
+      [
+        // lInfo.id,
+        lInfo.id_conv,
+        lInfo.id_user,
+        lInfo.content,
+        lInfo.date,
+        lInfo.is_deleted
+      ]
+    );
 
     const res = await asyncQuery(sql);
     console.log(res);
@@ -296,9 +297,125 @@ const populateMessagesTables = async () => {
   await populateConversationsmessages();
 };
 
-setTimeout(() => {
-  populateMessagesTables();
-}, 1000);
+const avatars = [
+  {
+    sex: 'woman',
+    faceColor: '#AC6651',
+    earSize: 'big',
+    eyeStyle: 'oval',
+    noseStyle: 'long',
+    mouthStyle: 'smile',
+    shirtStyle: 'short',
+    glassesStyle: 'none',
+    hairColor: '#fff',
+    hairStyle: 'womanLong',
+    hatStyle: 'none',
+    hatColor: '#000',
+    eyeBrowStyle: 'upWoman',
+    shirtColor: '#9287FF',
+    bgColor: '#FFEDEF'
+  },
+  {
+    sex: 'woman',
+    faceColor: '#AC6651',
+    earSize: 'big',
+    eyeStyle: 'smile',
+    noseStyle: 'round',
+    mouthStyle: 'peace',
+    shirtStyle: 'polo',
+    glassesStyle: 'none',
+    hairColor: '#F48150',
+    hairStyle: 'womanShort',
+    hatStyle: 'none',
+    hatColor: '#FC909F',
+    eyeBrowStyle: 'upWoman',
+    shirtColor: '#6BD9E9',
+    bgColor: '#FFEDEF'
+  },
+  {
+    sex: 'woman',
+    faceColor: '#AC6651',
+    earSize: 'big',
+    eyeStyle: 'oval',
+    noseStyle: 'long',
+    mouthStyle: 'smile',
+    shirtStyle: 'short',
+    glassesStyle: 'none',
+    hairColor: '#fff',
+    hairStyle: 'womanLong',
+    hatStyle: 'none',
+    hatColor: '#FC909F',
+    eyeBrowStyle: 'upWoman',
+    shirtColor: '#77311D',
+    bgColor: '#74D153'
+  },
+  {
+    sex: 'man',
+    faceColor: '#F9C9B6',
+    earSize: 'small',
+    eyeStyle: 'oval',
+    noseStyle: 'long',
+    mouthStyle: 'smile',
+    shirtStyle: 'short',
+    glassesStyle: 'none',
+    hairColor: '#000',
+    hairStyle: 'normal',
+    hatStyle: 'none',
+    hatColor: '#77311D',
+    eyeBrowStyle: 'up',
+    shirtColor: '#F4D150',
+    bgColor: '#F48150'
+  },
+  {
+    sex: 'woman',
+    faceColor: '#AC6651',
+    earSize: 'big',
+    eyeStyle: 'smile',
+    noseStyle: 'round',
+    mouthStyle: 'peace',
+    shirtStyle: 'polo',
+    glassesStyle: 'none',
+    hairColor: '#F48150',
+    hairStyle: 'womanShort',
+    hatStyle: 'none',
+    hatColor: '#F48150',
+    eyeBrowStyle: 'upWoman',
+    shirtColor: '#6BD9E9',
+    bgColor: '#FFEDEF'
+  },
+  {
+    sex: 'man',
+    faceColor: '#F9C9B6',
+    earSize: 'small',
+    eyeStyle: 'smile',
+    noseStyle: 'round',
+    mouthStyle: 'peace',
+    shirtStyle: 'polo',
+    glassesStyle: 'none',
+    hairColor: '#000',
+    hairStyle: 'normal',
+    hatStyle: 'none',
+    hatColor: '#D2EFF3',
+    eyeBrowStyle: 'up',
+    shirtColor: '#6BD9E9',
+    bgColor: '#FFEBA4'
+  }
+];
 
+const populateAvatars = async () => {
+  const sql = mysql.format('SELECT * FROM Users');
+  const users = await asyncQuery(sql);
+
+  for (let i = 0; i < users.length; i++) {
+    const user = users[i];
+    const avatar = faker.helpers.arrayElement(avatars);
+    const sql = mysql.format('UPDATE Users SET profile_pic = ? WHERE id = ?', [JSON.stringify(avatar), user.id]);
+    await asyncQuery(sql);
+  }
+};
+
+setTimeout(() => {
+  populateAvatars();
+}, 1000);
 
 // module.exports = { createUserData, createPostData };

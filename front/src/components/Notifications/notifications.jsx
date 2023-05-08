@@ -3,6 +3,7 @@ import Icon from '../Icon/Icon';
 import { getBaseUrl } from '../../utils/config';
 import { redirect } from 'react-router-dom';
 import NiceAvatar from 'react-nice-avatar';
+//<NiceAvatar style={{ width: '4rem', height: '4rem' }} {...JSON.parse(props.image)} id={'nice-avatar'} />
 
 /**
  *

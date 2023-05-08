@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import Icon from '../Icon/Icon';
 import classes from './comment.module.css';
 import HeaderProfil from '../Header-profil/Header-profil';
+import NiceAvatar from 'react-nice-avatar';
 
 /**
  *
@@ -27,9 +28,10 @@ export default function Comment(props) {
     <div className={classes['comment-container']}>
       <div className={classes['comment-first']}>
         <div className={classes['comment-user']}>
-          <img
-            src={props.userSender.profile_pic}
-            alt={props.userSender.name}
+          <NiceAvatar
+            style={{ width: '4rem', height: '4rem' }}
+            {...JSON.parse(props.userSender.profile_pic)}
+            id={'nice-avatar'}
             ref={avatarRef}
             onMouseEnter={handleHover}
             onMouseLeave={handleLeave}
