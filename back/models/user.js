@@ -1,5 +1,6 @@
 const { asyncQuery } = require('./database');
 const mysql = require('mysql2');
+const crypto = require('crypto');
 
 const getUser = userId => {
   if (userId) {
@@ -13,15 +14,32 @@ const getUser = userId => {
   return asyncQuery(mysql.format('SELECT * FROM Users'));
 };
 
+const getUserByUsername = async username => {
+  const sql = mysql.format('SELECT * FROM Users WHERE username = ?', [username]);
+  const res = await asyncQuery(sql);
+  return res[0];
+};
+
 const getUsers = usersId => {
   const sql = mysql.format('SELECT * FROM Users WHERE id in (?)', [usersId]);
   return asyncQuery(sql);
 };
 
-const createUser = (username, name, mail, tel, adresse, dateBday, role) => {
+const getUsersInGroup = groupId => {
+  const sql = mysql.format('SELECT * FROM Users WHERE id IN (SELECT id_user FROM UsersGroups WHERE id_group = ?)', [
+    groupId
+  ]);
+  return asyncQuery(sql);
+};
+
+const createUser = (username, name, mail, tel, adresse, dateBday, role, password, img) => {
+  const hash = crypto.createHash('sha256');
+  hash.update(password);
+  const hashedPassword = hash.digest('hex');
+
   const sql = mysql.format(
-    'INSERT INTO Users (username, name, mail, tel, adresse, date_bday, role) VALUES(?, ?, ?, ?, ?, ?, ?)',
-    [username, name, mail, tel, adresse, dateBday, role]
+    'INSERT INTO Users (username, name, mail, tel, adresse, date_bday, role, passwd, profile_pic) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    [username, name, mail, tel, adresse, dateBday, role, hashedPassword, img]
   );
 
   return asyncQuery(sql);
@@ -54,4 +72,20 @@ const getFollowing = id => {
   return asyncQuery(sql);
 };
 
-module.exports = { getUser, createUser, updateUser, deleteUser, getUsers, getFollowers, getFollowing };
+const createFollow = (id_user, id_follower) => {
+  const sql = mysql.format('INSERT INTO Followers (id_user, id_follower) VALUES(?, ?)', [id_user, id_follower]);
+  return asyncQuery(sql);
+};
+
+module.exports = {
+  getUser,
+  getUsersInGroup,
+  createUser,
+  updateUser,
+  deleteUser,
+  getUsers,
+  createFollow,
+  getFollowers,
+  getFollowing,
+  getUserByUsername
+};

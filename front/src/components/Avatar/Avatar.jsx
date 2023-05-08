@@ -1,15 +1,29 @@
 import * as NiceAvatarLib from 'react-nice-avatar';
 import classes from './avatar.module.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const NiceAvatar = NiceAvatarLib.default;
 const genConfig = NiceAvatarLib.genConfig;
 
 const OpnAvatar = ({ handleAvatarChange, defAvatar }) => {
   const [config, setConfig] = useState(genConfig());
-  const refreshConfig = event => {
-    setConfig(genConfig());
+
+  const onAvatarChange = cg => {
+    setConfig(cg);
+    if (typeof handleAvatarChange === 'function') handleAvatarChange(cg);
   };
+
+  const refreshConfig = event => {
+    onAvatarChange(genConfig());
+  };
+
+  useEffect(() => {
+    if (defAvatar) {
+      onAvatarChange(defAvatar);
+    } else {
+      refreshConfig();
+    }
+  }, []);
 
   return (
     <>

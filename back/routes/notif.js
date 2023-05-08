@@ -5,10 +5,11 @@ const { updateNotif, getNotif, deleteNotif } = require('../models/notif');
 
 //TODO: Check date format
 
-router.get('/', function (req, res) {
+router.get('/', async function (req, res) {
   const { user } = req.query;
   if (typeof user !== 'string') return res.status(400).send({ error: true });
-  res.send(getNotif(Number(user)));
+  const notifs = await getNotif(Number(user));
+  res.send(notifs);
 });
 
 router.put('/', function (req, res) {
@@ -20,7 +21,7 @@ router.put('/', function (req, res) {
 
 router.delete('/', function (req, res) {
   const { id } = req.body;
-  if (typeof id !== 'string') return res.status(400).send({ error: true });
+  if (id === undefined) return res.status(400).send({ error: true });
   deleteNotif(Number(id));
   res.status(200).send({ success: true });
 });
