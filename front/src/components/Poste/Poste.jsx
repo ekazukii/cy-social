@@ -40,7 +40,7 @@ import { useSession } from '../../hooks/useSession';
 export default function Poste(props) {
   const avatarRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
-  const { user } = useSession();
+  const { user, isLoggedIn, setSession, login, refreshData, logout } = useSession();
 
   const handleHover = () => {
     setIsHovering(true);
@@ -134,7 +134,7 @@ export default function Poste(props) {
                 />
               </>
             }
-            trigger={<Icon notClickable={true} icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue" stats={props.poste.comments}/>}
+            trigger={<Icon notClickable={true} icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue" stats={props.poste.comments}/>}/>
           <Icon
             icon="fi fi-rr-heart"
             iconClicked="fi fi-sr-heart"
