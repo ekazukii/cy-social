@@ -66,11 +66,11 @@ export default function Navbar(props) {
           </div>
         )}
       </nav>
-      {afficherDiv && (
+      {props.isConnected && (afficherDiv && (
         <div className={classes['notifSum']}>
           <ContainerNotif ref={ref2} notifications={props.notifs} />
         </div>
-      )}
+      ))}
     </>
   );
 }

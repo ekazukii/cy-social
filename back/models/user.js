@@ -45,12 +45,12 @@ const deleteUser = id => {
 };
 
 const getFollowers = id => {
-  const sql = mysql.format('SELECT * FROM Followers f INNER JOIN USERS u ON (u.id = f.id_user AND u.id = ?)', [id]);
+  const sql = mysql.format('SELECT * FROM Followers f INNER JOIN Users u ON (u.id = f.id_user AND u.id = ?)', [id]);
   return asyncQuery(sql);
 };
 
 const getFollowing = id => {
-  const sql = mysql.format('SELECT * FROM Followers f INNER JOIN USERS u ON (u.id = f.id_follower AND u.id = ?)', [id]);
+  const sql = mysql.format('SELECT * FROM Followers f INNER JOIN Users u ON (u.id = f.id_follower AND u.id = ?)', [id]);
   return asyncQuery(sql);
 };
 

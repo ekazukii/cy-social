@@ -102,43 +102,6 @@ export default function Poste(props) {
             title={'Ajouter un commentaire'}
             children={
               <>
-                <Input
-                  type="text"
-                  large={true}
-                  placeholder="Ajouter une machine à café dans la salle FT123"
-                  isValid={true}
-                  onChange={e => setPostName(e.target.value)}
-                  label="Titre de la proposition"
-                />
-
-                <Select
-                  large={true}
-                  isValid={true}
-                  label="Groupe"
-                  data={[
-                    { key: 1, value: 'test' },
-                    { key: 2, value: 'test2' },
-                    { key: 3, value: 'test3' }
-                  ]}
-                  onChange={val => setPostGroup(val)}
-                />
-
-                <Input
-                  type="text"
-                  large={true}
-                  placeholder="Laisser vide pour ne pas mettre d'image"
-                  label="URL de l'image"
-                  onChange={e => setPostImg(e.target.value)}
-                />
-
-                <Input
-                  //type="datetime-local"
-                  type="date"
-                  large={true}
-                  label="Date de fin des votes"
-                  onChange={e => setPostVoteEndDate(e.target.value)}
-                />
-
                 <TextArea
                   rocket={false}
                   dark={false}
@@ -148,7 +111,7 @@ export default function Poste(props) {
                 />
 
                 <Button
-                  text="Créer le post"
+                  text="Envoyer"
                   handleClick={() => {
                     fetch('http://localhost:3000/post', {
                       method: 'POST',
