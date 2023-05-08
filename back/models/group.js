@@ -48,4 +48,25 @@ const getGroupsOf = userId => {
   return asyncQuery(sql);
 };
 
-module.exports = { createGroup, deleteGroup, updateGroup, getGroup, getGroupsOf };
+const getGroupsAll = () => {
+  const sql = mysql.format(
+    'SELECT *, (SELECT COUNT(*) FROM `Posts` p WHERE p.id_group = g.id) as nbPosts, (SELECT COUNT(*) FROM `UsersGroups` u WHERE u.id_group = g.id) as nbMembers FROM `Groups` g WHERE `is_private`=1',
+  );
+  return asyncQuery(sql);
+};
+
+const followGroup = (groupId, userId) => {
+  const sql = mysql.format(
+    'INSERT INTO `UsersGroups` (id_group, id_user, join_date) VALUES (?, ?, ?)',
+    [groupId, userId, new Date()]
+  );  
+
+  return asyncQuery(sql);
+}
+
+const leaveGroup = (groupId, userId) => {
+  const sql = mysql.format('DELETE FROM `UsersGroups` WHERE id_group = ? AND id_user = ?', [groupId, userId]);
+  return asyncQuery(sql);
+}
+
+module.exports = { createGroup, deleteGroup, updateGroup, getGroup, getGroupsOf, getGroupsAll, followGroup, leaveGroup };

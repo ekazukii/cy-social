@@ -53,7 +53,7 @@ export default function CreatePoste(props) {
         <div className={classes['hoverCard']}>{isHovering && <HeaderProfil user={props.author} />}</div>
       </div>
       <div className={classes['create-post-content']}>
-        <div className={classes['create-post-content-header']}>Header / Choix du groupe</div>
+        <div className={classes['create-post-content-header']}></div>
         <div className={classes['icons-container']}>
           <Modal
             title={'Créer un nouveau post'}
@@ -133,6 +133,7 @@ export default function CreatePoste(props) {
             children={<CreateGroup />}
             trigger={<Icon notClickable={true} icon="fi fi-rr-users" font_size="3rem" />}
           />
+          <Icon icon="fi fi-rr-bank" iconClicked="fi fi-rr-bank" font_size="3rem" handleClick={() => window.location.replace(`/viewGroups`)}/>
         </div>
       </div>
     </div>

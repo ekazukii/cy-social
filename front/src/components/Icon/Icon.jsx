@@ -33,7 +33,7 @@ export default function Icon(props) {
         style={{ fontSize: props.font_size, lineHeight: props.line_height, color: props.color }}
         onClick={handleClick}
       >
-        <i className={isClicked ? props.iconClicked : props.icon}></i>
+        <i className={`${isClicked ? props.iconClicked : props.icon} ${props.hoverColor ? classes[props.hoverColor] : ''}`}></i>
         {props.stats && <span className={classes['text-number']}>{props.stats}</span>}
       </div>
       {props.isNotified && <Bubble number={props.number} />}
@@ -44,5 +44,5 @@ export default function Icon(props) {
 Icon.defaultProps = {
   font_size: '1rem',
   line_height: '1rem',
-  color: "black"
+  color: '#14213d'
 };
