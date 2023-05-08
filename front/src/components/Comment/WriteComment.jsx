@@ -8,7 +8,7 @@ export default function WriteComment({ idPost }) {
   const { user } = useSession();
 
   const sendComment = async () => {
-    await fetch(`${getBaseUrl()}/post/comment`, {
+    const data = await fetch(`${getBaseUrl()}/post/comment`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ export default function WriteComment({ idPost }) {
       })
     });
 
-    window.location.reload();
+    if (data.ok) window.location.reload();
   };
 
   return (

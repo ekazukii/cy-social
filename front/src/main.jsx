@@ -12,6 +12,7 @@ import Notif from './pages/Notif';
 import Accueil from './pages/Accueil';
 import Admin1 from './pages/Admin';
 import { SessionProvider } from './hooks/useSession';
+import Follows from './pages/Follows'
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ const router = createBrowserRouter([
   {
     path: '/group/:id_tl_group',
     element: <Accueil />
+  },
+  {
+    path: '/follows/:id_user',
+    element: <Follows />
+  },
+  {
+    path: '/profil/:id_other_user',
+    element: <Profil otherProfil={true}/>
   }
 ]);
 

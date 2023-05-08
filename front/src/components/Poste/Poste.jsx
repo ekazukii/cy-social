@@ -9,6 +9,7 @@ import Input from '../Input/Input';
 import TextArea from '../TextArea/TextArea';
 import Button from '../Button/Button';
 import Select from '../Input/Select';
+import { useSession } from '../../hooks/useSession';
 
 /**
  *
@@ -39,6 +40,7 @@ import Select from '../Input/Select';
 export default function Poste(props) {
   const avatarRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
+  const { user } = useSession();
 
   const handleHover = () => {
     setIsHovering(true);
@@ -63,52 +65,82 @@ export default function Poste(props) {
         />
         <div className={classes['hoverCard']}>{isHovering && <HeaderProfil user={props.user} />}</div>
       </div>
-      <div className={classes['post-content']}>
-        <div className={classes['post-header']}>
-          <div className={classes['post-name-user']}>
-            <span>{props.user.name}</span>
-          </div>
-          <div className={classes['post-detail-user']}>
-            <span>{props.user.username}</span>
-          </div>
-          <div className={classes['post-head-separator']}>
-            <span>·</span>
-          </div>
-          <div className={classes['post-time-hour']}>
-            <span>{`${new Date(props.poste.date_publi).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`}</span>
-          </div>
-          <div className={classes['post-time-date']}>
-            <span>{`${new Date(props.poste.date_publi).toLocaleDateString()}`}</span>
-          </div>
-        </div>
-        <div
-          className={classes['post-body']}
-          onClick={props.isLinkToPost && moveToPost}
-          style={props.isLinkToPost ? { cursor: 'pointer' } : {}}
-        >
-          <div className={classes['post-body-text']}>
-            <p>{props.poste.content}</p>
-          </div>
-          <div className={classes['post-body-img']}>
-            <img src={props.poste.img} alt="img" width="50%" />
-          </div>
-        </div>
-          <div className={classes['post-body-survey']}>
-            <PercentBar
-              yesNumber={props.poste.votes_for}
-              otherNumber={props.poste.votes_neutral}
-              noNumber={props.poste.votes_against}
-              id_poste={props.poste.id} 
-            />
-          </div>
-        <div className={classes['post-react']}>
+      <div className={classes["post-content"]}>
+            <div className={classes["post-header"]}>
+                <div className={classes["post-name-user"]}>
+                    <span>{props.user.name}</span>
+                </div>
+                <div className={classes["post-detail-user"]}>
+                    <span>{props.user.username}</span>
+                </div>
+                <div className={classes["post-head-separator"]}>
+                    <span>·</span>
+                </div>
+                <div className={classes["post-time"]}>
+                <span>
+                    {new Date(props.poste.date_publi).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} -{' '}
+                    {new Date(props.poste.date_publi).toLocaleDateString()}
+                </span>
+
+                </div>
+            </div>
+            <div className={classes["post-body"]} onClick={props.isLinkToPost && moveToPost} style={props.isLinkToPost ? {cursor: 'pointer'} : {}}>
+                <div className={classes["post-body-text"]}>
+                    <p>{props.poste.content}</p>
+                </div>
+                <div className={classes["post-body-img"]}>
+                <img
+                src={props.poste.img}
+                alt="img"
+                width="50%"
+                />
+                </div>
+                <div className={classes["post-body-survey"]}>
+                    <PercentBar yesNumber={props.poste.votes_for} otherNumber={props.poste.votes_neutral} noNumber={props.poste.votes_against} />
+                </div>
+            </div>
+            <div className={classes["post-react"]}>
+                <Modal
+            title={'Ajouter un commentaire'}
+            children={
+              <>
+                <TextArea
+                  rocket={false}
+                  dark={false}
+                  placeholder="Je propose l'installation d'une machine à café afin de ..."
+                  label={'Description détaillé'}
+                  onChange={val => setPostContent(val)}
+                />
+
+                <Button
+                  text="Envoyer"
+                  handleClick={() => {
+                    fetch('http://localhost:3000/post', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                        title: postName,
+                        group: postGroup,
+                        img: postImg,
+                        dateEnd: postVoteEndDate,
+                        content: postContent,
+                        description: postContent,
+                        authorId: props.author?.id?.toString() || '1'
+                      })
+                    });
+                  }}
+                />
+              </>
+            }
+            trigger={<Icon notClickable={true} icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue" stats={props.poste.comments}/>}
           <Icon
             icon="fi fi-rr-heart"
             iconClicked="fi fi-sr-heart"
             hoverColor="icon-will-be-red"
             stats={props.poste.likes}
             handleClick={isClicked => {
-              console.log('IS CLICKED');
               if (isClicked) {
                 fetch(`${getBaseUrl()}/post/like`, {
                   method: 'POST',
@@ -128,13 +160,12 @@ export default function Poste(props) {
                   },
                   body: JSON.stringify({
                     id: props.poste.id,
-                    user: 1
+                    user: user.id
                   })
                 });
               }
             }}
           />
-          <Icon icon="fi fi-rr-comment-alt-middle" hoverColor="icon-will-be-blue" stats={props.poste.comments} />
           <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green" stats={props.poste.view_count} />
         </div>
       </div>

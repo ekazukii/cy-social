@@ -5,6 +5,7 @@ const { createPost, updatePost, getPostWithCounts, deletePost, addView, getPost 
 const { createVote, updateVote, deleteVote, getVote } = require('../models/vote');
 const { createLike, getLike, updateLike, deleteLike } = require('../models/like');
 const { createComment, getComment, updateComment, deleteComment } = require('../models/comment');
+const { generatePostNotifs, generateCommentNotifs, generateLikeNotifs } = require('../models/notif');
 const { getUsers } = require('../models/user');
 
 //TODO: Check date format
@@ -31,7 +32,7 @@ router.get('/tl', async function (req, res) {
   res.send({ posts, users });
 });
 
-router.post('/', function (req, res) {
+router.post('/', async function (req, res) {
   const { authorId, title, content, description, group, img, dateEnd } = req.body;
   if (
     typeof authorId !== 'string' ||
@@ -44,7 +45,10 @@ router.post('/', function (req, res) {
   )
     return res.status(400).send({ error: true });
 
-  const post = createPost(Number(authorId), title, content, group, img, dateEnd);
+  const post = await createPost(Number(authorId), title, content, group, img, dateEnd);
+  const postId = post.insertId;
+
+  generatePostNotifs(postId, authorId, group, title);
   res.send(post);
 });
 
@@ -70,6 +74,18 @@ router.delete('/', function (req, res) {
   res.status(200).send({ success: true });
 });
 
+router.get('/:id', async function (req, res) {
+  const { id } = req.params;
+  const posts = await getPost(undefined, undefined, id);
+  const post = posts[0];
+  const comments = await getComment(post.id);
+
+  res.status(200).send({
+    post,
+    comments
+  });
+});
+
 router.get('/:id/likes', async function (req, res) {
   const { id } = req.params;
   const likes = await getLike(id);
@@ -90,6 +106,33 @@ router.get('/:id/votes', async function (req, res) {
 
 // getVote(id, user)
 // If vote already exist, update it
+
+// _______________________
+// VBAPTISTE
+// _______________________
+
+// router.post('/vote', function (req, res) {
+//   const { id, user, vote } = req.body;
+//   if (typeof id !== 'string' || typeof user !== 'string' || typeof vote !== 'string')
+//     return res.status(400).send({ error: true });
+
+//   const oldVote = getVote(Number(id), Number(user));
+//   if (oldVote.length === 1) {
+//     const newVote = updateVote(Number(id), Number(user), vote === 'true');
+//     return res.send(newVote);
+//   }
+
+//   const newVote = createVote(Number(id), Number(user), vote === 'true');
+//   res.send(newVote);
+// });
+
+// router.get('/vote', function (req, res) {
+//   const { id } = req.query;
+//   if (typeof id !== 'string') return res.status(400).send({ error: true });
+//   const votes = getVote(Number(id), Number(user));
+//   res.send(votes);
+// });
+
 router.post('/vote', async function (req, res) {
   const { id, user, vote } = req.body;
   if (typeof id !== 'string' || typeof user !== 'string' || typeof vote !== 'string')
@@ -107,7 +150,8 @@ router.post('/vote', async function (req, res) {
 
 router.get('/vote', async function (req, res) {
   const { id, user } = req.query;
-  if (typeof id !== 'string') return res.status(400).send({ error: true });
+  if (typeof id !== 'string') 
+    return res.status(400).send({ error: true });
   const votes = await getVote(Number(id), Number(user));
   res.send(votes);
 });
@@ -133,6 +177,7 @@ router.post('/like', async function (req, res) {
   }
 
   const newLike = await createLike(Number(id), Number(user), 0);
+  await generateLikeNotifs(Number(user), Number(id));
   res.send(newLike);
 });
 
@@ -154,10 +199,11 @@ router.delete('/like', function (req, res) {
 
 router.post('/comment', async function (req, res) {
   const { idPost, content, idUser, response } = req.body;
-  if (typeof idPost !== 'string' || typeof content !== 'string' || typeof idUser !== 'string')
+  if (typeof idPost !== 'string' || typeof content !== 'string' || typeof idUser === undefined)
     return res.status(400).send({ error: true });
 
   const comment = await createComment(Number(idPost), Number(idUser), null, content);
+  generateCommentNotifs(idPost, idUser, content);
   res.send(comment);
 });
 
@@ -187,18 +233,6 @@ router.post('/view', function (req, res) {
   if (typeof id !== 'string') return res.status(400).send({ error: true });
   addView(Number(id));
   res.status(200).send({ success: true });
-});
-
-router.get('/:id', async function (req, res) {
-  const { id } = req.params;
-  const posts = await getPost(undefined, undefined, id);
-  const post = posts[0];
-  const comments = await getComment(post.id);
-
-  res.status(200).send({
-    post,
-    comments
-  });
 });
 
 module.exports = router;

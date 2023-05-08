@@ -3,6 +3,8 @@ import classes from './Register.module.css';
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
 import OpnAvatar from '../components/Avatar/Avatar';
+import { getBaseUrl } from '../utils/config';
+import { redirect } from 'react-router-dom';
 
 export default function RegisterPage() {
   const [formValues, setFormValues] = useState({
@@ -28,35 +30,90 @@ export default function RegisterPage() {
     }
   });
 
+  const validateContact = value => {
+    const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$/gm;
+    const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/gm;
+
+    return value.match(phoneRegex) || value.match(mailRegex);
+  };
+
+  const validateConfirmPassword = value => {
+    return value === formValues.password.value;
+  };
+
+  const validateOther = value => {
+    return value.length >= 5;
+  };
+
   const handleChange = (event, name) => {
     const value = event.target.value;
     let isValid = true;
 
-    const phoneRegex = /^[+]?[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$/gm;
-    const mailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/gm;
-
-    const contactValue = formValues.contact.value;
-    if (name === 'contact' && !contactValue.match(phoneRegex) && !contactValue.match(mailRegex)) {
-      isValid = false;
-    } else if (name === 'confirmPassword' && value !== formValues.password.value) {
-      isValid = false;
-    } else if (value.length < 5) {
-      isValid = false;
+    if (name === 'contact') {
+      isValid = validateContact(value);
+    } else if (name === 'confirmPassword') {
+      isValid = validateConfirmPassword(value);
+    } else {
+      isValid = validateOther(value);
     }
 
     setFormValues({ ...formValues, [name]: { value, isValid } });
   };
 
-  const handleSubmit = event => {
+  const handleAvatarChange = config => {
+    setFormValues({ ...formValues, avatar: { value: config, isValid: true } });
+  };
+
+  const handleSubmit = async event => {
     event.preventDefault();
-    console.log(formValues);
+
+    if (!formValues.firstName.isValid) {
+      return alert('Le prénom doit contenir au moins 5 caractères');
+    }
+
+    if (!formValues.username.isValid) {
+      return alert("Le nom d'utilisateur doit contenir au moins 5 caractères");
+    }
+
+    if (!formValues.password.isValid) {
+      return alert('Le mot de passe doit contenir au moins 5 caractères');
+    }
+
+    if (!formValues.confirmPassword.isValid) {
+      return alert('Les mots de passe ne correspondent pas');
+    }
+
+    if (!formValues.contact.isValid) {
+      return alert('Le contact doit être un numéro de téléphone ou une adresse mail valide');
+    }
+
+    const data = await fetch(getBaseUrl() + '/user/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: formValues.firstName.value,
+        username: formValues.username.value,
+        password: formValues.password.value,
+        mail: formValues.contact.value,
+        tel: formValues.contact.value,
+        img: formValues.avatar.value
+      })
+    });
+
+    if (data.status == 200) {
+      window.location.replace(location.origin);
+    } else {
+      alert('Une erreur est survenue');
+    }
   };
 
   return (
     <div className={classes['container']}>
       <h1>Créer un compte</h1>
       <form onSubmit={handleSubmit}>
-        <OpnAvatar />
+        <OpnAvatar handleAvatarChange={handleAvatarChange} />
         <Input
           label="Prénom :"
           id="firstName"
