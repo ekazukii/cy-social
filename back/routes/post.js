@@ -22,7 +22,7 @@ router.get('/tl', async function (req, res) {
   const posts = await getPostWithCounts(Number(user), group ? Number(group) : undefined);
   let authorsId = posts.map(post => post['id_user']);
   authorsId = [...new Set(authorsId)];
-  const usersArray = await getUsers(authorsId);
+  const usersArray = authorsId.length > 0 ? await getUsers(authorsId) : [];
   let users = {};
 
   usersArray.forEach(user => {
@@ -150,16 +150,14 @@ router.post('/vote', async function (req, res) {
 
 router.get('/vote', async function (req, res) {
   const { id, user } = req.query;
-  if (typeof id !== 'string') 
-    return res.status(400).send({ error: true });
+  if (typeof id !== 'string') return res.status(400).send({ error: true });
   const votes = await getVote(Number(id), Number(user));
   res.send(votes);
 });
 
 router.delete('/vote', function (req, res) {
   const { id, user } = req.query;
-  if (typeof id !== 'string' || typeof user !== 'string') 
-    return res.status(400).send({ error: true });
+  if (typeof id !== 'string' || typeof user !== 'string') return res.status(400).send({ error: true });
   const votes = deleteVote(Number(id), Number(user));
   res.send(votes);
 });

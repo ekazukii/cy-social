@@ -29,7 +29,7 @@ export default function Navbar(props) {
 
   useOnClickOutside([ref, ref2], () => setAfficherDiv(false));
 
-  const numberNotif = props.notifs.length;
+  const numberNotif = props.notifs?.length || 0;
   const isNotified = numberNotif > 0;
   return (
     <>
@@ -67,11 +67,11 @@ export default function Navbar(props) {
           </div>
         )}
       </nav>
-      {props.isConnected && (afficherDiv && (
+      {props.isConnected && afficherDiv && (
         <div className={classes['notifSum']}>
           <ContainerNotif ref={ref2} notifications={props.notifs} />
         </div>
-      ))}
+      )}
     </>
   );
 }
