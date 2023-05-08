@@ -78,6 +78,7 @@
 
 .hoverCard{
     position: absolute;
+    z-index: 10;
 }
 
 .post-parent-Avatar:hover{
