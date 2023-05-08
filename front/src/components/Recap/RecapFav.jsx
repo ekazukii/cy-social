@@ -26,7 +26,7 @@ export default function RecapFav(props) {
               yesNumber={props.post.votes_for}
               otherNumber={props.post.votes_neutral}
               noNumber={props.post.votes_against}
-              id_poste={props.poste.id}
+              id_poste={props.post.id}
             />
           </div>
         </div>

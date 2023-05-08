@@ -14,30 +14,65 @@ import NiceAvatar from 'react-nice-avatar';
  * @param {Number} user.nbFollowers
  * @returns
  */
-export default function HeaderProfil({ user }) {
+export default function HeaderProfil({ user, group }) {
   return (
-    <div className={classes['header-profil-container']}>
-      <div className={classes['header-profil-top']}>
-        <img src="/img/banner.png" alt={user.name} />
-        <span>@{user.username}</span>
-      </div>
-      <div className={classes['header-profil-mid']}>
-        <div className={classes['header-profil-user-pic']}>
-          <NiceAvatar style={{ width: '4rem', height: '4rem' }} {...JSON.parse(user.profile_pic)} id={'nice-avatar'} />
-        </div>
-        <div className={classes['header-profil-user-details']}>
-          <div className={classes['header-profil-user-details-name']}>{user.name}</div>
-          <div className={classes['header-profil-user-details-bio']}>
-            <span>Ajouter une bio?</span>
+    <>
+      {user && (
+        <div className={classes['header-profil-container']}>
+          <div className={classes['header-profil-top']}>
+            <img src="/img/banner.png" alt={user.name} />
+            <span>@{user.username}</span>
           </div>
-          {/* {user.isUser ? (<Button text="Suivre" type="primary"/>) : (<Button text="Paramètres" type="primary"/>)} */}
+          <div className={classes['header-profil-mid']}>
+            <div className={classes['header-profil-user-pic']}>
+              <NiceAvatar style={{ width: '4rem', height: '4rem' }} {...JSON.parse(user.profile_pic)} id={'nice-avatar'} />
+            </div>
+            <div className={classes['header-profil-user-details']}>
+              <div className={classes['header-profil-user-details-name']}>{user.name}</div>
+              <div className={classes['header-profil-user-details-bio']}>
+                <span>Ajouter une bio?</span>
+              </div>
+              {/* {user.isUser ? (<Button text="Suivre" type="primary"/>) : (<Button text="Paramètres" type="primary"/>)} */}
+            </div>
+          </div>
+          <div className={classes['header-profil-bottom']}>
+            <span>{user.nbPosts} Postes publiés</span>
+            <span>{user.nbFollows} Abonnements</span>
+            <span>{user.nbFollowers} Abonnés</span>
+          </div>
         </div>
-      </div>
-      <div className={classes['header-profil-bottom']}>
-        <span>{user.nbPosts} Postes publiés</span>
-        <span>{user.nbFollows} Abonnements</span>
-        <span>{user.nbFollowers} Abonnés</span>
-      </div>
-    </div>
+      )}
+
+      {group && (
+        <div className={classes['header-profil-container']} style={{marginBottom: "1.75rem"}}>
+          <div className={classes['header-profil-top']}>
+            <img src="/img/banner.png" alt={group.name} />
+            <span>@{group.name}</span>
+          </div>
+          <div className={classes['header-profil-mid']}>
+            <div className={classes['header-profil-user-pic']}>
+              <img
+                src={group.img}
+                alt={group.name}
+                />
+            </div>
+            <div className={classes['header-profil-user-details']}>
+              <div className={classes['header-profil-user-details-name']}>
+                {new Date(group.date_crea).toLocaleDateString()}
+              </div>
+              <div className={classes['header-profil-user-details-bio']}>
+                <span>{group.description}</span>
+              </div>
+              {/* {user.isUser ? (<Button text="Suivre" type="primary"/>) : (<Button text="Paramètres" type="primary"/>)} */}
+            </div>
+          </div>
+          <div className={classes['header-profil-bottom']}>
+          <span>{group.nbPosts} Postes publiés</span>
+            <span>{group.nbMembers} Membres</span>
+            <span>{group.is_private ? "Groupe public" : "Groupe privé"}</span>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

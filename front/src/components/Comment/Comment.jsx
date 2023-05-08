@@ -24,11 +24,24 @@ export default function Comment(props) {
     setIsHovering(false);
   };
 
+  const moveToUser = (id) => {
+    window.location.replace(`/profil/${id}`);
+  };
+
+  const textStyle = {
+    textDecoration: isHovering ? "underline" : "none",
+    cursor: "pointer"
+  };
   return (
     <div className={classes['comment-container']}>
       <div className={classes['comment-first']}>
         <div className={classes['comment-user']}>
-          <div ref={avatarRef} onMouseEnter={handleHover} onMouseLeave={handleLeave}>
+          <div className={classes['comment-parent-avatar']}
+          onMouseEnter={handleHover}
+          onMouseLeave={handleLeave}
+          onClick={() => moveToUser(props.userSender.id)}
+          ref={avatarRef}
+          >
             <NiceAvatar
               style={{ width: '4rem', height: '4rem' }}
               {...JSON.parse(props.userSender.profile_pic)}
@@ -40,10 +53,20 @@ export default function Comment(props) {
         <div className={classes['comment-content']}>
           <div className={classes['comment-header']}>
             <div className={classes['comment-header-first']}>
-              <div className={classes['comment-name-user']}>
+              <div className={classes['comment-name-user']} 
+                style={textStyle}           
+                onMouseEnter={handleHover}
+                onMouseLeave={handleLeave}
+                onClick={() => moveToUser(props.user.id)}
+              >
                 <span>{props.userSender.name}</span>
               </div>
-              <div className={classes['comment-detail-user']}>
+              <div className={classes['comment-detail-user']}
+                style={textStyle}           
+                onMouseEnter={handleHover}
+                onMouseLeave={handleLeave}
+                onClick={() => moveToUser(props.user.id)}
+              >
                 <span>{props.userSender.username}</span>
               </div>
               <div className={classes['comment-head-separator']}>

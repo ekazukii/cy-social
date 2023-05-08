@@ -1,5 +1,8 @@
 import classes from "./recap.module.css";
-import Icon from "../Icon/Icon"
+import Icon from "../Icon/Icon";
+import Button from '../Button/Button';
+import { getBaseUrl } from '../../utils/config';
+import { useState } from "react";
 
 /**
  * 
@@ -9,6 +12,7 @@ import Icon from "../Icon/Icon"
  * @returns 
  */
 export default function Recap(props) {
+    const [icon, setIcon] = useState(props.isInGroup ? "fi fi-sr-door-open" : "fi fi-sr-add");
 
     const moveToPost = () => {
         window.location.replace(`/group/${props.group.id}`);
@@ -16,7 +20,7 @@ export default function Recap(props) {
 
     return (
       <>
-      <div className = {classes["recap-container"] + " " + classes["recap-group"]} style={{ backgroundColor: props.indice % 2 === 0 ? "rgb(210,210,210)" : "" }} onClick={props.isLinkToGroup && moveToPost}>
+    <div className={classes["recap-container"] + " " + classes["recap-group"]} style={{ backgroundColor: props.indice % 2 === 0 ? "rgb(210,210,210)" : "", cursor: props.isLinkToGroup ? 'pointer' : 'default' }} onClick={props.isLinkToGroup ? moveToPost : undefined}>
         <div className={classes["recap-left"]}>
             <img
                 src={props.group.img}
@@ -42,6 +46,68 @@ export default function Recap(props) {
                 <Icon icon="fi fi-rr-user"/>
             </div>
         </div>
+        {props.addButton && 
+            <div className={classes["recap-button"]}>
+                <Icon
+                        icon="fi fi-sr-eye"
+                        iconClicked="fi fi-sr-eye"
+                        hoverColor="icon-will-be-blue"
+                        handleClick={() => {moveToPost()}}
+                    />
+                {props.isInGroup ? (
+                    <Icon
+                    icon={icon}
+                    iconClicked={icon}
+                    hoverColor="icon-will-be-blue"
+                    handleClick={() => {
+                        fetch(`${getBaseUrl()}/group/leave`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id_group: props.group.id,
+                            id_user: props.user.id
+                        })
+                        }).then(response => {
+                            if (response.ok) {
+                                // Si la réponse est OK, afficher une icône de plus
+                                setIcon("fi fi-sr-add");
+                            } else {
+                                // Si la réponse est KO, afficher une icône de porte
+                                setIcon("fi fi-sr-door-open");
+                            }
+                        });
+                    }}
+                /> 
+                ) : (
+                    <Icon
+                        icon={icon}
+                        iconClicked={icon}
+                        hoverColor="icon-will-be-blue"
+                        handleClick={() => {
+                            fetch(`${getBaseUrl()}/group/follow`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                id_group: props.group.id,
+                                id_user: props.user.id
+                            })
+                            }).then(response => {if (response.ok) {
+                                // Si la réponse est OK, afficher une icône de plus
+                                setIcon("fi fi-sr-door-open");
+                            } else {
+                                // Si la réponse est KO, afficher une icône de porte
+                                setIcon("fi fi-sr-add");
+                            }
+                        });
+                        }}
+                    />
+                )}
+            </div>
+        }
       </div>
       </>
     );

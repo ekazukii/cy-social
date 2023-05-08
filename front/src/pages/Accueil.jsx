@@ -6,6 +6,7 @@ import Poste from '../components/Poste/Poste';
 import classes from './accueil.module.css';
 import { useSession } from '../hooks/useSession';
 import Recap from '../components/Recap/Recap';
+import Banner from '../components/Banner/Banner';
 import RecapFav from '../components/Recap/RecapFav';
 
 export default function Accueil() {
@@ -15,28 +16,30 @@ export default function Accueil() {
 
   const [data, setData] = useState([]);
   const [numGroups, setNumGroups] = useState(3);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (isLoggedIn == true) {
       const infoUserConnected = fetch(`http://localhost:3000/user/${user.id}`).then(response => response.json());
       const notifUserConnected = fetch(`http://localhost:3000/notif?user=${user.id}`).then(response => response.json());
       const groupUserConnected = fetch(`http://localhost:3000/group?user=${user.id}`).then(response => response.json());
+      const groupInfo = fetch(`http://localhost:3000/group/${id_tl_group > 0 ? id_tl_group : '1'}`).then(response => response.json());
       const tlUserConnected = fetch(
         `http://localhost:3000/post/tl?${id_tl_group > 0 ? 'group=' + id_tl_group : 'user=' + user.id}`
       ).then(response => response.json());
-      Promise.all([infoUserConnected, notifUserConnected, groupUserConnected, tlUserConnected])
-        .then(([userConnectedData, notifData, groupData, postData]) => {
-          const data = { userConnected: userConnectedData[0], notif: notifData, group: groupData, posts: postData };
+      Promise.all([infoUserConnected, notifUserConnected, groupUserConnected, tlUserConnected, groupInfo])
+        .then(([userConnectedData, notifData, groupData, postData, groupInfoData]) => {
+          const data = { userConnected: userConnectedData[0], notif: notifData, group: groupData, posts: postData, infoGroupData: groupInfoData };
           setData(data);
           setIsLoading(false);
         })
         .catch(error => setError(error));
-    } else if (isLoggedIn == false) {
+    } else if (isLoggedIn === false) {
       setIsLoading(false);
     }
   }, [isLoggedIn, user]);
 
+  console.log(data);
   return (
     <>
       {isLoading ? (
@@ -75,8 +78,9 @@ export default function Accueil() {
                 </div>
 
                 <div className={classes['container_body_center']}>
+                { id_tl_group > 0 && <Banner group={data.infoGroupData.group[0]}/> }
                   <div className={classes['postes']}>
-                    <h3 className={classes['titre']}>Ma Timeline</h3>
+                    <h3 className={classes['titre']}>{id_tl_group > 0 ? "La TimeLine du groupe" : "Ma Timeline"}</h3>
                     {data.posts.posts &&
                       data.posts.posts.map(item => (
                         <div className={classes['poste']}>
