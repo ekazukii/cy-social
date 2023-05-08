@@ -23,7 +23,7 @@ const OpnAvatar = ({ handleAvatarChange, defAvatar }) => {
     } else {
       refreshConfig();
     }
-  }, []);
+  }, [defAvatar]);
 
   return (
     <>

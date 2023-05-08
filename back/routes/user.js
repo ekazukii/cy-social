@@ -77,7 +77,15 @@ router.post('/', async function (req, res) {
   }
 });
 
-router.put('/', function (req, res) {});
+router.put('/', async function (req, res) {
+  const { username, name, mail, tel, password, img, id } = req.body;
+  try {
+    await updateUser(id, username, name, mail, tel, '', null, 0, password, JSON.stringify(img));
+    res.status(200).send({ error: false });
+  } catch (e) {
+    res.status(400).send({ error: true, message: e.message });
+  }
+});
 
 router.delete('/', function (req, res) {});
 

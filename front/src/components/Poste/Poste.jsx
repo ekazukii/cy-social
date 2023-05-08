@@ -57,14 +57,13 @@ export default function Poste(props) {
   return (
     <div className={classes['post-container']} key={props.poste.id}>
       <div className={classes['post-user']}>
-        <NiceAvatar
-          style={{ width: '4rem', height: '4rem' }}
-          {...JSON.parse(props.user.profile_pic)}
-          id={'nice-avatar'}
-          ref={avatarRef}
-          onMouseEnter={handleHover}
-          onMouseLeave={handleLeave}
-        />
+        <div ref={avatarRef} onMouseEnter={handleHover} onMouseLeave={handleLeave}>
+          <NiceAvatar
+            style={{ width: '4rem', height: '4rem' }}
+            {...JSON.parse(props.user.profile_pic)}
+            id={'nice-avatar'}
+          />
+        </div>
         <div className={classes['hoverCard']}>{isHovering && <HeaderProfil user={props.user} />}</div>
       </div>
       <div className={classes['post-content']}>

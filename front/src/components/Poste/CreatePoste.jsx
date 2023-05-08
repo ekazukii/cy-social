@@ -42,14 +42,13 @@ export default function CreatePoste(props) {
   return (
     <div className={classes['create-post-container']}>
       <div className={classes['create-post-author']}>
-        <NiceAvatar
-          style={{ width: '4rem', height: '4rem' }}
-          {...JSON.parse(props.author.profile_pic)}
-          id={'nice-avatar'}
-          ref={avatarRef}
-          onMouseEnter={handleHover}
-          onMouseLeave={handleLeave}
-        />
+        <div ref={avatarRef} onMouseEnter={handleHover} onMouseLeave={handleLeave}>
+          <NiceAvatar
+            style={{ width: '4rem', height: '4rem' }}
+            {...JSON.parse(props.author.profile_pic)}
+            id={'nice-avatar'}
+          />
+        </div>
         <div className={classes['hoverCard']}>{isHovering && <HeaderProfil user={props.author} />}</div>
       </div>
       <div className={classes['create-post-content']}>

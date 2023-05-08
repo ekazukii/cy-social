@@ -28,14 +28,13 @@ export default function Comment(props) {
     <div className={classes['comment-container']}>
       <div className={classes['comment-first']}>
         <div className={classes['comment-user']}>
-          <NiceAvatar
-            style={{ width: '4rem', height: '4rem' }}
-            {...JSON.parse(props.userSender.profile_pic)}
-            id={'nice-avatar'}
-            ref={avatarRef}
-            onMouseEnter={handleHover}
-            onMouseLeave={handleLeave}
-          />
+          <div ref={avatarRef} onMouseEnter={handleHover} onMouseLeave={handleLeave}>
+            <NiceAvatar
+              style={{ width: '4rem', height: '4rem' }}
+              {...JSON.parse(props.userSender.profile_pic)}
+              id={'nice-avatar'}
+            />
+          </div>
           <div className={classes['hoverCard']}>{isHovering && <HeaderProfil user={props.userSender} />}</div>
         </div>
         <div className={classes['comment-content']}>

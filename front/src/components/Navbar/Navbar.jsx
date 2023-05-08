@@ -56,6 +56,7 @@ export default function Navbar(props) {
               color="#FCA311"
             />
             <Button text={'Profile'} type={'primary'} link={'/profil'} />
+            <Button text={'Paramètres'} link={'/settings'} />
             <Button text={'Message'} link={'/messagerie'} />
             <Button text={'Administration'} link={'/admin'} />
             <Button text={'Déconnexion'} handleClick={() => logout()} />

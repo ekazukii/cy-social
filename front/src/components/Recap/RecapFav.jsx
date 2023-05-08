@@ -10,6 +10,7 @@ import { extractFirstSentence } from '../../utils/extractFirstSentence';
  * @returns
  */
 export default function RecapFav(props) {
+  if (props.content === undefined) return <></>;
   return (
     <>
       <div

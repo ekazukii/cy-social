@@ -16,6 +16,7 @@ import NiceAvatar from 'react-nice-avatar';
  * @returns
  */
 export default function Notifications(props) {
+  console.log(props.image);
   const clickNotif = async e => {
     const data = await fetch(getBaseUrl() + '/notif', {
       method: 'DELETE',

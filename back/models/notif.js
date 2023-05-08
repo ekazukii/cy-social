@@ -4,7 +4,7 @@ const { asyncQuery } = require('./database');
 const mysql = require('mysql2');
 
 const getNotif = userId => {
-  const sql = mysql.format('SELECT * FROM Notifications n LEFT JOIN Users u ON(id_user = ? AND u.id = n.id_author)', [
+  const sql = mysql.format('SELECT * FROM Notifications n INNER JOIN Users u ON(id_user = ? AND u.id = n.id_author)', [
     userId
   ]);
   return asyncQuery(sql);

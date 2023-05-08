@@ -23,7 +23,7 @@ export default function HeaderProfil({ user }) {
       </div>
       <div className={classes['header-profil-mid']}>
         <div className={classes['header-profil-user-pic']}>
-          <NiceAvatar style={{ width: '4rem', height: '4rem' }} {...JSON.parse(props.profile_pic)} id={'nice-avatar'} />
+          <NiceAvatar style={{ width: '4rem', height: '4rem' }} {...JSON.parse(user.profile_pic)} id={'nice-avatar'} />
         </div>
         <div className={classes['header-profil-user-details']}>
           <div className={classes['header-profil-user-details-name']}>{user.name}</div>
