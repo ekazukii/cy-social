@@ -10,6 +10,7 @@ import TextArea from '../TextArea/TextArea';
 import Button from '../Button/Button';
 import Select from '../Input/Select';
 import { useSession } from '../../hooks/useSession';
+import NiceAvatar from 'react-nice-avatar';
 
 /**
  *
@@ -56,9 +57,10 @@ export default function Poste(props) {
   return (
     <div className={classes['post-container']} key={props.poste.id}>
       <div className={classes['post-user']}>
-        <img
-          src={props.user.profile_pic}
-          alt={props.user.name}
+        <NiceAvatar
+          style={{ width: '4rem', height: '4rem' }}
+          {...JSON.parse(props.user.profile_pic)}
+          id={'nice-avatar'}
           ref={avatarRef}
           onMouseEnter={handleHover}
           onMouseLeave={handleLeave}
