@@ -1,14 +1,14 @@
-import HeaderProfil from "../components/Header-profil/Header-profil";
-import Banner from "../components/Banner/Banner";
-import Navbar from "../components/Navbar/Navbar";
-import Poste from "../components/Poste/Poste";
-import { useParams } from "react-router-dom";
+import HeaderProfil from '../components/Header-profil/Header-profil';
+import Banner from '../components/Banner/Banner';
+import Navbar from '../components/Navbar/Navbar';
+import Poste from '../components/Poste/Poste';
+import { useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { useSession } from '../hooks/useSession';
-import classes from "./profil.module.css";
-import CreatePoste from "../components/Poste/CreatePoste"
-import Recap from "../components/Recap/Recap";
-import RecapFav from "../components/Recap/RecapFav";
+import classes from './profil.module.css';
+import CreatePoste from '../components/Poste/CreatePoste';
+import Recap from '../components/Recap/Recap';
+import RecapFav from '../components/Recap/RecapFav';
 
 export default function Profil(props) {
   const { user, isLoggedIn, setSession, login, refreshData, logout } = useSession();
@@ -47,51 +47,58 @@ export default function Profil(props) {
       else if(isLoggedIn == false){
         window.location.replace(`/`);
       }
-    });  
+    } else if (isLoggedIn == false) {
+      window.location.replace(`/`);
+    }
+  }, [isLoggedIn, user]);
   return (
     <>
       {isLoading ? (
         <div>Chargement des données...</div>
       ) : (
         <>
-        <Navbar isConnected={isLoggedIn} notifs={data.notif} />
-        <div className={classes["container_body"]}>
+          <Navbar />
+          <div className={classes['container_body']}>
+            {/* conteneur flex droit  */}
+            <div className={classes['container_body_left']}>
+              <div className={classes['nouveau_sondage']}>
+                <h3 className={classes['titre']}>Nouveau Sondage</h3>
+                <CreatePoste author={data.userConnected} />
+              </div>
 
-          {/* conteneur flex droit  */}
-          <div className={classes["container_body_left"]}>
-
-            <div className={classes["nouveau_sondage"]}>
-              <h3 className={classes["titre"]}>Nouveau Sondage</h3>
-              <CreatePoste author={data.userConnected}/>
-            </div>
-
-            <div className={classes["mes_groupes"]}>
-              <h3 className={classes["titre"]}>Mes groupes</h3>
-              <div className={classes["recapBox"]}>
-                {data.group.groups && data.group.groups.slice(0, numGroups).map((item, key) =>
-                  <Recap group={item} indice={key} isLinkToGroup={true}/>
+              <div className={classes['mes_groupes']}>
+                <h3 className={classes['titre']}>Mes groupes</h3>
+                <div className={classes['recapBox']}>
+                  {data.group.groups &&
+                    data.group.groups
+                      .slice(0, numGroups)
+                      .map((item, key) => <Recap group={item} indice={key} isLinkToGroup={true} />)}
+                  {data.group.groups && data.group.groups.length > numGroups && (
+                    <span className={classes['voirPlus']} onClick={() => setNumGroups(numGroups + 3)}>
+                      Voir plus
+                    </span>
                   )}
-                {data.group.groups && data.group.groups.length > numGroups && (
-                  <span className={classes["voirPlus"]} onClick={() => setNumGroups(numGroups + 3)}>
-                    Voir plus
-                  </span>
-                )}
+                </div>
+              </div>
+
+              <div className={classes['mes_favories']}>
+                <h3 className={classes['titre']}>Mes favoris</h3>
+                <div className={classes['recapBox']}>
+                  <RecapFav post={data.posts[0]} indice={0} />
+                  <RecapFav post={data.posts[0]} indice={1} />
+                  <RecapFav post={data.posts[0]} indice={2} />
+                </div>
               </div>
             </div>
 
-            <div className={classes["mes_favories"]}>
-              <h3 className={classes["titre"]}>Mes favoris</h3>
-              <div className={classes["recapBox"]}>
-                <RecapFav post={data.posts[0]} indice={0}/>
-                <RecapFav post={data.posts[0]} indice={1}/>
-                <RecapFav post={data.posts[0]} indice={2}/>
+            {/* conteneur flex central  */}
+            <div className={classes['container_body_center']}>
+              <div className={classes['banner']}>
+                <Banner user={data.user} />
               </div>
-            </div>
 
-          </div>
-
-          {/* conteneur flex central  */}
-          <div className={classes["container_body_center"]}>
+              <div className={classes['postes']}>
+                <h3 className={classes['titre']}>Les postes de @{data.user.username}</h3>
 
             <div className={classes["banner"]}>
               <Banner user={data.user}/>
@@ -106,16 +113,13 @@ export default function Profil(props) {
                     <Poste key={index} poste={item} user={data.user} />
                   </div>
                   ))}
+                </div>
               </div>
-            
             </div>
 
+            {/* conteneur flex gauche  */}
+            {/* <div className={classes["container_body_right"]}></div> */}
           </div>
-
-          {/* conteneur flex gauche  */}
-          {/* <div className={classes["container_body_right"]}></div> */}
-
-        </div>
         </>
       )}
     </>

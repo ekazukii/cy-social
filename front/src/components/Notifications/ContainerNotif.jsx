@@ -30,7 +30,7 @@ export default forwardRef(function containerNotif({ notifications }, ref) {
           type={notif.type}
           link={notif.link}
           image={notif['profile_pic']}
-          id={notif.id}
+          id={notif.id_notif}
         />
       ))}
     </div>

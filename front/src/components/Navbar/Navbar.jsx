@@ -16,7 +16,9 @@ import LoginModal from '../Login/Login';
  * @returns
  */
 export default function Navbar(props) {
-  const { logout } = useSession();
+  const { logout, user, isLoggedIn } = useSession();
+
+  const [notifs, setNotifs] = useState([]);
 
   const [afficherDiv, setAfficherDiv] = useState(false);
 
@@ -24,12 +26,23 @@ export default function Navbar(props) {
     setAfficherDiv(!afficherDiv);
   };
 
+  useEffect(() => {
+    if (!user) return;
+    fetch(`http://localhost:3000/notif?user=${user.id}`)
+      .then(response => response.json())
+      .then(n => {
+        setNotifs(n);
+      });
+  }, [user]);
+
+  console.log(notifs);
+
   const ref = useRef();
   const ref2 = useRef();
 
   useOnClickOutside([ref, ref2], () => setAfficherDiv(false));
 
-  const numberNotif = props.notifs?.length || 0;
+  const numberNotif = notifs.length || 0;
   const isNotified = numberNotif > 0;
   return (
     <>
@@ -42,7 +55,7 @@ export default function Navbar(props) {
           onClick={() => (window.location.href = '/')}
           style={{ cursor: 'pointer' }}
         />
-        {props.isConnected ? (
+        {isLoggedIn ? (
           <div className={classes['button-group']}>
             <Icon
               className="iconNotif"
@@ -68,9 +81,9 @@ export default function Navbar(props) {
           </div>
         )}
       </nav>
-      {props.isConnected && afficherDiv && (
+      {isLoggedIn && afficherDiv && (
         <div className={classes['notifSum']}>
-          <ContainerNotif ref={ref2} notifications={props.notifs} />
+          <ContainerNotif ref={ref2} notifications={notifs} />
         </div>
       )}
     </>

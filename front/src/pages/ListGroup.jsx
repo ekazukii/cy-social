@@ -1,10 +1,10 @@
-import Navbar from "../components/Navbar/Navbar"
+import Navbar from '../components/Navbar/Navbar';
 import React, { useEffect, useState } from 'react';
 import { useSession } from '../hooks/useSession';
-import classes from "./listgroup.module.css";
-import CreatePoste from "../components/Poste/CreatePoste"
-import Recap from "../components/Recap/Recap";
-import RecapFav from "../components/Recap/RecapFav";
+import classes from './listgroup.module.css';
+import CreatePoste from '../components/Poste/CreatePoste';
+import Recap from '../components/Recap/Recap';
+import RecapFav from '../components/Recap/RecapFav';
 
 export default function ListGroup() {
   const { user, isLoggedIn, setSession, login, refreshData, logout } = useSession();
@@ -37,53 +37,58 @@ export default function ListGroup() {
         <div>Chargement des données...</div>
       ) : (
         <>
-        <Navbar isConnected={isLoggedIn} notifs={data.notif} />
-        <div className={classes["container_body"]}>
-
-          {/* conteneur flex droit  */}
-          <div className={classes["container_body_left"]}>
-
-            <div className={classes["nouveau_sondage"]}>
-              <h3 className={classes["titre"]}>Nouveau Sondage</h3>
-              <CreatePoste author={data.userConnected}/>
-            </div>
-
-            <div className={classes["mes_groupes"]}>
-              <h3 className={classes["titre"]}>Mes groupes</h3>
-              <div className={classes["recapBox"]}>
-                {data.group.groups && data.group.groups.slice(0, numGroups).map((item, key) =>
-                  <Recap group={item} indice={key} isLinkToGroup={true}/>
-                  )}
-                {data.group.groups && data.group.groups.length > numGroups && (
-                  <span className={classes["voirPlus"]} onClick={() => setNumGroups(numGroups + 3)}>
-                    Voir plus
-                  </span>
-                )}
+          <Navbar />
+          <div className={classes['container_body']}>
+            {/* conteneur flex droit  */}
+            <div className={classes['container_body_left']}>
+              <div className={classes['nouveau_sondage']}>
+                <h3 className={classes['titre']}>Nouveau Sondage</h3>
+                <CreatePoste author={data.userConnected} />
               </div>
-            </div>
 
-            <div className={classes["mes_favories"]}>
-              <h3 className={classes["titre"]}>Mes favoris</h3>
-              {/* <div className={classes["recapBox"]}>
+              <div className={classes['mes_groupes']}>
+                <h3 className={classes['titre']}>Mes groupes</h3>
+                <div className={classes['recapBox']}>
+                  {data.group.groups &&
+                    data.group.groups
+                      .slice(0, numGroups)
+                      .map((item, key) => <Recap group={item} indice={key} isLinkToGroup={true} />)}
+                  {data.group.groups && data.group.groups.length > numGroups && (
+                    <span className={classes['voirPlus']} onClick={() => setNumGroups(numGroups + 3)}>
+                      Voir plus
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div className={classes['mes_favories']}>
+                <h3 className={classes['titre']}>Mes favoris</h3>
+                {/* <div className={classes["recapBox"]}>
                 <RecapFav post={data.posts[0]} indice={0}/>
                 <RecapFav post={data.posts[0]} indice={1}/>
                 <RecapFav post={data.posts[0]} indice={2}/>
               </div> */}
+              </div>
             </div>
 
+            {/* conteneur flex central  */}
+            <div className={classes['container_body_center']}>
+              {data.allGroups.groups &&
+                data.allGroups.groups.map((item, key) => (
+                  <Recap
+                    group={item}
+                    indice={key}
+                    isLinkToGroup={false}
+                    addButton={true}
+                    user={user}
+                    isInGroup={data.group.groups.find(group => group.id === item.id)}
+                  />
+                ))}
+            </div>
+
+            {/* conteneur flex gauche  */}
+            {/* <div className={classes["container_body_right"]}></div> */}
           </div>
-
-          {/* conteneur flex central  */}
-          <div className={classes["container_body_center"]}>
-            {data.allGroups.groups && data.allGroups.groups.map((item, key) =>
-                  <Recap group={item} indice={key} isLinkToGroup={false} addButton={true} user={ user } isInGroup={data.group.groups.find(group => group.id === item.id)}/>
-                  )}
-          </div>
-
-          {/* conteneur flex gauche  */}
-          {/* <div className={classes["container_body_right"]}></div> */}
-
-        </div>
         </>
       )}
     </>
