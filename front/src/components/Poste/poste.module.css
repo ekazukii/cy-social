@@ -1,0 +1,90 @@
+.post-container{
+    background-color: rgb(230, 230, 230);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0.7;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    border-bottom: 1px solid rgb(47, 51, 54);;
+    text-align: justify;
+    /* border: 3px solid red; */
+}
+
+.post-content{
+    display: flex;
+    flex-direction: column;
+    /* flex-grow: 1; */
+    margin-left: 0.5rem;
+    flex: 7;
+    /* border: 3px solid yellow; */
+
+}
+
+.post-user {
+    flex: 1;
+    margin: 0.2rem;
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    /* border: 3px solid brown; */
+}
+
+.post-user > img{
+    border-radius: 50%;
+    width: 2rem;
+    /* border: 3px solid green; */
+}
+
+.post-header{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    /* border: 3px solid blue; */
+}
+
+.post-detail-user, .post-head-separator, .post-time-hour, .post-time-date{
+    margin-left: 0.3rem;
+    color: rgb(65, 65, 65);
+    /* border: 3px solid yellowgreen; */
+}
+
+.post-time{
+    text-align: start;
+}
+
+.post-name-user{
+    font-weight: 700;
+    color: rgb(0, 0, 0);
+    /* border: 3px solid purple; */
+}
+
+.post-body-text > p{
+    margin: 0;
+    /* border: 3px solid violet; */
+}
+
+.post-body-img{
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0 1rem 0;
+    /* border: 3px solid cyan; */
+}
+
+.post-react{
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 0.5rem;
+    /* border: 3px solid burlywood; */
+}
+
+.hoverCard{
+    position: absolute;
+    z-index: 10;
+}
+
+.post-parent-Avatar:hover{
+    cursor: pointer;
+}

@@ -1,0 +1,82 @@
+.comment-container{
+    background-color: rgb(230, 230, 230);
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    /* padding-left: 3.5rem; */
+}
+
+.comment-first{
+    display: flex;
+    flex-direction: row;
+    /* border: 2px solid blue; */
+}
+
+.comment-content{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin-left: 0.5rem;
+    /* border: 2px solid red; */
+}
+
+.comment-user > img{
+    border-radius: 50%;
+    width: 3.5rem;
+}
+
+.comment-header{
+    display: flex;
+    flex-direction: column;
+    /* border: 2px solid violet; */
+}
+
+.comment-header > div{
+    display: flex;
+    flex-direction: row;
+    /* border: 2px solid green; */
+    flex-wrap: wrap;
+}
+
+.comment-detail-user, .comment-head-separator, .comment-time-hour, .comment-time-date {
+    margin-left: 0.3rem;
+    color: rgb(65, 65, 65);
+    /* border: 2px solid cyan; */
+}
+
+.comment-name-user{
+    font-weight: 700;
+    color: rgb(0, 0, 0);
+    /* border: 2px solid cyan; */
+}
+
+.comment-body > p{
+    margin: 0;
+    /* border: 2px solid cornflowerblue; */
+}
+
+.comment-body-img{
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0 1rem 0;
+}
+
+.comment-react{
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.comment-header-second > span{
+    color: rgb(113, 118, 123);
+}
+
+.hoverCard{
+    position: absolute;
+    z-index: 10;
+}
+
+.comment-parent-avatar{
+    cursor: pointer;
+}

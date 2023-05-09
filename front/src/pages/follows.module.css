@@ -1,0 +1,146 @@
+/* .container_body{
+    display:flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+.container_body_center{
+    max-width: 50vw;
+}
+
+.container_body_center > div:nth-child(2){
+    border-radius: 10px 10px 0 0;
+}
+
+.container_body_center > div:last-child{
+    border-radius: 0 0 10px 10px;
+    border-bottom: 0;
+    margin-bottom: 0.5vw;
+}
+
+.container_body_left{
+    width: 25vw;
+    margin-right: 0.5rem;
+}
+
+.recapBox{
+    width: 100%;
+    border-radius: 10px;
+    background-color: rgb(230, 230, 230);
+    overflow-y: hidden;
+} */
+
+/**** MAJ ****/
+
+.container_body{
+    display: flex;
+   flex-direction: row;
+   justify-content: flex-start;
+   
+   align-items: flex-start;
+   justify-content: center;
+   flex-wrap: wrap;
+
+   /* border: 3px solid red; */
+}
+
+.container_body_left{
+   margin: 1rem;
+   width: 30%;
+   min-width: 22rem;
+
+   /* border: 3px solid yellowgreen; */
+}
+
+.container_body_left > * {
+   margin-top: 1rem;
+   margin-bottom: 2rem;
+   margin-right: 0.3rem;
+   margin-left: 0.3rem;
+
+   background-color: rgb(230, 230, 230);
+   box-shadow: 3px 10px 20px rgba(0, 0, 0, 0.2);
+   border-radius: 3px;
+   border: 0;
+}
+
+.container_body_center{
+   margin: 1rem;
+   margin-left: 0.2rem;
+   width: 50%;
+   min-width: 25rem;
+
+   /* border: 3px solid purple; */
+}
+
+.container_body_center > * {
+   background-color: rgb(230, 230, 230);
+   box-shadow: 3px 10px 20px rgba(0, 0, 0, 0.2);
+   border-radius: 3px;
+   border: 0;
+}
+
+
+/* .container_body_center > div:nth-child(2){
+   border-radius: 10px 10px 0 0;
+}
+
+.container_body_center > div:last-child{
+   border-radius: 0 0 10px 10px;
+   border-bottom: 0;
+   margin-bottom: 0.5vw;
+}
+
+
+.recapBox{
+   width: 100%;
+   border-radius: 10px;
+   background-color: rgb(230, 230, 230);
+   overflow-y: hidden;
+} */
+
+/*************************/
+
+/* .nouveau_sondage{
+   border-style: solid;
+   border-width: 3px;
+}
+
+.mes_groupes{
+   border-style: solid;
+   border-width: 3px;
+}*/
+
+/* .mes_favories{
+   border-style: solid;
+   border-width: 3px;
+} */
+
+.postes{
+   /* border-style: solid;
+   border-width: 3px;
+   border-color: blue; */
+
+   margin: 1rem;
+}
+
+.poste{
+   /* border-style: solid;
+   border-width: 1px;
+   border-color: chartreuse; */
+
+   padding: 0.2rem;
+   margin-bottom: 1rem;
+   margin-top: 1rem;
+}
+
+.titre{
+   margin: 0.7rem;
+   padding-top: 0.5rem;
+}
+
+.voirPlus{
+   margin: 0.7rem;
+}

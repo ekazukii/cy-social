@@ -1,0 +1,125 @@
+.contain-body{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    /* border: 3px solid orange; */
+    
+}
+
+.contain-left{
+    padding: 0.5rem;
+    flex: 1;
+    min-width: 22rem;
+    /* border: 3px solid hotpink; */
+}
+
+.contain-right{
+    flex: 2;
+    padding: 1rem;
+    min-width: 22rem;
+    /* border: 3px solid palegreen; */
+}
+
+.list-conv{
+    padding: 0.25rem;
+    padding-top: 0;
+    overflow-y: scroll;
+    direction: rtl;
+    height: 45rem;
+    margin-top: 1rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-bottom: 1rem;
+
+    background-color: rgb(230, 230, 230);
+    box-shadow: 3px 10px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    border: 0;
+
+    /* border: 3px solid green; */
+}
+
+.list-conv > * {
+    direction: ltr;
+}
+
+.list-conv > div{
+    margin-bottom: 0.25rem;
+    padding-bottom: 0.5rem;
+}
+
+.list-conv > div:hover{
+    cursor: pointer;
+}
+
+.conv-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    /* height: 38rem; */
+
+    background-color: rgb(230, 230, 230);
+    box-shadow: 3px 10px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 3px;
+    border: 0;
+
+    margin-top: 0.5rem;
+    margin-right: 2rem;
+    margin-left: 2rem;
+
+    /* border: 3px solid mediumblue; */
+}
+
+.conv-content > * {
+    flex: 1;
+    height: 50rem;
+    /* border: 3px solid plum; */
+}
+
+.conv-msgs{
+    /* border: 3px solid yellow; */
+    flex: 3;
+}
+
+.conv-msgs > * {
+    overflow-y: scroll;
+    scrollbar-width: auto;
+    height: 39rem;  
+    /* border: 3px solid red;  */
+    margin: 0.5rem;
+}
+
+  /* Hauteur inférieure: 700px */
+  @media screen and (max-height: 825px) {
+    .conv-msgs > * {
+      height: 35rem;
+    }
+  
+    .list-conv {
+      height: 41rem;
+    }
+  }
+  
+  /* Hauteur inférieure: 700px */
+  @media screen and (max-height: 712px) {
+    .conv-msgs > * {
+      height: 26.5rem;
+    }
+  
+    .list-conv {
+      height: 32rem;
+    }
+  }
+
+
+  /* Hauteur inférieure: 550px */
+@media screen and (max-height: 575px) {
+    .conv-msgs > * {
+      height: 17rem;
+    }
+  
+    .list-conv {
+      height: 23rem;
+    }
+  }
