@@ -4,7 +4,6 @@ import { useSession } from '../hooks/useSession';
 import classes from './listgroup.module.css';
 import CreatePoste from '../components/Poste/CreatePoste';
 import Recap from '../components/Recap/Recap';
-import RecapFav from '../components/Recap/RecapFav';
 import { getBaseUrl } from '../utils/config';
 
 export default function ListGroup() {
@@ -12,24 +11,28 @@ export default function ListGroup() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [numGroups, setNumGroups] = useState(3); // Nombre de groupes affichés par défaut
-    useEffect(() => {
-      if(isLoggedIn == true){
-        const infoUserConnected = fetch(`${getBaseUrl()}/user/${user.id}`).then(response => response.json());
-        const notifUserConnected = fetch(`${getBaseUrl()}/notif?user=${user.id}`).then(response => response.json());
-        const groupUserConnected = fetch(`${getBaseUrl()}/group?user=${user.id}`).then(response => response.json());
-        const groupAllPublic = fetch(`${getBaseUrl()}/group/all`).then(response => response.json());
-          Promise.all([infoUserConnected, notifUserConnected, groupUserConnected, groupAllPublic ])
-            .then(([userConnectedData, notifData, groupData, groupAllData]) => {
-              const data = { userConnected : userConnectedData[0], notif : notifData, group : groupData, allGroups : groupAllData };
-              setData(data);
-              setIsLoading(false);
-            })
-            .catch(error => setError(error));
-      }
-      else if(isLoggedIn == false){
-        window.location.replace(`/`);
-      }
-    }); 
+  useEffect(() => {
+    if (isLoggedIn == true) {
+      const infoUserConnected = fetch(`${getBaseUrl()}/user/${user.id}`).then(response => response.json());
+      const notifUserConnected = fetch(`${getBaseUrl()}/notif?user=${user.id}`).then(response => response.json());
+      const groupUserConnected = fetch(`${getBaseUrl()}/group?user=${user.id}`).then(response => response.json());
+      const groupAllPublic = fetch(`${getBaseUrl()}/group/all`).then(response => response.json());
+      Promise.all([infoUserConnected, notifUserConnected, groupUserConnected, groupAllPublic])
+        .then(([userConnectedData, notifData, groupData, groupAllData]) => {
+          const data = {
+            userConnected: userConnectedData[0],
+            notif: notifData,
+            group: groupData,
+            allGroups: groupAllData
+          };
+          setData(data);
+          setIsLoading(false);
+        })
+        .catch(error => setError(error));
+    } else if (isLoggedIn == false) {
+      window.location.replace(`/`);
+    }
+  });
   return (
     <>
       {isLoading ? (

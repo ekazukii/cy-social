@@ -5,7 +5,6 @@ import Button from '../components/Button/Button';
 import OpnAvatar from '../components/Avatar/Avatar';
 import Navbar from '../components/Navbar/Navbar';
 import { getBaseUrl } from '../utils/config';
-import { redirect } from 'react-router-dom';
 import { useSession } from '../hooks/useSession';
 
 export default function RegisterPage({ edit }) {
@@ -139,65 +138,65 @@ export default function RegisterPage({ edit }) {
 
   return (
     <>
-    <Navbar isConnected={false} />
-    <div className={classes['container']}>
-      <h1>{edit ? 'Paramètres du compte' : 'Créer un compte'}</h1>
-      <form onSubmit={handleSubmit}>
-        <OpnAvatar handleAvatarChange={handleAvatarChange} defAvatar={defAvatar} />
-        <Input
-          label="Prénom :"
-          id="firstName"
-          type="text"
-          onChange={e => handleChange(e, 'firstName')}
-          value={formValues.firstName.value}
-          isValid={formValues.firstName.isValid}
-          large
-        />
+      <Navbar isConnected={false} />
+      <div className={classes['container']}>
+        <h1>{edit ? 'Paramètres du compte' : 'Créer un compte'}</h1>
+        <form onSubmit={handleSubmit}>
+          <OpnAvatar handleAvatarChange={handleAvatarChange} defAvatar={defAvatar} />
+          <Input
+            label="Prénom :"
+            id="firstName"
+            type="text"
+            onChange={e => handleChange(e, 'firstName')}
+            value={formValues.firstName.value}
+            isValid={formValues.firstName.isValid}
+            large
+          />
 
-        <Input
-          label="Nom d'utilisateur :"
-          id="username"
-          type="text"
-          onChange={e => handleChange(e, 'username')}
-          value={formValues.username.value}
-          isValid={formValues.username.isValid}
-          large
-        />
+          <Input
+            label="Nom d'utilisateur :"
+            id="username"
+            type="text"
+            onChange={e => handleChange(e, 'username')}
+            value={formValues.username.value}
+            isValid={formValues.username.isValid}
+            large
+          />
 
-        <Input
-          label="Mot de passe :"
-          id="password"
-          type="password"
-          onChange={e => handleChange(e, 'password')}
-          value={formValues.password.value}
-          isValid={formValues.password.isValid}
-          large
-        />
+          <Input
+            label="Mot de passe :"
+            id="password"
+            type="password"
+            onChange={e => handleChange(e, 'password')}
+            value={formValues.password.value}
+            isValid={formValues.password.isValid}
+            large
+          />
 
-        <Input
-          label="Confirmer le mot de passe :"
-          id="confirmPassword"
-          type="password"
-          onChange={e => handleChange(e, 'confirmPassword')}
-          value={formValues.confirmPassword.value}
-          isValid={formValues.confirmPassword.isValid}
-          large
-        />
+          <Input
+            label="Confirmer le mot de passe :"
+            id="confirmPassword"
+            type="password"
+            onChange={e => handleChange(e, 'confirmPassword')}
+            value={formValues.confirmPassword.value}
+            isValid={formValues.confirmPassword.isValid}
+            large
+          />
 
-        <Input
-          label="Contact (Téléphone ou email) :"
-          id="contact"
-          type="text"
-          onChange={e => handleChange(e, 'contact')}
-          value={formValues.contact.value}
-          isValid={formValues.contact.isValid}
-          placeholder="+33"
-          large
-        />
+          <Input
+            label="Contact (Téléphone ou email) :"
+            id="contact"
+            type="text"
+            onChange={e => handleChange(e, 'contact')}
+            value={formValues.contact.value}
+            isValid={formValues.contact.isValid}
+            placeholder="+33"
+            large
+          />
 
-        <Button type="primary" text="Soumettre" />
-      </form>
-    </div>
+          <Button type="primary" text="Soumettre" />
+        </form>
+      </div>
     </>
   );
 }

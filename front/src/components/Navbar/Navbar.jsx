@@ -1,12 +1,11 @@
 import classes from './navbar.module.css';
 import Button from '../Button/Button';
 import Icon from '../Icon/Icon';
-import Input from '../Input/Input';
 import useOnClickOutside from '../../hooks/useOnClickOutside';
-import { useEffect, useState, useRef } from 'react';
 import ContainerNotif from '../Notifications/ContainerNotif';
-import { useSession } from '../../hooks/useSession';
 import LoginModal from '../Login/Login';
+import { useEffect, useState, useRef } from 'react';
+import { useSession } from '../../hooks/useSession';
 import { getBaseUrl } from '../../utils/config';
 
 /**
@@ -29,7 +28,7 @@ export default function Navbar(props) {
 
   const moveToMessage = () => {
     window.location.replace(`/messagerie`);
-  }
+  };
 
   useEffect(() => {
     if (!user) return;

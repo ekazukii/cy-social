@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { getBaseUrl } from '../utils/config';
 
 export const SessionContext = createContext([undefined, () => {}]);

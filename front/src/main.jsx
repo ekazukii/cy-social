@@ -8,7 +8,6 @@ import RegisterPage from './pages/Register';
 import Profil from './pages/Profil';
 import Post from './pages/Poste';
 import Message from './pages/Message';
-import Notif from './pages/Notif';
 import Accueil from './pages/Accueil';
 import Admin1 from './pages/Admin';
 import ListGroup from './pages/ListGroup';
@@ -53,10 +52,6 @@ const router = createBrowserRouter([
     element: <Message />
   },
   {
-    path: '/notif',
-    element: <Notif />
-  },
-  {
     path: '/admin',
     element: <Admin1 />
   },
@@ -66,11 +61,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/follows/:id_user',
-    element: <Follows isFollow={true}/>
+    element: <Follows isFollow={true} />
   },
   {
     path: '/followers/:id_user',
-    element: <Follows isFollow={false}/>
+    element: <Follows isFollow={false} />
   },
   {
     path: '/profil/:id_other_user',

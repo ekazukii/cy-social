@@ -20,7 +20,7 @@ const { getVote } = require('./models/vote');
 
 app.use(
   cors({
-    origin: process.env.NODE_ENV == development ? 'http://localhost:5173' : 'https://cysocial.ekazuki.fr',
+    origin: process.env.NODE_ENV == 'development' ? 'http://localhost:5173' : 'https://cysocial.ekazuki.fr',
     credentials: true
   })
 );

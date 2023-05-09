@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import Icon from '../Icon/Icon';
-import Button from '../Button/Button';
+import React from 'react';
 import classes from './header-profil.module.css';
 import NiceAvatar from 'react-nice-avatar';
 

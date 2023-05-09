@@ -1,5 +1,5 @@
-import Message from "./Message";
-import classes from "./conversation.module.css";
+import Message from './Message';
+import classes from './Conversation.module.css';
 import React, { useRef, useEffect } from 'react';
 
 export default function Conversation({ messages, author }) {
@@ -10,7 +10,7 @@ export default function Conversation({ messages, author }) {
   }, []);
 
   return (
-    <div className={classes["conversation-container"]}>
+    <div className={classes['conversation-container']}>
       {messages.map((message, index) => (
         <Message
           key={index}
@@ -20,7 +20,7 @@ export default function Conversation({ messages, author }) {
           ref={messagesEndRef}
         />
       ))}
-      <div style={{ float:"left", clear: "both" }} ref={messagesEndRef} />
+      <div style={{ float: 'left', clear: 'both' }} ref={messagesEndRef} />
     </div>
   );
 }

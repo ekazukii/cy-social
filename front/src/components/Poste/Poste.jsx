@@ -3,14 +3,12 @@ import Icon from '../Icon/Icon';
 import PercentBar from '../Percent-bar/Percent-bar';
 import classes from './poste.module.css';
 import HeaderProfil from '../Header-profil/Header-profil';
-import { getBaseUrl } from '../../utils/config';
 import Modal from '../Modal/Modal';
-import Input from '../Input/Input';
 import TextArea from '../TextArea/TextArea';
 import Button from '../Button/Button';
-import Select from '../Input/Select';
-import { useSession } from '../../hooks/useSession';
 import NiceAvatar from 'react-nice-avatar';
+import { useSession } from '../../hooks/useSession';
+import { getBaseUrl } from '../../utils/config';
 
 /**
  *

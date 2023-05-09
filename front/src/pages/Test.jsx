@@ -1,7 +1,4 @@
 import { useSession } from '../hooks/useSession';
-import Modal from '../components/Modal/Modal';
-import Input from '../components/Input/Input';
-import Button from '../components/Button/Button';
 
 export default function Test() {
   const { user, setSession, login, refreshData, logout } = useSession();

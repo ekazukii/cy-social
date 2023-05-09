@@ -7,7 +7,6 @@ import classes from './accueil.module.css';
 import { useSession } from '../hooks/useSession';
 import Recap from '../components/Recap/Recap';
 import Banner from '../components/Banner/Banner';
-import RecapFav from '../components/Recap/RecapFav';
 import { getBaseUrl } from '../utils/config';
 
 export default function Accueil() {

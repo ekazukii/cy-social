@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classes from './banner.module.css';
-import Icon from '../Icon/Icon';
 import NiceAvatar from 'react-nice-avatar';
 import Button from '../Button/Button';
 import Modal from '../Modal/Modal';
 import Input from '../Input/Input';
 import { getBaseUrl } from '../../utils/config';
-import { useSession } from '../../hooks/useSession';
 
 /**
  *
@@ -20,13 +18,13 @@ import { useSession } from '../../hooks/useSession';
  * @returns
  */
 export default function HeaderProfil({ user, group }) {
-  const moveToFollow = (id) => {
+  const moveToFollow = id => {
     window.location.replace(`/follows/${id}`);
   };
 
-  const moveToFollower = (id) => {
+  const moveToFollower = id => {
     window.location.replace(`/followers/${id}`);
-  }
+  };
   return (
     <>
       {user && (

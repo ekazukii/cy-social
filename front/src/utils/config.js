@@ -1,1 +1,1 @@
-export const getBaseUrl = () => 'http://localhost:3000';
+export const getBaseUrl = () => 'https://api-cysocial.ekazuki.fr';
