@@ -75,7 +75,7 @@ export default function Navbar(props) {
           </div>
         ) : (
           <div>
-            <LoginModal handleClose={() => setA} />
+            <LoginModal handleClose={() => setAfficherDiv} />
             <Button text={'Register'} link={'/register'} />
           </div>
         )}
