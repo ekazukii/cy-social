@@ -18,18 +18,32 @@ export default function Accueil() {
   const [numGroups, setNumGroups] = useState(3);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  const deletePosts = id => {
+    console.log(data.posts.posts[0].id, id);
+    setData({ ...data, posts: { ...data.posts, posts: data.posts.posts.filter(post => post.id != id) } });
+    console.log(data);
+  };
+
+  const updatePosts = () => {
     if (isLoggedIn == true) {
       const infoUserConnected = fetch(`http://localhost:3000/user/${user.id}`).then(response => response.json());
       const notifUserConnected = fetch(`http://localhost:3000/notif?user=${user.id}`).then(response => response.json());
       const groupUserConnected = fetch(`http://localhost:3000/group?user=${user.id}`).then(response => response.json());
-      const groupInfo = fetch(`http://localhost:3000/group/${id_tl_group > 0 ? id_tl_group : '1'}`).then(response => response.json());
+      const groupInfo = fetch(`http://localhost:3000/group/${id_tl_group > 0 ? id_tl_group : '1'}`).then(response =>
+        response.json()
+      );
       const tlUserConnected = fetch(
         `http://localhost:3000/post/tl?${id_tl_group > 0 ? 'group=' + id_tl_group : 'user=' + user.id}`
       ).then(response => response.json());
       Promise.all([infoUserConnected, notifUserConnected, groupUserConnected, tlUserConnected, groupInfo])
         .then(([userConnectedData, notifData, groupData, postData, groupInfoData]) => {
-          const data = { userConnected: userConnectedData[0], notif: notifData, group: groupData, posts: postData, infoGroupData: groupInfoData };
+          const data = {
+            userConnected: userConnectedData[0],
+            notif: notifData,
+            group: groupData,
+            posts: postData,
+            infoGroupData: groupInfoData
+          };
           setData(data);
           setIsLoading(false);
         })
@@ -37,6 +51,10 @@ export default function Accueil() {
     } else if (isLoggedIn === false) {
       setIsLoading(false);
     }
+  };
+
+  useEffect(() => {
+    updatePosts();
   }, [isLoggedIn, user]);
 
   console.log(data);
@@ -78,13 +96,17 @@ export default function Accueil() {
                 </div>
 
                 <div className={classes['container_body_center']}>
-                { id_tl_group > 0 && <Banner group={data.infoGroupData.group[0]}/> }
+                  {id_tl_group > 0 && <Banner group={data.infoGroupData.group[0]} />}
                   <div className={classes['postes']}>
-                    <h3 className={classes['titre']}>{id_tl_group > 0 ? "La TimeLine du groupe" : "Ma Timeline"}</h3>
+                    <h3 className={classes['titre']}>{id_tl_group > 0 ? 'La TimeLine du groupe' : 'Ma Timeline'}</h3>
                     {data.posts.posts &&
                       data.posts.posts.map(item => (
                         <div className={classes['poste']}>
-                          <Poste poste={item} user={data.posts.users[item.id_user]} />
+                          <Poste
+                            poste={item}
+                            user={data.posts.users[item.id_user]}
+                            updatePosts={() => deletePosts(item.id)}
+                          />
                         </div>
                       ))}
                   </div>

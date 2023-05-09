@@ -3,6 +3,8 @@ import Icon from '../Icon/Icon';
 import classes from './comment.module.css';
 import HeaderProfil from '../Header-profil/Header-profil';
 import NiceAvatar from 'react-nice-avatar';
+import { useSession } from '../../hooks/useSession';
+import { getBaseUrl } from '../../utils/config';
 
 /**
  *
@@ -15,6 +17,7 @@ import NiceAvatar from 'react-nice-avatar';
 export default function Comment(props) {
   const avatarRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
+  const { user } = useSession();
 
   const handleHover = () => {
     setIsHovering(true);
@@ -24,23 +27,24 @@ export default function Comment(props) {
     setIsHovering(false);
   };
 
-  const moveToUser = (id) => {
+  const moveToUser = id => {
     window.location.replace(`/profil/${id}`);
   };
 
   const textStyle = {
-    textDecoration: isHovering ? "underline" : "none",
-    cursor: "pointer"
+    textDecoration: isHovering ? 'underline' : 'none',
+    cursor: 'pointer'
   };
   return (
     <div className={classes['comment-container']}>
       <div className={classes['comment-first']}>
         <div className={classes['comment-user']}>
-          <div className={classes['comment-parent-avatar']}
-          onMouseEnter={handleHover}
-          onMouseLeave={handleLeave}
-          onClick={() => moveToUser(props.userSender.id)}
-          ref={avatarRef}
+          <div
+            className={classes['comment-parent-avatar']}
+            onMouseEnter={handleHover}
+            onMouseLeave={handleLeave}
+            onClick={() => moveToUser(props.userSender.id)}
+            ref={avatarRef}
           >
             <NiceAvatar
               style={{ width: '4rem', height: '4rem' }}
@@ -53,16 +57,18 @@ export default function Comment(props) {
         <div className={classes['comment-content']}>
           <div className={classes['comment-header']}>
             <div className={classes['comment-header-first']}>
-              <div className={classes['comment-name-user']} 
-                style={textStyle}           
+              <div
+                className={classes['comment-name-user']}
+                style={textStyle}
                 onMouseEnter={handleHover}
                 onMouseLeave={handleLeave}
                 onClick={() => moveToUser(props.user.id)}
               >
                 <span>{props.userSender.name}</span>
               </div>
-              <div className={classes['comment-detail-user']}
-                style={textStyle}           
+              <div
+                className={classes['comment-detail-user']}
+                style={textStyle}
                 onMouseEnter={handleHover}
                 onMouseLeave={handleLeave}
                 onClick={() => moveToUser(props.user.id)}
@@ -92,6 +98,25 @@ export default function Comment(props) {
               number="300"
             />
             <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green" number="1 205" />
+            {Number(props.userSender.id) == user?.id && (
+              <Icon
+                icon="fi fi-rr-trash"
+                iconClicked="fi fi-rr-trash"
+                hoverColor="icon-will-be-red"
+                handleClick={async () => {
+                  await fetch(`${getBaseUrl()}/post/comment`, {
+                    method: 'DELETE',
+                    headers: {
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                      id: props.comment.id
+                    })
+                  });
+                  props.updateComments();
+                }}
+              />
+            )}
           </div>
         </div>
       </div>

@@ -8,18 +8,12 @@ import WriteComment from '../components/Comment/WriteComment';
 
 export default function Post() {
   const { id } = useParams(); // extrait l'id de l'URL
-
   const [data, setData] = useState([]);
-
-  // const user_test = {
-  //   "name": "Baillet Tom",
-  //   "username": "@Youbuze",
-  //   "nbPoste": 12,
-  //   "nbFollow": 13,
-  //   "nbFollower": 14
-  // }
-
   const [error, setError] = useState(null); // Ajout de l'état d'erreur
+
+  const deleteComment = id => {
+    setData({ ...data, comments: data.comments.filter(comm => comm.id != id) });
+  };
 
   if (error) {
     // Si une erreur est survenue lors de la récupération des données
@@ -30,7 +24,7 @@ export default function Post() {
 
   const [data_notif, setData_notif] = useState([]);
 
-  useEffect(() => {
+  const updatePosts = () => {
     // Récupération des données du post
     fetch(`http://localhost:3000/post/${id}`)
       .then(response => response.json())
@@ -61,6 +55,10 @@ export default function Post() {
           .catch(error => setError(error));
       })
       .catch(error => setError(error));
+  };
+
+  useEffect(() => {
+    updatePosts();
   }, [id]);
 
   useEffect(() => {
@@ -76,7 +74,14 @@ export default function Post() {
       <div class="container_body">
         <div class="container_body_left"></div>
         <div class="container_body_center">
-          {data.post && <Poste poste={data.post} user={data.users[data.post.id_user]} isLinkToPost={false} />}
+          {data.post && (
+            <Poste
+              poste={data.post}
+              user={data.users[data.post.id_user]}
+              isLinkToPost={false}
+              updatePosts={() => updatePosts()}
+            />
+          )}
           <WriteComment idPost={id} />
           {data.comments &&
             data.comments.map(comment => (
@@ -84,6 +89,7 @@ export default function Post() {
                 comment={comment}
                 userSender={data.users[comment.id_user]}
                 userReceiver={data.users[data.post.id_user]}
+                updateComments={() => deleteComment(comment.id)}
               />
             ))}
         </div>
