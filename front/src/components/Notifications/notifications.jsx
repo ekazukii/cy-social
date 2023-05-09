@@ -16,7 +16,7 @@ import NiceAvatar from 'react-nice-avatar';
  * @returns
  */
 export default function Notifications(props) {
-  console.log(props.image);
+  console.log(props);
   const clickNotif = async e => {
     const data = await fetch(getBaseUrl() + '/notif', {
       method: 'DELETE',
@@ -24,10 +24,11 @@ export default function Notifications(props) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        id: props.id
+        id: props.id_notif
       })
     });
-    window.location.replace(location.origin + props.link);
+
+    if (data.ok) window.location.replace(location.origin + props.link);
   };
 
   return (
