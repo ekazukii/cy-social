@@ -26,6 +26,10 @@ export default function Navbar(props) {
     setAfficherDiv(!afficherDiv);
   };
 
+  const moveToMessage = () => {
+    window.location.replace(`/messagerie`);
+  }
+
   useEffect(() => {
     if (!user) return;
     fetch(`http://localhost:3000/notif?user=${user.id}`)
@@ -68,10 +72,19 @@ export default function Navbar(props) {
               font_size="1.5rem"
               color="#FCA311"
             />
+            <Icon
+              className="iconMessage"
+              icon="fi fi-sr-envelope"
+              iconClicked="fi fi-sr-envelope"
+              hoverColor="icon-will-be-blue"
+              isNotified={false}
+              handleClick={moveToMessage}
+              font_size="1.5rem"
+              color="#FCA311"
+            />
             <Button text={'Profile'} type={'primary'} link={'/profil'} />
             <Button text={'Paramètres'} link={'/settings'} />
-            <Button text={'Message'} link={'/messagerie'} />
-            <Button text={'Administration'} link={'/admin'} />
+            {/* <Button text={'Administration'} link={'/admin'} /> */}
             <Button text={'Déconnexion'} handleClick={() => logout()} />
           </div>
         ) : (

@@ -43,14 +43,12 @@ export default function Profil(props) {
             })
             .catch(error => setError(error));
         }
-      }
-      else if(isLoggedIn == false){
+      } else if(isLoggedIn == false){
         window.location.replace(`/`);
       }
-    } else if (isLoggedIn == false) {
-      window.location.replace(`/`);
-    }
-  }, [isLoggedIn, user]);
+    }, [isLoggedIn, user]);
+
+
   return (
     <>
       {isLoading ? (
@@ -120,8 +118,10 @@ export default function Profil(props) {
             {/* conteneur flex gauche  */}
             {/* <div className={classes["container_body_right"]}></div> */}
           </div>
+          </div>
         </>
       )}
+    
     </>
   );
 }

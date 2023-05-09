@@ -74,7 +74,7 @@ const getFollowers = async userId => {
 
 const getFollowing = async userId => {
   const sql = mysql.format(
-    'SELECT u.*, (SELECT COUNT(*) FROM `Followers` WHERE id_user = u.id) as nbFollowers, (SELECT COUNT(*) FROM `Followers` WHERE id_follower = u.id) as nbFollows, (SELECT COUNT(*) FROM `Posts` WHERE id_follower = u.id) as nbPosts FROM `Followers` f INNER JOIN `Users` u ON(f.id_follower = u.id) WHERE f.id_user = ?',
+    'SELECT u.*, (SELECT COUNT(*) FROM `Followers` WHERE id_user = u.id) as nbFollowers, (SELECT COUNT(*) FROM `Followers` WHERE id_user = u.id) as nbFollows, (SELECT COUNT(*) FROM `Posts` WHERE id_user = u.id) as nbPosts FROM `Followers` f INNER JOIN `Users` u ON(f.id_follower = u.id) WHERE f.id_user = ?',
     [userId]
   );
   const following = await asyncQuery(sql);
