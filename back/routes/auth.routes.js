@@ -15,7 +15,6 @@ router.post('/login', async (req, res) => {
   hash.update(password);
   const hashedPassword = hash.digest('hex');
 
-  console.log(hashedPassword, user);
   if (hashedPassword !== user.passwd) return res.send({ success: false });
 
   req.session.user = user;

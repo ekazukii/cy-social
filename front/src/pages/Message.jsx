@@ -1,45 +1,50 @@
-import RecapConv from "../components/Message/RecapConv"
-import Navbar from "../components/Navbar/Navbar"
-import HeaderProfil from "../components/Header-profil/Header-profil"
-import Conversation from "../components/Message/Conversation"
-import "./Message.css"
-import TextArea from "../components/TextArea/TextArea"
-import React, { useEffect, useState } from 'react'
+import RecapConv from "../components/Message/RecapConv";
+import Navbar from "../components/Navbar/Navbar";
+import HeaderProfil from "../components/Header-profil/Header-profil";
+import Conversation from "../components/Message/Conversation";
+import "./Message.css";
+import TextArea from "../components/TextArea/TextArea";
+import { useSession } from '../hooks/useSession';
+import { getBaseUrl } from '../utils/config';
+import React, { useEffect, useState } from 'react';
+import moment from "moment";
 
 
 export default function Messagerie() {
+  const { user, isLoggedIn, setSession, login, refreshData, logout } = useSession();
   
   const [dataAuth, setDataAuth] = useState(null);
   const [dataRecapConv, setDataRecapConv] = useState(null);
   const [selectedConv, setSelectedConv] = useState(null);
   const [data_notif, setData_notif] = useState([]);
-  const [dataSelectedConv, setdataSelectedConv] = useState([]);
+  const [dataSelectedConv, setdataSelectedConv] = useState(null);
+  const [messageContent, setMessageContent] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   
   const changeConv = (conv) => {
     setSelectedConv(conv);
   }
 
   useEffect(() => {
-    fetch("http://localhost:3000/auth/whoami", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
-    .then(response => response.json())
-    .then(dataAuth => setDataAuth(dataAuth))
-    .catch(error => console.error(error));
-  }, []);
+    if (isLoggedIn == true) {
+      const infoUserConnected = fetch(`http://localhost:3000/user/${user.id}`).then(response => response.json());
+      const notifUserConnected = fetch(`http://localhost:3000/notif?user=${user.id}`).then(response => response.json());
+      const conversationUserConnected = fetch(`http://localhost:3000/conversation?user=${user.id}`).then(response => response.json());
 
-  useEffect(() => {
-    if (dataAuth && dataAuth.user) {
-      fetch("http://localhost:3000/conversation?user=" + dataAuth.user.id.toString())
-      .then(response => response.json())
-      .then(dataRecapConv => setDataRecapConv(dataRecapConv))
-      .catch(error => console.error(error));
+      Promise.all([infoUserConnected, notifUserConnected, conversationUserConnected])
+        .then(([promiseResultUserConnectedData, promiseResultNotifData, promiseResultConversationUserConnected]) => {
+          setDataAuth(promiseResultUserConnectedData[0]);
+          setData_notif(promiseResultNotifData);
+          setDataRecapConv(promiseResultConversationUserConnected);
+          setIsLoading(false);
+        })
+        .catch(error => setError(error));
+        
+    } else if (isLoggedIn == false) {
+      // setIsLoading(false);
+      window.location.replace(`/`);
     }
-  }, [dataAuth]);
+  }, [isLoggedIn, user]);
 
   useEffect(() => {
     if (dataRecapConv && dataRecapConv[0].id_conv) {
@@ -48,24 +53,51 @@ export default function Messagerie() {
   }, [dataRecapConv]);
   
   useEffect(() => {
-    if (selectedConv && dataSelectedConv) {
+    if (selectedConv) {
       fetch("http://localhost:3000/message?conv=" + selectedConv.toString())
       .then(response => response.json())
       .then(dataSelectedConv => setdataSelectedConv(dataSelectedConv))
       .catch(error => console.error(error));
     }
-  }, [selectedConv, dataSelectedConv]);
+  }, [selectedConv]);
 
-useEffect(() => {
-  if (dataAuth && dataAuth.user) {
-    fetch("http://localhost:3000/notif?user=" + dataAuth.user.id.toString()) 
-      .then(response => response.json())
-      .then(data_notif => setData_notif(data_notif))
-      .catch(error => console.error(error));
+  const sendMessage = async () => {
+    const data = await fetch(`${getBaseUrl()}/message`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        id_conv : selectedConv.toString(),
+        id_user :  dataAuth.id.toString(),
+        content : messageContent
+      })
+    });
+    
+    const newMessageData = {
+      id_user : dataAuth.id,
+      content: messageContent,
+      date: moment().format("LLL"),
+    };
+
+    const newDataSelectedConv = [...dataSelectedConv, newMessageData];
+    setdataSelectedConv(newDataSelectedConv);
+  };
+
+  function handleSubmit(e) {
+    sendMessage();
+    setMessageContent(null);
   }
-  }, [dataAuth]);
- 
-      return (
+
+  function handleChange(value) {
+    setMessageContent(value);
+  }
+
+  return (
+    <>
+    {isLoading ? (
+      <div>Chargement des données...</div>
+    ) : (
       <>
       <Navbar isConnected={true} notifs={data_notif}/>
       <div className="contain-body">
@@ -88,15 +120,17 @@ useEffect(() => {
         </div>
         <div className="contain-right">
               <div className="conv-content">  
-                {(dataAuth && dataAuth.user.id && dataSelectedConv) && (
+                {(dataAuth && dataAuth.id && dataSelectedConv) && (
                   <div className="conv-msgs">
-                    <Conversation author={dataAuth.user.id} messages={dataSelectedConv}/>
+                    <Conversation author={dataAuth.id} messages={dataSelectedConv}/>
                   </div>
                 )}
-                <TextArea className="conv-textarea"/>
+                <TextArea className="conv-textarea" onSubmit={handleSubmit} onChange={handleChange}/>
               </div>    
         </div>
       </div>
+      </>
+      )}
     </>
   );
 }

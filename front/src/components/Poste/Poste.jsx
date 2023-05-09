@@ -55,41 +55,46 @@ export default function Poste(props) {
     window.location.replace(`/post/${props.poste.id}`);
   };
 
-  const moveToUser = (id) => {
+  const moveToUser = id => {
     window.location.replace(`/profil/${id}`);
   };
 
   const textStyle = {
-    textDecoration: isHovering ? "underline" : "none",
-    cursor: "pointer"
+    textDecoration: isHovering ? 'underline' : 'none',
+    cursor: 'pointer'
   };
   return (
     <div className={classes['post-container']} key={props.poste.id}>
-      <div className={classes['post-user']} >
-        <div className={classes['post-parent-Avatar']}
+      <div className={classes['post-user']}>
+        <div
+          className={classes['post-parent-Avatar']}
           onMouseEnter={handleHover}
           onMouseLeave={handleLeave}
+          ref={avatarRef}
           onClick={() => moveToUser(props.user.id)}
         >
           <NiceAvatar
             style={{ width: '4rem', height: '4rem' }}
             {...JSON.parse(props.user.profile_pic)}
             id={'nice-avatar'}
-            ref={avatarRef}
           />
         </div>
         <div className={classes['hoverCard']}>{isHovering && <HeaderProfil user={props.user} />}</div>
       </div>
       <div className={classes['post-content']}>
         <div className={classes['post-header']}>
-          <div className={classes['post-name-user']} style={textStyle}           
+          <div
+            className={classes['post-name-user']}
+            style={textStyle}
             onMouseEnter={handleHover}
             onMouseLeave={handleLeave}
             onClick={() => moveToUser(props.user.id)}
           >
             <span>{props.user.name}</span>
           </div>
-          <div className={classes['post-detail-user']} style={textStyle}
+          <div
+            className={classes['post-detail-user']}
+            style={textStyle}
             onMouseEnter={handleHover}
             onMouseLeave={handleLeave}
             onClick={() => moveToUser(props.user.id)}
@@ -100,7 +105,7 @@ export default function Poste(props) {
             <span>·</span>
           </div>
           <div className={classes['post-time']}>
-            <span style={{marginLeft: '0.25rem'}}>
+            <span style={{ marginLeft: '0.25rem' }}>
               {new Date(props.poste.date_publi).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -{' '}
               {new Date(props.poste.date_publi).toLocaleDateString()}
             </span>
@@ -206,6 +211,25 @@ export default function Poste(props) {
             }}
           />
           <Icon icon="fi fi-rr-stats" hoverColor="icon-will-be-green" stats={props.poste.view_count} />
+          {Number(props.user?.id) == user?.id && (
+            <Icon
+              icon="fi fi-rr-trash"
+              iconClicked="fi fi-rr-trash"
+              hoverColor="icon-will-be-red"
+              handleClick={async () => {
+                await fetch(`${getBaseUrl()}/post`, {
+                  method: 'DELETE',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({
+                    id: props.poste.id
+                  })
+                });
+                props.updatePosts();
+              }}
+            />
+          )}
         </div>
       </div>
     </div>

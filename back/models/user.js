@@ -45,14 +45,15 @@ const createUser = (username, name, mail, tel, adresse, dateBday, role, password
   return asyncQuery(sql);
 };
 
-const updateUser = (id, name, adresse, dateBday, role) => {
-  const sql = mysql.format('UPDATE Users SET name = ?, adresse = ?, date_bday = ?, role = ? WHERE id = ?', [
-    name,
-    adresse,
-    dateBday,
-    role,
-    id
-  ]);
+const updateUser = (id, username, name, mail, tel, adresse, dateBday, role, password, img) => {
+  const hash = crypto.createHash('sha256');
+  hash.update(password);
+  const hashedPassword = hash.digest('hex');
+
+  const sql = mysql.format(
+    'UPDATE Users SET username = ?, name = ?, mail = ?, tel = ?, adresse = ?, date_bday = ?, role = ?, passwd = ?, profile_pic = ? WHERE id = ?',
+    [username, name, mail, tel, adresse, dateBday, role, hashedPassword, img, id]
+  );
 
   return asyncQuery(sql);
 };
