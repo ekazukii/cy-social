@@ -18,8 +18,8 @@ export const SessionProvider = ({ children }) => {
 
   useEffect(() => {
     refreshData(json => {
-      if (json.user) setSession({user: json.user, isLoggedIn: true});
-      else setSession({user: null, isLoggedIn: false});
+      if (json.user) setSession({ user: json.user, isLoggedIn: true });
+      else setSession({ user: null, isLoggedIn: false });
     });
   }, []);
 

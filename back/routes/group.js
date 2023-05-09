@@ -34,7 +34,7 @@ router.post('/', async function (req, res) {
   const { name, img, description } = req.body;
   if (typeof name !== 'string' || typeof description !== 'string' || typeof img !== 'string')
     return res.status(400).send({ error: true });
-  await createGroup(name, false, img, description);
+  await createGroup(name, true, img, description);
   return res.status(200).send({ error: false });
 });
 

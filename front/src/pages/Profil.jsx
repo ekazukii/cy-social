@@ -21,19 +21,17 @@ export default function Profil(props) {
   useEffect(() => {
     if (isLoggedIn == true) {
       const infoUserConnected = fetch(`http://localhost:3000/user/${user.id}`).then(response => response.json());
-      const notifUserConnected = fetch(`http://localhost:3000/notif?user=${user.id}`).then(response => response.json());
       const groupUserConnected = fetch(`http://localhost:3000/group?user=${user.id}`).then(response => response.json());
       if (props.otherProfil && id_other_user > 0) {
         const userProfil = fetch(`http://localhost:3000/user/${id_other_user}`).then(response => response.json());
         const postUserProfil = fetch(`http://localhost:3000/post?user=${id_other_user}`).then(response =>
           response.json()
         );
-        Promise.all([infoUserConnected, userProfil, notifUserConnected, groupUserConnected, postUserProfil])
-          .then(([userConnectedData, userData, notifData, groupData, postDataUserProfil]) => {
+        Promise.all([infoUserConnected, userProfil, groupUserConnected, postUserProfil])
+          .then(([userConnectedData, userData, groupData, postDataUserProfil]) => {
             const data = {
               userConnected: userConnectedData[0],
               user: userData[0],
-              notif: notifData,
               group: groupData,
               posts: postDataUserProfil
             };
@@ -43,12 +41,11 @@ export default function Profil(props) {
           .catch(error => setError(error));
       } else {
         const postUserConnected = fetch(`http://localhost:3000/post?user=${user.id}`).then(response => response.json());
-        Promise.all([infoUserConnected, notifUserConnected, groupUserConnected, postUserConnected])
-          .then(([userConnectedData, notifData, groupData, postData]) => {
+        Promise.all([infoUserConnected, groupUserConnected, postUserConnected])
+          .then(([userConnectedData, groupData, postData]) => {
             const data = {
               userConnected: userConnectedData[0],
               user: userConnectedData[0],
-              notif: notifData,
               group: groupData,
               posts: postData
             };
@@ -67,7 +64,7 @@ export default function Profil(props) {
         <div>Chargement des données...</div>
       ) : (
         <>
-          <Navbar isConnected={isLoggedIn} notifs={data.notif} />
+          <Navbar />
           <div className={classes['container_body']}>
             {/* conteneur flex droit  */}
             <div className={classes['container_body_left']}>
