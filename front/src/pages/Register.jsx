@@ -138,7 +138,7 @@ export default function RegisterPage({ edit }) {
 
   return (
     <div className={classes['container']}>
-      <h1>Créer un compte</h1>
+      <h1>{edit ? 'Paramètres du compte' : 'Créer un compte'}</h1>
       <form onSubmit={handleSubmit}>
         <OpnAvatar handleAvatarChange={handleAvatarChange} defAvatar={defAvatar} />
         <Input

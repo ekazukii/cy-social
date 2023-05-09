@@ -215,7 +215,7 @@ router.get('/comment', function (req, res) {
 
 router.delete('/comment', function (req, res) {
   const { id } = req.body;
-  if (typeof id !== 'string') return res.status(400).send({ error: true });
+  if (id == undefined) return res.status(400).send({ error: true });
   deleteComment(Number(id));
   res.status(200).send({ success: true });
 });
