@@ -5,6 +5,7 @@ import Navbar from '../components/Navbar/Navbar';
 import Comment from '../components/Comment/Comment';
 import './poste.css';
 import WriteComment from '../components/Comment/WriteComment';
+import { getBaseUrl } from '../utils/config';
 
 export default function Post() {
   const { id } = useParams(); // extrait l'id de l'URL
@@ -24,16 +25,16 @@ export default function Post() {
 
   const updatePosts = () => {
     // Récupération des données du post
-    fetch(`http://localhost:3000/post/${id}`)
+    fetch(`${getBaseUrl()}/post/${id}`)
       .then(response => response.json())
       .then(postData => {
         // Récupération des données des utilisateurs associés
         const userId = postData.post.id_user;
-        const userPromise = fetch(`http://localhost:3000/user/${userId}`).then(response => response.json());
+        const userPromise = fetch(`${getBaseUrl()}/user/${userId}`).then(response => response.json());
 
         const userCommentPromises = Object.keys(postData.comments).map(commentId => {
           const userId = postData.comments[commentId].id_user;
-          return fetch(`http://localhost:3000/user/${userId}`).then(response => response.json());
+          return fetch(`${getBaseUrl()}/user/${userId}`).then(response => response.json());
         });
 
         // Utilisation de Promise.all pour attendre que toutes les requêtes soient terminées

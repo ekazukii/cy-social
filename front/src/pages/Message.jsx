@@ -25,8 +25,8 @@ export default function Messagerie() {
 
   useEffect(() => {
     if (isLoggedIn == true) {
-      const infoUserConnected = fetch(`http://localhost:3000/user/${user.id}`).then(response => response.json());
-      const conversationUserConnected = fetch(`http://localhost:3000/conversation?user=${user.id}`).then(response =>
+      const infoUserConnected = fetch(`${getBaseUrl()}/user/${user.id}`).then(response => response.json());
+      const conversationUserConnected = fetch(`${getBaseUrl()}/conversation?user=${user.id}`).then(response =>
         response.json()
       );
 
@@ -51,7 +51,7 @@ export default function Messagerie() {
 
   useEffect(() => {
     if (selectedConv) {
-      fetch('http://localhost:3000/message?conv=' + selectedConv.toString())
+      fetch(`${getBaseUrl()}/message?conv=` + selectedConv.toString())
         .then(response => response.json())
         .then(dataSelectedConv => setdataSelectedConv(dataSelectedConv))
         .catch(error => console.error(error));

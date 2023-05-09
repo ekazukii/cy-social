@@ -5,19 +5,19 @@ import classes from './listgroup.module.css';
 import CreatePoste from '../components/Poste/CreatePoste';
 import Recap from '../components/Recap/Recap';
 import RecapFav from '../components/Recap/RecapFav';
+import { getBaseUrl } from '../utils/config';
 
 export default function ListGroup() {
   const { user, isLoggedIn, setSession, login, refreshData, logout } = useSession();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [numGroups, setNumGroups] = useState(3); // Nombre de groupes affichés par défaut
-
     useEffect(() => {
       if(isLoggedIn == true){
-        const infoUserConnected = fetch(`http://localhost:3000/user/${user.id}`).then(response => response.json());
-        const notifUserConnected = fetch(`http://localhost:3000/notif?user=${user.id}`).then(response => response.json());
-        const groupUserConnected = fetch(`http://localhost:3000/group?user=${user.id}`).then(response => response.json());
-        const groupAllPublic = fetch(`http://localhost:3000/group/all`).then(response => response.json());
+        const infoUserConnected = fetch(`${getBaseUrl()}/user/${user.id}`).then(response => response.json());
+        const notifUserConnected = fetch(`${getBaseUrl()}/notif?user=${user.id}`).then(response => response.json());
+        const groupUserConnected = fetch(`${getBaseUrl()}/group?user=${user.id}`).then(response => response.json());
+        const groupAllPublic = fetch(`${getBaseUrl()}/group/all`).then(response => response.json());
           Promise.all([infoUserConnected, notifUserConnected, groupUserConnected, groupAllPublic ])
             .then(([userConnectedData, notifData, groupData, groupAllData]) => {
               const data = { userConnected : userConnectedData[0], notif : notifData, group : groupData, allGroups : groupAllData };
@@ -30,7 +30,6 @@ export default function ListGroup() {
         window.location.replace(`/`);
       }
     }); 
-    console.log(data);
   return (
     <>
       {isLoading ? (
