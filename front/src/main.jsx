@@ -13,7 +13,7 @@ import Accueil from './pages/Accueil';
 import Admin1 from './pages/Admin';
 import ListGroup from './pages/ListGroup';
 import { SessionProvider } from './hooks/useSession';
-import Follows from './pages/Follows'
+import Follows from './pages/Follows';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: '/register',
     element: <RegisterPage />
+  },
+  {
+    path: '/settings',
+    element: <RegisterPage edit />
   },
   {
     path: '/profil',
@@ -66,7 +70,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/profil/:id_other_user',
-    element: <Profil otherProfil={true}/>
+    element: <Profil otherProfil={true} />
   },
   {
     path: '/viewGroups',

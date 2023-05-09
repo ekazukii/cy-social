@@ -1,12 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import classes from './Register.module.css';
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
 import OpnAvatar from '../components/Avatar/Avatar';
 import { getBaseUrl } from '../utils/config';
 import { redirect } from 'react-router-dom';
+import { useSession } from '../hooks/useSession';
 
-export default function RegisterPage() {
+export default function RegisterPage({ edit }) {
+  const { user, isLoggedIn } = useSession();
+  const [defAvatar, setDefAvatar] = useState(null);
+
   const [formValues, setFormValues] = useState({
     firstName: {
       value: '',
@@ -88,7 +92,7 @@ export default function RegisterPage() {
     }
 
     const data = await fetch(getBaseUrl() + '/user/', {
-      method: 'POST',
+      method: edit ? 'PUT' : 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -98,7 +102,8 @@ export default function RegisterPage() {
         password: formValues.password.value,
         mail: formValues.contact.value,
         tel: formValues.contact.value,
-        img: formValues.avatar.value
+        img: formValues.avatar.value,
+        id: user?.id
       })
     });
 
@@ -109,11 +114,33 @@ export default function RegisterPage() {
     }
   };
 
+  useEffect(() => {
+    if (edit && user) {
+      setFormValues({
+        firstName: {
+          value: user.name,
+          isValid: true
+        },
+        username: {
+          value: user.username,
+          isValid: true
+        },
+        password: { value: '', isValid: false },
+        confirmPassword: { value: '', isValid: true },
+        contact: {
+          value: user.mail || user.tel,
+          isValid: true
+        }
+      });
+      setDefAvatar(JSON.parse(user.profile_pic));
+    }
+  }, [user, edit]);
+
   return (
     <div className={classes['container']}>
       <h1>Créer un compte</h1>
       <form onSubmit={handleSubmit}>
-        <OpnAvatar handleAvatarChange={handleAvatarChange} />
+        <OpnAvatar handleAvatarChange={handleAvatarChange} defAvatar={defAvatar} />
         <Input
           label="Prénom :"
           id="firstName"

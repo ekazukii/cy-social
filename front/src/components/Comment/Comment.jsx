@@ -40,14 +40,12 @@ export default function Comment(props) {
           onMouseEnter={handleHover}
           onMouseLeave={handleLeave}
           onClick={() => moveToUser(props.userSender.id)}
+          ref={avatarRef}
           >
             <NiceAvatar
               style={{ width: '4rem', height: '4rem' }}
               {...JSON.parse(props.userSender.profile_pic)}
               id={'nice-avatar'}
-              ref={avatarRef}
-              onMouseEnter={handleHover}
-              onMouseLeave={handleLeave}
             />
           </div>
           <div className={classes['hoverCard']}>{isHovering && <HeaderProfil user={props.userSender} />}</div>
