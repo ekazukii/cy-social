@@ -12,27 +12,24 @@ export default function ListGroup() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [numGroups, setNumGroups] = useState(3); // Nombre de groupes affichés par défaut
-
-  useEffect(() => {
-    if (isLoggedIn == true) {
-      const infoUserConnected = fetch(`${getBaseUrl()}/user/${user.id}`).then(response => response.json());
-      const groupUserConnected = fetch(`${getBaseUrl()}/group?user=${user.id}`).then(response => response.json());
-      const groupAllPublic = fetch(`${getBaseUrl()}/group/all`).then(response => response.json());
-      Promise.all([infoUserConnected, groupUserConnected, groupAllPublic])
-        .then(([userConnectedData, groupData, groupAllData]) => {
-          const data = {
-            userConnected: userConnectedData[0],
-            group: groupData,
-            allGroups: groupAllData
-          };
-          setData(data);
-          setIsLoading(false);
-        })
-        .catch(error => setError(error));
-    } else if (isLoggedIn == false) {
-      window.location.replace(`/`);
-    }
-  }, [user]);
+    useEffect(() => {
+      if(isLoggedIn == true){
+        const infoUserConnected = fetch(`${getBaseUrl()}/user/${user.id}`).then(response => response.json());
+        const notifUserConnected = fetch(`${getBaseUrl()}/notif?user=${user.id}`).then(response => response.json());
+        const groupUserConnected = fetch(`${getBaseUrl()}/group?user=${user.id}`).then(response => response.json());
+        const groupAllPublic = fetch(`${getBaseUrl()}/group/all`).then(response => response.json());
+          Promise.all([infoUserConnected, notifUserConnected, groupUserConnected, groupAllPublic ])
+            .then(([userConnectedData, notifData, groupData, groupAllData]) => {
+              const data = { userConnected : userConnectedData[0], notif : notifData, group : groupData, allGroups : groupAllData };
+              setData(data);
+              setIsLoading(false);
+            })
+            .catch(error => setError(error));
+      }
+      else if(isLoggedIn == false){
+        window.location.replace(`/`);
+      }
+    }); 
   return (
     <>
       {isLoading ? (

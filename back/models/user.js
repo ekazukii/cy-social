@@ -5,8 +5,8 @@ const crypto = require('crypto');
 const getUser = userId => {
   if (userId) {
     const sql = mysql.format(
-      'SELECT *, (SELECT COUNT(*) FROM `Followers` WHERE id_user = 1) as nbFollowers, (SELECT COUNT(*) FROM `Followers` WHERE id_follower = 1) as nbFollows, (SELECT COUNT(*) FROM `Posts` WHERE id_user = 1) as nbPosts, (SELECT COUNT(*) FROM `UsersGroups` u INNER JOIN `Groups` g ON(id_user = 1 AND g.id = u.id_group)) as nbGroups FROM `Users` WHERE id = ?',
-      [userId]
+      'SELECT *, (SELECT COUNT(*) FROM `Followers` WHERE id_user = ?) as nbFollowers, (SELECT COUNT(*) FROM `Followers` WHERE id_follower = ?) as nbFollows, (SELECT COUNT(*) FROM `Posts` WHERE id_user = ?) as nbPosts, (SELECT COUNT(*) FROM `UsersGroups` u INNER JOIN `Groups` g ON(id_user = ? AND g.id = u.id_group)) as nbGroups FROM `Users` WHERE id = ?',
+      [userId, userId, userId, userId, userId]
     );
     return asyncQuery(sql);
   }
@@ -63,20 +63,33 @@ const deleteUser = id => {
   return asyncQuery(sql);
 };
 
-const getFollowers = id => {
-  const sql = mysql.format('SELECT * FROM Followers f INNER JOIN Users u ON (u.id = f.id_user AND u.id = ?)', [id]);
-  return asyncQuery(sql);
+const getFollowers = async userId => {
+  const sql = mysql.format(
+    'SELECT u.*, (SELECT COUNT(*) FROM `Followers` WHERE id_user = u.id) as nbFollowers, (SELECT COUNT(*) FROM `Followers` WHERE id_follower = u.id) as nbFollows, (SELECT COUNT(*) FROM `Posts` WHERE id_user = u.id) as nbPosts FROM `Followers` f INNER JOIN `Users` u ON(f.id_user = u.id) WHERE f.id_follower = ?',
+    [userId]
+  );
+  const followers = await asyncQuery(sql);
+  return followers;
 };
 
-const getFollowing = id => {
-  const sql = mysql.format('SELECT * FROM Followers f INNER JOIN Users u ON (u.id = f.id_follower AND u.id = ?)', [id]);
-  return asyncQuery(sql);
+const getFollowing = async userId => {
+  const sql = mysql.format(
+    'SELECT u.*, (SELECT COUNT(*) FROM `Followers` WHERE id_user = u.id) as nbFollowers, (SELECT COUNT(*) FROM `Followers` WHERE id_follower = u.id) as nbFollows, (SELECT COUNT(*) FROM `Posts` WHERE id_follower = u.id) as nbPosts FROM `Followers` f INNER JOIN `Users` u ON(f.id_follower = u.id) WHERE f.id_user = ?',
+    [userId]
+  );
+  const following = await asyncQuery(sql);
+  return following;
 };
 
 const createFollow = (id_user, id_follower) => {
-  const sql = mysql.format('INSERT INTO Followers (id_user, id_follower) VALUES(?, ?)', [id_user, id_follower]);
+  const sql = mysql.format('INSERT INTO Followers (id_user, id_follower, date) VALUES(?, ?, ?)', [id_user, id_follower, new Date()]);
   return asyncQuery(sql);
 };
+
+const supprFollow = (id_user, id_follower) => {
+  const sql = mysql.format('DELETE FROM `Followers` WHERE id_user = ? AND id_follower = ?', [id_user, id_follower]);
+  return asyncQuery(sql);
+}
 
 module.exports = {
   getUser,
@@ -86,7 +99,8 @@ module.exports = {
   deleteUser,
   getUsers,
   createFollow,
+  supprFollow,
   getFollowers,
   getFollowing,
-  getUserByUsername
+  getUserByUsername,
 };
