@@ -15,44 +15,37 @@ export default function Profil(props) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [numGroups, setNumGroups] = useState(3); // Nombre de groupes affichés par défaut
+    
+  const { id_other_user } = useParams(); 
 
-  const { id_other_user } = useParams();
-
-  useEffect(() => {
-    if (isLoggedIn == true) {
-      const infoUserConnected = fetch(`http://localhost:3000/user/${user.id}`).then(response => response.json());
-      const groupUserConnected = fetch(`http://localhost:3000/group?user=${user.id}`).then(response => response.json());
-      if (props.otherProfil && id_other_user > 0) {
-        const userProfil = fetch(`http://localhost:3000/user/${id_other_user}`).then(response => response.json());
-        const postUserProfil = fetch(`http://localhost:3000/post?user=${id_other_user}`).then(response =>
-          response.json()
-        );
-        Promise.all([infoUserConnected, userProfil, groupUserConnected, postUserProfil])
-          .then(([userConnectedData, userData, groupData, postDataUserProfil]) => {
-            const data = {
-              userConnected: userConnectedData[0],
-              user: userData[0],
-              group: groupData,
-              posts: postDataUserProfil
-            };
-            setData(data);
-            setIsLoading(false);
-          })
-          .catch(error => setError(error));
-      } else {
-        const postUserConnected = fetch(`http://localhost:3000/post?user=${user.id}`).then(response => response.json());
-        Promise.all([infoUserConnected, groupUserConnected, postUserConnected])
-          .then(([userConnectedData, groupData, postData]) => {
-            const data = {
-              userConnected: userConnectedData[0],
-              user: userConnectedData[0],
-              group: groupData,
-              posts: postData
-            };
-            setData(data);
-            setIsLoading(false);
-          })
-          .catch(error => setError(error));
+    useEffect(() => {
+      if(isLoggedIn == true){
+        const infoUserConnected = fetch(`http://localhost:3000/user/${user.id}`).then(response => response.json());
+        const notifUserConnected = fetch(`http://localhost:3000/notif?user=${user.id}`).then(response => response.json());
+        const groupUserConnected = fetch(`http://localhost:3000/group?user=${user.id}`).then(response => response.json());
+        if(props.otherProfil && id_other_user > 0){
+          const userProfil = fetch(`http://localhost:3000/user/${id_other_user}`).then(response => response.json());
+          const postUserProfil = fetch(`http://localhost:3000/post?user=${id_other_user}`).then(response => response.json());
+          Promise.all([infoUserConnected, userProfil, notifUserConnected, groupUserConnected, postUserProfil])
+            .then(([userConnectedData, userData, notifData, groupData, postDataUserProfil]) => {
+              const data = { userConnected : userConnectedData[0], user: userData[0], notif : notifData, group : groupData, posts : postDataUserProfil };
+              setData(data);
+              setIsLoading(false);
+            })
+            .catch(error => setError(error));
+        }else{
+          const postUserConnected = fetch(`http://localhost:3000/post?user=${user.id}`).then(response => response.json());
+          Promise.all([infoUserConnected, notifUserConnected, groupUserConnected, postUserConnected])
+            .then(([userConnectedData, notifData, groupData, postData]) => {
+              const data = { userConnected : userConnectedData[0], user: userConnectedData[0], notif : notifData, group : groupData, posts : postData };
+              setData(data);
+              setIsLoading(false);
+            })
+            .catch(error => setError(error));
+        }
+      }
+      else if(isLoggedIn == false){
+        window.location.replace(`/`);
       }
     } else if (isLoggedIn == false) {
       window.location.replace(`/`);
@@ -107,11 +100,18 @@ export default function Profil(props) {
               <div className={classes['postes']}>
                 <h3 className={classes['titre']}>Les postes de @{data.user.username}</h3>
 
-                <div className={classes['list-post']}>
-                  {data.posts.map((item, index) => (
-                    <div className={classes['poste']}>
-                      <Poste key={index} poste={item} user={data.user} />
-                    </div>
+            <div className={classes["banner"]}>
+              <Banner user={data.user}/>
+            </div>
+
+            <div className={classes["postes"]}>
+            <h3 className={classes["titre"]}>Les postes de @{data.user.username}</h3>
+            
+              <div className={classes["list-post"]}>
+                {data.posts.map((item, index) => (
+                  <div className={classes["poste"]}>
+                    <Poste key={index} poste={item} user={data.user} />
+                  </div>
                   ))}
                 </div>
               </div>
