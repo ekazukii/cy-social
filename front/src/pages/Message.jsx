@@ -15,7 +15,6 @@ export default function Messagerie() {
   const [dataAuth, setDataAuth] = useState(null);
   const [dataRecapConv, setDataRecapConv] = useState(null);
   const [selectedConv, setSelectedConv] = useState(null);
-  const [data_notif, setData_notif] = useState([]);
   const [dataSelectedConv, setdataSelectedConv] = useState(null);
   const [messageContent, setMessageContent] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,15 +26,13 @@ export default function Messagerie() {
   useEffect(() => {
     if (isLoggedIn == true) {
       const infoUserConnected = fetch(`http://localhost:3000/user/${user.id}`).then(response => response.json());
-      const notifUserConnected = fetch(`http://localhost:3000/notif?user=${user.id}`).then(response => response.json());
       const conversationUserConnected = fetch(`http://localhost:3000/conversation?user=${user.id}`).then(response =>
         response.json()
       );
 
-      Promise.all([infoUserConnected, notifUserConnected, conversationUserConnected])
-        .then(([promiseResultUserConnectedData, promiseResultNotifData, promiseResultConversationUserConnected]) => {
+      Promise.all([infoUserConnected, conversationUserConnected])
+        .then(([promiseResultUserConnectedData, promiseResultConversationUserConnected]) => {
           setDataAuth(promiseResultUserConnectedData[0]);
-          setData_notif(promiseResultNotifData);
           setDataRecapConv(promiseResultConversationUserConnected);
           setIsLoading(false);
         })
@@ -99,7 +96,7 @@ export default function Messagerie() {
         <div>Chargement des données...</div>
       ) : (
         <>
-          <Navbar isConnected={true} notifs={data_notif} />
+          <Navbar />
           <div className="contain-body">
             <div className="contain-left">
               <div className="list-conv">

@@ -64,7 +64,7 @@ export default function Accueil() {
         <div>Chargement des données...</div>
       ) : (
         <>
-          <Navbar isConnected={isLoggedIn} notifs={isLoggedIn && data.notif} />
+          <Navbar />
           <div className={classes['container_body']}>
             {isLoggedIn && data.group ? (
               <>

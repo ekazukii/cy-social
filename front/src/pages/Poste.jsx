@@ -22,8 +22,6 @@ export default function Post() {
     return null; // On ne rend rien
   }
 
-  const [data_notif, setData_notif] = useState([]);
-
   const updatePosts = () => {
     // Récupération des données du post
     fetch(`http://localhost:3000/post/${id}`)
@@ -61,16 +59,9 @@ export default function Post() {
     updatePosts();
   }, [id]);
 
-  useEffect(() => {
-    fetch('http://localhost:3000/notif?user=1') // remplacez l'URL par celle de votre API
-      .then(response => response.json())
-      .then(data_notif => setData_notif(data_notif))
-      .catch(error => console.error(error));
-  }, []);
-
   return (
     <>
-      <Navbar isConnected={true} notifs={data_notif} />
+      <Navbar />
       <div class="container_body">
         <div class="container_body_left"></div>
         <div class="container_body_center">
