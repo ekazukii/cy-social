@@ -74,18 +74,7 @@ router.delete('/', function (req, res) {
   res.status(200).send({ success: true });
 });
 
-router.get('/:id', async function (req, res) {
-  const { id } = req.params;
-  const posts = await getPost(undefined, undefined, id);
-  if (posts.length === 0) return res.status(404).send({ error: true });
-  const post = posts[0];
-  const comments = await getComment(post.id);
 
-  res.status(200).send({
-    post,
-    comments
-  });
-});
 
 router.get('/:id/likes', async function (req, res) {
   const { id } = req.params;
@@ -232,6 +221,19 @@ router.post('/view', function (req, res) {
   if (typeof id !== 'string') return res.status(400).send({ error: true });
   addView(Number(id));
   res.status(200).send({ success: true });
+});
+
+router.get('/:id', async function (req, res) {
+  const { id } = req.params;
+  const posts = await getPost(undefined, undefined, id);
+  if (posts.length === 0) return res.status(404).send({ error: true });
+  const post = posts[0];
+  const comments = await getComment(post.id);
+
+  res.status(200).send({
+    post,
+    comments
+  });
 });
 
 module.exports = router;

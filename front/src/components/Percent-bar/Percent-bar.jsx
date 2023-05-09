@@ -84,16 +84,10 @@ export default function PercentBar(props) {
 
   useEffect(() => {
     if (dataAuth && dataAuth.user && dataAuth.user.id) {
-      fetch(`${getBaseUrl()}/post/vote?id=${id_poste}&user=${dataAuth.user.id}`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
+      fetch(`${getBaseUrl()}/post/vote?id=${id_poste}&user=${dataAuth.user.id}`)
         .then(response => response.json())
         .then(getVote => {
-          if (getVote && getVote.length === 0) {
+          if (getVote && getVote.length !== 0) {
             setConnectedUserVote(getVote[0].vote.toString());
           }
         })
@@ -107,30 +101,30 @@ export default function PercentBar(props) {
         className={`${classes['percent-bar-inner']} ${classes['percent-bar-yes']} ${
           connectedUserVote === '1' ? classes['current-vote-yes'] : ''
         }`}
-        style={{ width: `${yesPercent}%` }}
+        style={{ width: `${yesPercent}%`, minWidth: '4rem' }}
         onClick={() => {
           handleClick('1');
         }}
       >
-        {yesNumber > 0 ? yesNumber : ''}
+        {yesNumber}
       </div>
       <div
         className={`${classes['percent-bar-inner']} ${classes['percent-bar-other']} ${
           connectedUserVote === '0' ? classes['current-vote-other'] : ''
         }`}
-        style={{ width: `${otherPercent}%` }}
+        style={{ width: `${otherPercent}%`, minWidth: '4rem' }}
         onClick={() => handleClick('0')}
       >
-        {otherNumber > 0 ? otherNumber : ''}
+        {otherNumber}
       </div>
       <div
         className={`${classes['percent-bar-inner']} ${classes['percent-bar-no']} ${
           connectedUserVote === '-1' ? classes['current-vote-no'] : ''
         }`}
-        style={{ width: `${noPercent}%` }}
+        style={{ width: `${noPercent}%`, minWidth: '4rem' }}
         onClick={() => handleClick('-1')}
       >
-        {noNumber > 0 ? noNumber : ''}
+        {noNumber}
       </div>
     </div>
   );

@@ -78,8 +78,15 @@ export default function Comment(props) {
               <div className={classes['comment-head-separator']}>
                 <span>·</span>
               </div>
-              <div className={classes['comment-time']}>
-                <span>{props.comment.date}</span>
+              <div className={classes['comment-time-hour']}>
+                <span>{new Date(props.comment.date).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                </span>
+              </div>
+              <div className={classes['comment-time-date']}>
+                <span>{new Date(props.comment.date).toLocaleDateString()}</span>
               </div>
             </div>
             <div className={classes['comment-header-second']}>
