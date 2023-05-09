@@ -1,6 +1,8 @@
 import classes from './textarea.module.css';
 import Icon from '../Icon/Icon';
 import ImageAnimated from '../ImageAnimated/ImageAnimated';
+import { useSession } from '../../hooks/useSession';
+import React, { useEffect, useState } from 'react';
 //import { placeholder } from '@uiw/react-codemirror';
 
 /**
@@ -21,6 +23,17 @@ export default function TextArea({
 }) {
   let containerClasses = rocket ? classes['container'] : classes['no-rocket-container'];
   containerClasses += darkMode ? ' ' + classes['dark-mode'] : '';
+  const [value, setValue] = useState('');
+  
+  function handleClick(e) {
+    onSubmit && onSubmit(e);
+    setValue('');
+  }
+
+  function handleChange(e) {
+    onChange && onChange(e.target.value);
+    setValue(e.target.value);
+  }
 
   return (
     <div className={containerClasses}>
@@ -28,16 +41,17 @@ export default function TextArea({
       <textarea
         className={rocket ? classes['content-area'] : ''}
         placeholder={placeholder}
-        onChange={e => onChange(e.target.value)}
+        onChange={handleChange}
         style={{ resize: resize ? 'both' : 'none' }}
         rows={rows}
+        value={value}
       ></textarea>
       {rocket && (
         <div className={classes['send-area']}>
           <ImageAnimated
             imageAnimated="/img/rocket-unscreen.gif"
             imageFixed="/img/rocket.png"
-            onClick={() => onSubmit && onSubmit()}
+            onClick={handleClick}
           />
         </div>
       )}

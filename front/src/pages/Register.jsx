@@ -3,6 +3,7 @@ import classes from './Register.module.css';
 import Input from '../components/Input/Input';
 import Button from '../components/Button/Button';
 import OpnAvatar from '../components/Avatar/Avatar';
+import Navbar from '../components/Navbar/Navbar';
 import { getBaseUrl } from '../utils/config';
 import { redirect } from 'react-router-dom';
 
@@ -110,6 +111,8 @@ export default function RegisterPage() {
   };
 
   return (
+    <>
+    <Navbar isConnected={false} />
     <div className={classes['container']}>
       <h1>Créer un compte</h1>
       <form onSubmit={handleSubmit}>
@@ -168,5 +171,6 @@ export default function RegisterPage() {
         <Button type="primary" text="Soumettre" />
       </form>
     </div>
+    </>
   );
 }

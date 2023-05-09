@@ -16,4 +16,13 @@ const getMessages = async (conv) => {
   return asyncQuery(sql);
 };
 
-module.exports = { getMessages };
+const createMessage = (id_conv, id_user, content) => {
+  const date = new Date();
+  const sql = mysql.format(
+    'INSERT INTO `ConversationsMessages` (id_conv, id_user, content, date, is_deleted) VALUES (?, ?, ?, ?, ?)',
+    [id_conv, id_user, content, date, 0]
+  );
+  return asyncQuery(sql);
+};
+
+module.exports = { getMessages, createMessage };

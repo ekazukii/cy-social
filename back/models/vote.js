@@ -16,7 +16,8 @@ const _votes = [
 const getVote = (postId, userId) => {
   let sql;
   if (userId && postId){
-    sql = mysql.format('SELECT * FROM Votes v INNER JOIN Posts p ON (v.id_user = ? AND v.id_post = p.id) WHERE v.id_post = ?', [userId,postId] );
+    sql = mysql.format('SELECT * FROM Votes v INNER JOIN Posts p ON (v.id_user = ? AND v.id_post = p.id) WHERE v.id_post = ?', 
+                       [userId,postId] );
   } else if (userId) {
     sql = mysql.format('SELECT * FROM Votes v INNER JOIN Posts p ON (v.id_user = ? AND v.id_post = p.id)', [userId]);
   } else {

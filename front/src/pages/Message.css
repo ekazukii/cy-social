@@ -10,14 +10,14 @@
 .contain-left{
     padding: 0.5rem;
     flex: 1;
-    min-width: 25rem;
+    min-width: 22rem;
     /* border: 3px solid hotpink; */
 }
 
 .contain-right{
     flex: 2;
     padding: 1rem;
-    min-width: 25rem;
+    min-width: 22rem;
     /* border: 3px solid palegreen; */
 }
 
@@ -26,7 +26,7 @@
     padding-top: 0;
     overflow-y: scroll;
     direction: rtl;
-    height: 38rem;
+    height: 45rem;
     margin-top: 1rem;
     margin-left: 2rem;
     margin-right: 2rem;
@@ -57,7 +57,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    height: 38rem;
+    /* height: 38rem; */
 
     background-color: rgb(230, 230, 230);
     box-shadow: 3px 10px 20px rgba(0, 0, 0, 0.2);
@@ -85,7 +85,41 @@
 .conv-msgs > * {
     overflow-y: scroll;
     scrollbar-width: auto;
-    height: 30rem;  
+    height: 39rem;  
     /* border: 3px solid red;  */
     margin: 0.5rem;
 }
+
+  /* Hauteur inférieure: 700px */
+  @media screen and (max-height: 825px) {
+    .conv-msgs > * {
+      height: 35rem;
+    }
+  
+    .list-conv {
+      height: 41rem;
+    }
+  }
+  
+  /* Hauteur inférieure: 700px */
+  @media screen and (max-height: 712px) {
+    .conv-msgs > * {
+      height: 26.5rem;
+    }
+  
+    .list-conv {
+      height: 32rem;
+    }
+  }
+
+
+  /* Hauteur inférieure: 550px */
+@media screen and (max-height: 575px) {
+    .conv-msgs > * {
+      height: 17rem;
+    }
+  
+    .list-conv {
+      height: 23rem;
+    }
+  }
