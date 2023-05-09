@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState, useCallback } from 'rea
 import { getBaseUrl } from '../utils/config';
 
 export const SessionContext = createContext([undefined, () => {}]);
-const baseUrl = `${getBaseUrl()}:3000`;
 
 const refreshData = cb => {
   return fetch(getBaseUrl() + '/auth/whoami', {
@@ -35,7 +34,7 @@ export const useSession = () => {
     urlencoded.append('username', username);
     urlencoded.append('password', password);
 
-    const data = await fetch(baseUrl + '/auth/login', {
+    const data = await fetch(getBaseUrl() + '/auth/login', {
       credentials: 'include',
       method: 'POST',
       body: urlencoded
@@ -53,7 +52,7 @@ export const useSession = () => {
   };
 
   const logout = () => {
-    fetch(baseUrl + '/auth/logout', {
+    fetch(getBaseUrl() + '/auth/logout', {
       method: 'POST',
       credentials: 'include'
     });
