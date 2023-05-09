@@ -106,6 +106,7 @@ export default function Messagerie() {
                     <RecapConv
                       key={index}
                       content={conv.content}
+                      image={dataAuth.profile_pic}
                       // author={conv.author}
                       // author="@Youbuze"
                       title={conv.title}
