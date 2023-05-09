@@ -79,10 +79,11 @@ export default function Comment(props) {
                 <span>·</span>
               </div>
               <div className={classes['comment-time-hour']}>
-                <span>{new Date(props.comment.date).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
+                <span>
+                  {new Date(props.comment.date).toLocaleTimeString([], {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
                 </span>
               </div>
               <div className={classes['comment-time-date']}>
