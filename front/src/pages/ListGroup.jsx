@@ -29,7 +29,7 @@ export default function ListGroup() {
       else if(isLoggedIn == false){
         window.location.replace(`/`);
       }
-    }); 
+    }, [user]); 
   return (
     <>
       {isLoading ? (

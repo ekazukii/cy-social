@@ -1,6 +1,6 @@
 import HeaderProfil from '../Header-profil/Header-profil';
 import classes from './createPoste.module.css';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Icon from '../Icon/Icon';
 import Modal from '../Modal/Modal';
 import Input from '../Input/Input';
@@ -9,6 +9,8 @@ import Button from '../Button/Button';
 import Select from '../Input/Select';
 import CreateGroup from '../Group/CreateGroup';
 import NiceAvatar from 'react-nice-avatar';
+import { useSession } from '../../hooks/useSession';
+import { getBaseUrl } from '../../utils/config';
 
 /**
  *
@@ -25,11 +27,25 @@ export default function CreatePoste(props) {
   const avatarRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
 
+  const [groups, setGroups] = useState([]);
+
   const [postName, setPostName] = useState('');
   const [postGroup, setPostGroup] = useState('1');
   const [postImg, setPostImg] = useState('');
   const [postVoteEndDate, setPostVoteEndDate] = useState('');
   const [postContent, setPostContent] = useState('');
+
+  const { user } = useSession();
+
+  const refreshGroups = async () => {
+    const data = await fetch(`${getBaseUrl()}/group?user=${user.id}`);
+    const dataJson = await data.json();
+    setGroups(dataJson.groups);
+  };
+
+  useEffect(() => {
+    refreshGroups();
+  }, [user]);
 
   const handleHover = () => {
     setIsHovering(true);
@@ -71,11 +87,7 @@ export default function CreatePoste(props) {
                   large={true}
                   isValid={true}
                   label="Groupe"
-                  data={[
-                    { key: 1, value: 'test' },
-                    { key: 2, value: 'test2' },
-                    { key: 3, value: 'test3' }
-                  ]}
+                  data={groups.map(group => ({ key: group.id, value: group.name }))}
                   onChange={val => setPostGroup(val)}
                 />
 
@@ -132,7 +144,12 @@ export default function CreatePoste(props) {
             children={<CreateGroup />}
             trigger={<Icon notClickable={true} icon="fi fi-rr-users" font_size="3rem" />}
           />
-          <Icon icon="fi fi-rr-bank" iconClicked="fi fi-rr-bank" font_size="3rem" handleClick={() => window.location.replace(`/viewGroups`)}/>
+          <Icon
+            icon="fi fi-rr-bank"
+            iconClicked="fi fi-rr-bank"
+            font_size="3rem"
+            handleClick={() => window.location.replace(`/viewGroups`)}
+          />
         </div>
       </div>
     </div>

@@ -124,7 +124,7 @@ export default function Poste(props) {
             onClick={props.isLinkToPost && moveToPost}
             style={props.isLinkToPost ? { cursor: 'pointer' } : {}}
           >
-            <img src={props.poste.img} alt="img" width="50%" />
+            {props.poste.img && <img src={props.poste.img} alt="img" width="50%" />}
           </div>
           <div className={classes['post-body-survey']}>
             <PercentBar
