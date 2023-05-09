@@ -1,3 +1,4 @@
+import { getBaseUrl } from '../utils/config';
 import Navbar from "../components/Navbar/Navbar"
 import React, { useEffect, useState } from 'react';
 import { useSession } from '../hooks/useSession';
@@ -18,11 +19,11 @@ export default function Follows({isFollow}) {
 
     useEffect(() => {
       if(isLoggedIn == true){
-        const infoUserConnected = fetch(`http://localhost:3000/user/${user.id}`).then(response => response.json());
-        const notifUserConnected = fetch(`http://localhost:3000/notif?user=${user.id}`).then(response => response.json());
-        const groupUserConnected = fetch(`http://localhost:3000/group?user=${user.id}`).then(response => response.json());
-        const followUserConnected = fetch(`http://localhost:3000/user/${id_user}/${isFollow ? ('following') : ('followers')}`).then(response => response.json());
-        const followUserPage = fetch(`http://localhost:3000/user/${user.id}/followers`).then(response => response.json());
+        const infoUserConnected = fetch(`${getBaseUrl()}/user/${user.id}`).then(response => response.json());
+        const notifUserConnected = fetch(`${getBaseUrl()}/notif?user=${user.id}`).then(response => response.json());
+        const groupUserConnected = fetch(`${getBaseUrl()}/group?user=${user.id}`).then(response => response.json());
+        const followUserConnected = fetch(`${getBaseUrl()}/user/${id_user}/${isFollow ? ('following') : ('followers')}`).then(response => response.json());
+        const followUserPage = fetch(`${getBaseUrl()}/user/${user.id}/followers`).then(response => response.json());
           Promise.all([infoUserConnected, notifUserConnected, groupUserConnected, followUserConnected, followUserPage ])
             .then(([userConnectedData, notifData, groupData, followData, followMeData]) => {
               const data = { userConnected : userConnectedData[0], notif : notifData, group : groupData, follow : followData, followMeData: followMeData };

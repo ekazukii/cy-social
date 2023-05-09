@@ -8,6 +8,7 @@ import { useSession } from '../hooks/useSession';
 import Recap from '../components/Recap/Recap';
 import Banner from '../components/Banner/Banner';
 import RecapFav from '../components/Recap/RecapFav';
+import { getBaseUrl } from '../utils/config';
 
 export default function Accueil() {
   const { id_tl_group } = useParams();
@@ -19,21 +20,19 @@ export default function Accueil() {
   const [isLoading, setIsLoading] = useState(true);
 
   const deletePosts = id => {
-    console.log(data.posts.posts[0].id, id);
     setData({ ...data, posts: { ...data.posts, posts: data.posts.posts.filter(post => post.id != id) } });
-    console.log(data);
   };
 
   const updatePosts = () => {
     if (isLoggedIn == true) {
-      const infoUserConnected = fetch(`http://localhost:3000/user/${user.id}`).then(response => response.json());
-      const notifUserConnected = fetch(`http://localhost:3000/notif?user=${user.id}`).then(response => response.json());
-      const groupUserConnected = fetch(`http://localhost:3000/group?user=${user.id}`).then(response => response.json());
-      const groupInfo = fetch(`http://localhost:3000/group/${id_tl_group > 0 ? id_tl_group : '1'}`).then(response =>
+      const infoUserConnected = fetch(`${getBaseUrl()}/user/${user.id}`).then(response => response.json());
+      const notifUserConnected = fetch(`${getBaseUrl()}/notif?user=${user.id}`).then(response => response.json());
+      const groupUserConnected = fetch(`${getBaseUrl()}/group?user=${user.id}`).then(response => response.json());
+      const groupInfo = fetch(`${getBaseUrl()}/group/${id_tl_group > 0 ? id_tl_group : '1'}`).then(response =>
         response.json()
       );
       const tlUserConnected = fetch(
-        `http://localhost:3000/post/tl?${id_tl_group > 0 ? 'group=' + id_tl_group : 'user=' + user.id}`
+        `${getBaseUrl()}/post/tl?${id_tl_group > 0 ? 'group=' + id_tl_group : 'user=' + user.id}`
       ).then(response => response.json());
       Promise.all([infoUserConnected, notifUserConnected, groupUserConnected, tlUserConnected, groupInfo])
         .then(([userConnectedData, notifData, groupData, postData, groupInfoData]) => {
@@ -57,7 +56,6 @@ export default function Accueil() {
     updatePosts();
   }, [isLoggedIn, user]);
 
-  console.log(data);
   return (
     <>
       {isLoading ? (
@@ -80,7 +78,7 @@ export default function Accueil() {
                       {data.group.groups &&
                         data.group.groups
                           .slice(0, numGroups)
-                          .map((item, key) => <Recap group={item} indice={key} isLinkToGroup={true} />)}
+                          .map((item, key) => <Recap group={item} indice={key} key={key} isLinkToGroup={true} />)}
                       {data.group.groups && data.group.groups.length > numGroups && (
                         <span className={classes['voirPlus']} onClick={() => setNumGroups(numGroups + 3)}>
                           Voir plus
@@ -100,8 +98,8 @@ export default function Accueil() {
                   <div className={classes['postes']}>
                     <h3 className={classes['titre']}>{id_tl_group > 0 ? 'La TimeLine du groupe' : 'Ma Timeline'}</h3>
                     {data.posts.posts &&
-                      data.posts.posts.map(item => (
-                        <div className={classes['poste']}>
+                      data.posts.posts.map((item, i) => (
+                        <div className={classes['poste']} key={i}>
                           <Poste
                             poste={item}
                             user={data.posts.users[item.id_user]}

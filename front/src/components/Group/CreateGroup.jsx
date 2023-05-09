@@ -2,6 +2,7 @@ import Input from '../Input/Input';
 import TextArea from '../TextArea/TextArea';
 import Button from '../Button/Button';
 import React, { useState } from 'react';
+import { getBaseUrl } from '../../utils/config';
 
 export default function CreateGroup() {
   const [groupName, setGroupName] = useState('');
@@ -38,7 +39,7 @@ export default function CreateGroup() {
       <Button
         text="Créer le group"
         handleClick={() => {
-          fetch('http://localhost:3000/group', {
+          fetch(`${getBaseUrl()}/group`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'

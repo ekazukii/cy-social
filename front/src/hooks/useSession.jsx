@@ -1,10 +1,11 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
+import { getBaseUrl } from '../utils/config';
 
 export const SessionContext = createContext([undefined, () => {}]);
-const baseUrl = 'http://localhost:3000';
+const baseUrl = `${getBaseUrl()}:3000`;
 
 const refreshData = cb => {
-  return fetch(baseUrl + '/auth/whoami', {
+  return fetch(getBaseUrl() + '/auth/whoami', {
     credentials: 'include' // to send HTTP only cookies
   }).then(data => {
     data.json().then(json => {

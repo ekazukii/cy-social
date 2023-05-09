@@ -148,7 +148,7 @@ export default function Poste(props) {
                 <Button
                   text="Envoyer"
                   handleClick={() => {
-                    fetch('http://localhost:3000/post', {
+                    fetch(`${getBaseUrl()}/post`, {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json'

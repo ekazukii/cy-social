@@ -118,7 +118,7 @@ export default function CreatePoste(props) {
                 <Button
                   text="Créer le post"
                   handleClick={() => {
-                    fetch('http://localhost:3000/post', {
+                    fetch(`${getBaseUrl()}/post`, {
                       method: 'POST',
                       headers: {
                         'Content-Type': 'application/json'

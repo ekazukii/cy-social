@@ -7,6 +7,7 @@ import { useEffect, useState, useRef } from 'react';
 import ContainerNotif from '../Notifications/ContainerNotif';
 import { useSession } from '../../hooks/useSession';
 import LoginModal from '../Login/Login';
+import { getBaseUrl } from '../../utils/config';
 
 /**
  *
@@ -32,14 +33,12 @@ export default function Navbar(props) {
 
   useEffect(() => {
     if (!user) return;
-    fetch(`http://localhost:3000/notif?user=${user.id}`)
+    fetch(`${getBaseUrl()}/notif?user=${user.id}`)
       .then(response => response.json())
       .then(n => {
         setNotifs(n);
       });
   }, [user]);
-
-  console.log(notifs);
 
   const ref = useRef();
   const ref2 = useRef();
