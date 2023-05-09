@@ -9,7 +9,8 @@ const {
   getUsers,
   getFollowers,
   getFollowing,
-  createFollow
+  createFollow,
+  supprFollow
 } = require('../models/user');
 const { createVote, updateVote, deleteVote, getVote } = require('../models/vote');
 const { createLike, getLike, updateLike, deleteLike } = require('../models/like');
@@ -87,11 +88,11 @@ router.put('/', async function (req, res) {
   }
 });
 
-router.delete('/', function (req, res) {});
+// router.delete('/', function (req, res) {});
 
 router.post('/follow', async function (req, res) {
   const { userId, followerId } = req.body;
-  if (iuserIdd === undefined || followerId === undefined) return res.status(400).send({ error: true });
+  if (userId === undefined || followerId === undefined) return res.status(400).send({ error: true });
 
   const newFollow = await createFollow(Number(userId), Number(followerId));
   generateFollowerNotifs(Number(userId), Number(followerId));
@@ -99,6 +100,11 @@ router.post('/follow', async function (req, res) {
   res.send(newFollow);
 });
 
-router.delete('/follow', function (req, res) {});
+router.delete('/unfollow', async function (req, res) {
+  const { userId, followerId } = req.body;
+  if (userId === undefined || followerId === undefined) return res.status(400).send({ error: true });
+  const suppreFollow = await supprFollow(Number(userId), Number(followerId));
+  res.send(suppreFollow);
+});
 
 module.exports = router;

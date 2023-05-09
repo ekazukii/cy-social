@@ -79,7 +79,6 @@ export default function Poste(props) {
             id={'nice-avatar'}
           />
         </div>
-        <div className={classes['hoverCard']}>{isHovering && <HeaderProfil user={props.user} />}</div>
       </div>
       <div className={classes['post-content']}>
         <div className={classes['post-header']}>

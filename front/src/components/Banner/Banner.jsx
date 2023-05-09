@@ -15,6 +15,13 @@ import NiceAvatar from 'react-nice-avatar';
  * @returns
  */
 export default function HeaderProfil({ user, group }) {
+  const moveToFollow = (id) => {
+    window.location.replace(`/follows/${id}`);
+  };
+
+  const moveToFollower = (id) => {
+    window.location.replace(`/followers/${id}`);
+  }
   return (
     <>
       {user && (
@@ -37,8 +44,8 @@ export default function HeaderProfil({ user, group }) {
           </div>
           <div className={classes['header-profil-bottom']}>
             <span>{user.nbPosts} Postes publiés</span>
-            <span>{user.nbFollows} Abonnements</span>
-            <span>{user.nbFollowers} Abonnés</span>
+            <span onClick={() => moveToFollower(user.id)}>{user.nbFollows} Abonnements</span>
+            <span onClick={() => moveToFollow(user.id)}>{user.nbFollowers} Abonnés</span>
           </div>
         </div>
       )}

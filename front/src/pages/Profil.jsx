@@ -16,10 +16,7 @@ export default function Profil(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [numGroups, setNumGroups] = useState(3); // Nombre de groupes affichés par défaut
     
-
-
   const { id_other_user } = useParams(); 
-
 
     useEffect(() => {
       if(isLoggedIn == true){
@@ -97,7 +94,7 @@ export default function Profil(props) {
           <div className={classes["container_body_center"]}>
 
             <div className={classes["banner"]}>
-              <Banner user={data.user} />
+              <Banner user={data.user}/>
             </div>
 
             <div className={classes["postes"]}>

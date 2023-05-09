@@ -30,6 +30,7 @@ export default function ListGroup() {
         window.location.replace(`/`);
       }
     }); 
+    console.log(data);
   return (
     <>
       {isLoading ? (

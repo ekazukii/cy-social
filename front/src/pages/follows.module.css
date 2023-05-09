@@ -1,57 +1,26 @@
-/* .container_body{
-    display:flex;
-    flex-direction: row;
-    width: 100%;
-    justify-content: center;
-    margin-top: 0.5rem;
-}
-
-.container_body_center{
-    max-width: 50vw;
-}
-
-.container_body_center > div:nth-child(2){
-    border-radius: 10px 10px 0 0;
-}
-
-.container_body_center > div:last-child{
-    border-radius: 0 0 10px 10px;
-    border-bottom: 0;
-    margin-bottom: 0.5vw;
-}
-
-.container_body_left{
-    width: 25vw;
-    margin-right: 0.5rem;
-}
-
-.recapBox{
-    width: 100%;
-    border-radius: 10px;
-    background-color: rgb(230, 230, 230);
-    overflow-y: hidden;
-} */
-
-/**** MAJ ****/
-
 .container_body{
-    display: flex;
+    
+   /* border-style: solid;
+   border-width: 3px;
+   border-color: purple; */
+
+   display: flex;
    flex-direction: row;
    justify-content: flex-start;
-   
+
    align-items: flex-start;
    justify-content: center;
    flex-wrap: wrap;
-
-   /* border: 3px solid red; */
 }
 
 .container_body_left{
+   /* border-style: solid;
+   border-width: 3px;
+   border-color: green; */
+
    margin: 1rem;
    width: 30%;
    min-width: 22rem;
-
-   /* border: 3px solid yellowgreen; */
 }
 
 .container_body_left > * {
@@ -67,12 +36,14 @@
 }
 
 .container_body_center{
+   /* border-style: solid;
+   border-width: 3px;
+   border-color: red; */
+
    margin: 1rem;
    margin-left: 0.2rem;
    width: 50%;
    min-width: 25rem;
-
-   /* border: 3px solid purple; */
 }
 
 .container_body_center > * {
@@ -101,7 +72,7 @@
    overflow-y: hidden;
 } */
 
-/*************************/
+/************ TEST */
 
 /* .nouveau_sondage{
    border-style: solid;
@@ -118,12 +89,20 @@
    border-width: 3px;
 } */
 
+.banner{
+   /* border-style: solid;
+   border-width: 3px; */
+   margin: 1rem;
+   /* width: max-content; */
+   /* width: 100%; */
+}
+
 .postes{
    /* border-style: solid;
    border-width: 3px;
    border-color: blue; */
 
-   margin: 1rem;
+   margin: 2rem;
 }
 
 .poste{
@@ -144,3 +123,21 @@
 .voirPlus{
    margin: 0.7rem;
 }
+
+.nav {
+   display: flex; /* afficher les éléments en ligne */
+   color: #ccc;
+   background-color: #14213d; /* couleur de fond */
+ }
+ 
+ .nav > div {
+   flex: 1; /* chaque élément prend 50% de la largeur totale */
+   text-align: center; /* centrage du texte */
+   padding: 10px 0; /* espace intérieur */
+   cursor: pointer; /* indiquer que les éléments sont cliquables */
+   border-right: 1px solid #ccc; /* bordure de séparation */
+ }
+ 
+ .nav > div:last-child {
+   border-right: none; /* supprimer la bordure de séparation du dernier élément */
+ }
