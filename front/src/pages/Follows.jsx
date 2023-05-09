@@ -1,13 +1,14 @@
-import CreatePoste from "../components/Poste/CreatePoste"
-import Navbar from "../components/Navbar/Navbar"
+import CreatePoste from '../components/Poste/CreatePoste';
+import Navbar from '../components/Navbar/Navbar';
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
-import Poste from "../components/Poste/Poste";
-import classes from "./accueil.module.css";
+import { useParams } from 'react-router-dom';
+import Poste from '../components/Poste/Poste';
+import classes from './accueil.module.css';
 import { useSession } from '../hooks/useSession';
-import Recap from "../components/Recap/Recap";
-import RecapFav from "../components/Recap/RecapFav";
-import Banner from "../components/Banner/Banner";
+import Recap from '../components/Recap/Recap';
+import RecapFav from '../components/Recap/RecapFav';
+import Banner from '../components/Banner/Banner';
+import { getBaseUrl } from '../utils/config';
 
 export default function Follows() {
   const { id_user } = useParams();
@@ -24,43 +25,46 @@ export default function Follows() {
   // envoi des requêtes au serveur + récupération des réponses du serveur
   useEffect(() => {
     Promise.all([
-      fetch(`http://localhost:3000/user/${id_user}/following`).then(response => response.json()),
-      fetch(`http://localhost:3000/user/${id_user}/followers`).then(response => response.json()),
-      fetch("http://localhost:3000/auth/whoami?onlyId=true").then(response => response.json()),
-    ]).then(([data_follow, data_follower, idUser]) => {
-      setData_follow(data_follow);
-      setData_follower(data_follower);
-      setId_user(idUser);
-      setIsLoading(false);
-    }).catch(error => console.error(error));
+      fetch(`${getBaseUrl()}/user/${id_user}/following`).then(response => response.json()),
+      fetch(`${getBaseUrl()}/user/${id_user}/followers`).then(response => response.json()),
+      fetch(`${getBaseUrl()}/auth/whoami?onlyId=true`).then(response => response.json())
+    ])
+      .then(([data_follow, data_follower, idUser]) => {
+        setData_follow(data_follow);
+        setData_follower(data_follower);
+        setId_user(idUser);
+        setIsLoading(false);
+      })
+      .catch(error => console.error(error));
   }, []);
-    
-  if(idUser.user != null){
+
+  if (idUser.user != null) {
     useEffect(() => {
-        Promise.all([
-          fetch(`http://localhost:3000/notif?user=${idUser.user[id]}`).then(response => response.json()),
-          fetch(`http://localhost:3000/user/${idUser.user[id]}`).then(response => response.json()),
-        ]).then(([data_notif, dataUser]) => {
+      Promise.all([
+        fetch(`${getBaseUrl()}/notif?user=${idUser.user[id]}`).then(response => response.json()),
+        fetch(`${getBaseUrl()}/user/${idUser.user[id]}`).then(response => response.json())
+      ])
+        .then(([data_notif, dataUser]) => {
           setData_notif(data_notif);
           setData_user(dataUser[0]);
-        }).catch(error => console.error(error));
-      }, []);
+        })
+        .catch(error => console.error(error));
+    }, []);
   }
-  
-  let isConnected= false;
-  if(user?.id){isConnected=true;}
+
+  let isConnected = false;
+  if (user?.id) {
+    isConnected = true;
+  }
   return (
     <>
-      <Navbar isConnected={isConnected} notifs={data_notif}/>
+      <Navbar isConnected={isConnected} notifs={data_notif} />
       {isLoading ? (
         <div>Chargement des données...</div>
       ) : (
-        <div className={classes["container_body"]}>
-            <Banner user={dataUser} />
-            <div className={classes["container_body_contain"]}>
-                
-            </div>
-            
+        <div className={classes['container_body']}>
+          <Banner user={dataUser} />
+          <div className={classes['container_body_contain']}></div>
         </div>
       )}
     </>

@@ -9,6 +9,7 @@ import classes from './profil.module.css';
 import CreatePoste from '../components/Poste/CreatePoste';
 import Recap from '../components/Recap/Recap';
 import RecapFav from '../components/Recap/RecapFav';
+import { getBaseUrl } from '../utils/config';
 
 export default function Profil(props) {
   const { user, isLoggedIn, setSession, login, refreshData, logout } = useSession();
@@ -20,13 +21,11 @@ export default function Profil(props) {
 
   useEffect(() => {
     if (isLoggedIn == true) {
-      const infoUserConnected = fetch(`http://localhost:3000/user/${user.id}`).then(response => response.json());
-      const groupUserConnected = fetch(`http://localhost:3000/group?user=${user.id}`).then(response => response.json());
+      const infoUserConnected = fetch(`${getBaseUrl()}/user/${user.id}`).then(response => response.json());
+      const groupUserConnected = fetch(`${getBaseUrl()}/group?user=${user.id}`).then(response => response.json());
       if (props.otherProfil && id_other_user > 0) {
-        const userProfil = fetch(`http://localhost:3000/user/${id_other_user}`).then(response => response.json());
-        const postUserProfil = fetch(`http://localhost:3000/post?user=${id_other_user}`).then(response =>
-          response.json()
-        );
+        const userProfil = fetch(`${getBaseUrl()}/user/${id_other_user}`).then(response => response.json());
+        const postUserProfil = fetch(`${getBaseUrl()}/post?user=${id_other_user}`).then(response => response.json());
         Promise.all([infoUserConnected, userProfil, groupUserConnected, postUserProfil])
           .then(([userConnectedData, userData, groupData, postDataUserProfil]) => {
             const data = {
@@ -40,7 +39,7 @@ export default function Profil(props) {
           })
           .catch(error => setError(error));
       } else {
-        const postUserConnected = fetch(`http://localhost:3000/post?user=${user.id}`).then(response => response.json());
+        const postUserConnected = fetch(`${getBaseUrl()}/post?user=${user.id}`).then(response => response.json());
         Promise.all([infoUserConnected, groupUserConnected, postUserConnected])
           .then(([userConnectedData, groupData, postData]) => {
             const data = {
